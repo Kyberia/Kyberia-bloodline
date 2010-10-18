@@ -1,0 +1,20 @@
+- fix uploading of files
+- fix ALL sql injections
+- keep fixing XSS
+- documentantion/instalation guide (see README)
+- remove absolute paths from all source files (!) (over 50)
+- remove hard-coded kyberia.sk from:
+  ( ./inc/eventz/configure_email.inc )
+  ( ./inc/eventz/delete.inc )
+  ( ./inc/smarty/node_methodz/modifier.replaceLocalURLs.php )
+  ( ./inc/replaceLocalURLs.inc )
+  ( ./nodes.php )
+  ( ./cron/rssparse.php )
+  ( ./scripts/contentregexp.php ) (obsolete?)
+
+- Suspected security holes:
+  ( cron/process-img.sh )
+  ( sms_payment.php  => yes, sqli but is it really used? )
+  ( inc/eventz/upload_data_node.php => Shell injections in .zip hanling, .jpg handling,
+    "strange" filenames like .htacess (to allow listing of folder)
+
