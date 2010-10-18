@@ -1,14 +1,7 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
-
 
 
 function set_bookmark_category() {
-	echo "hello world";
 	global $node,$db,$error;
 	$bookmarks=$_POST['bookmarks_chosen'];
 	$category_id=$_POST['bookmark_category_id'];
@@ -29,18 +22,19 @@ function set_bookmark_category() {
 		unset($chosen);
 
                 $db->query("start transaction");
-		$set=$db->query("select bookmark_category from node_access where node_id='$chosen_id' and user_id='".$_SESSION['user_id']."'");
-		$set->next();
-		$old_category=$set->getString('old_category');
 
 		$q="update node_access set bookmark_category='$category_id' where node_id='$chosen_id' and user_id='".$_SESSION['user_id']."'";
 		$db->query($q);
 
-		$q="update neurons set central='$category_id' where peripheral='$chosen_id' and central='$old_category'";
-		$db->update($q);
-		$db->query("commit");
+		$q="update neurons set dst='$category_id' where src='$chosen_id' and synapse_creator='".$_SESSION['user_id']."' and link='bookmark'";
+		$result=$db->update($q);
+		if (!$result) $db->query("insert into neurons set synapse_creator='".$_SESSION['user_id']."',src='$chosen_id',dst='$category_id',link='bookmark'");
+$db->query("update nodes set lastdescendant_created=NOW() where node_id='$category_id'");
+$db->query("commit");
 	}
 
 	return true;
 }
 ?>
+
+

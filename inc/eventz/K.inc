@@ -1,66 +1,113 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
-
+function hasAncestor($ancest, $n_id){
+    foreach($ancest as $one){
+        if($one['link'] == $n_id){ return true;}
+    }
+    return false;
+}
+function getAncestors($node_id){
+    global $db;
+    $q="select node_vector from nodes where node_id=".$node_id;
+    $result=$db->query($q);
+    if ($result->next()) {
+        $node=$result->getRecord();
+        $node['node_vector']=trim($node['node_vector'],"z");
+        $ancestors=explode(' ',chunk_split($node['node_vector'],VECTOR_CHARS,' '));
+        foreach ($ancestors as $ancestor) {
+            $anc[]=array("name"=>"","link"=>ltrim($ancestor,"0"));
+        }
+        return $anc;
+    }else{ return false;}
+}
+function getCommanders($node_id) {
+    global $db;
+    $set=$db->query("select node_permission,users.login,users.user_id from node_access left join users on node_access.user_id=users.user_id where node_id='$node_id' and node_permission!='' order by node_permission");
+    while ($set->next()) {
+        $commanders[$set->getString('node_permission')][]=$set->getString('user_id');
+    }
+    return $commanders;
+}
+function isCommander($comms,$user_id){
+    foreach($comms['master'] as $one){
+        if($one == $user_id){return true;}
+    }
+    foreach($comms['op'] as $one){
+        if($one == $user_id){return true;}
+    }
+    foreach($comms['execute'] as $one){
+        if($one == $user_id){return true;}
+    }
+    return false;
+}
+function isSenatOwner($senat_id, $user_id){
+    global $db;
+    $set=$db->query("select node_creator from nodes where node_id='$senat_id'");
+    if ($set->next()) {
+        if(($set->getString('user_id')) == $user_id){return true;}
+    }
+    return false;
+}
 
 function K() {
-	global $db,$node,$error,$error_messages;
-	$user_id=$_SESSION['user_id'];
-	$user_name=$_SESSION['user_name'];
-	$kset=$db->query("select user_k from users where user_id='$user_id'");
-	$kset->next();
-	$user_k=$kset->getString('user_k');
+    global $db,$node,$error,$error_messages;
+    $user_id=$_SESSION['user_id'];
+    $user_name=$_SESSION['user_name'];
+    $kset=$db->query("select user_k from users where user_id='$user_id'");
+    $kset->next();
+    $user_k=$kset->getString('user_k');
 
-	if (is_array($_POST['node_chosen'])) {
-		$k=$_POST['node_chosen'];
-	}
-	else $k[]=$node['node_id'];
+    $senat_id = 876611;
+    $K_id     = 1961061;
+    $comms    = getCommanders($K_id);
+    $isComm   = isCommander($comms,$user_id);
+    $isSOwner = isSenatOwner($senat_id, $user_id);
 
-	foreach ($k as $id) {
-		if ($user_k) {
-			$userset=$db->query("select node_creator from nodes where node_id='$id'");
-			$userset->next();
-			$donor_id=$userset->getString('node_creator');
-/*
-			if ($donor_id==$user_id) {
-				$error.=$error_messages['K_EGOTRIP'];
-				log::log('K',$id,'failed',$donor_id,'egotrippin');
-			}
+    if (is_array($_POST['node_chosen'])) {
+        $k=$_POST['node_chosen'];
+    }
+    else $k[]=$node['node_id'];
+    $db->query("set autocommit=0");
 
-			else {
-*/
-				$set=$db->query("select * from node_access where node_id='$id' and user_id='$user_id' and given_k='yes'");
-				if ($set->getNumRows()) {
-					$error.=$error_messages['K_GIVEN'];
-					log::log('K',$id,'failed',$donor_id,'already given');
-				}
-				else {
-					--$user_k;
-					$db->query("update nodes set k=k+1 where node_id='$id'");
-					$result=$db->update("update node_access set given_k='yes' where node_id='$id' and user_id='$user_id'");
-					if (!$result) {
-						$db->query("insert into node_access set given_k='yes',node_id='$id',user_id='$user_id',last_visit=NOW()");
-					}
+    foreach ($k as $id) {
 
+        if ($user_k) {
+            $isSenat = hasAncestor(getAncestors($id), $senat_id);
+            if ($isSenat && !($isComm || $isSOwner)){
+                $error.="Sorry, ale v senate mozu Kckovat len obcania.";
+            }else{
+                $userset=$db->query("select node_creator from nodes where node_id='$id'");
+                $userset->next();
+                $acceptor_id=$userset->getString('node_creator');
 
-					log::log('K',$id,'ok',$donor_id);
-				}
-//			}
-		}
+                $set=$db->query("select * from node_access where node_id='$id' and user_id='$user_id' and given_k='yes'");
+                if ($set->getNumRows()) {
+                    $error.=$error_messages['K_GIVEN'];
+                }else{
+                    --$user_k;
+                    $db->query("update users set k_wallet=k_wallet+1 where user_id='$acceptor_id'");
 
-		else {
-			$error.=$error_messages['K_SPENT'];
-			log::log('K',$id,'failed',$donor_id,'zero amount');
-		}
-	}
+                    $db->query("update nodes set k=k+1 where node_id='$id'");
+                    $db->query("insert into I set node_id='$id'");
+                    $result=$db->update("update node_access set given_k='yes' where node_id='$id' and user_id='$user_id'");
+                    if (!$result) {
+                        $db->query("insert into node_access set given_k='yes',node_id='$id',user_id='$user_id',last_visit=NOW()");
+                    }
+                }
+            }
+        }
 
-	$db->query("update users set user_k='$user_k' where user_id='$user_id'");
+        else {
+            $error.=$error_messages['K_SPENT'];
+        }
+    }
 
-	if (!$error) return true;
-	else return false;
+    $db->query("update users set user_k='$user_k' where user_id='$user_id'");
+    $db->query("commit");
+
+    if (!$error) return true;
+    else return false;
 }
 
 ?>
+
+

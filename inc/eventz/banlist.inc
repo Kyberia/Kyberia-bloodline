@@ -1,20 +1,14 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
-
 
 	function banlist() {
 		global $db,$error,$node;
 		$node_id=$node['node_id'];
-		$bans=explode(";",$_POST['bans']);
 
-                if ($node['node_permission']!=('owner' OR 'master' OR 'op')) {
-                        $error=$error_messages['EVENT_PERMISSION_ERROR'];
-                        return false;
-                }
+if ($node['node_permission']!=('owner' || 'master' || 'op')) {
+$error=$error_messages['EVENT_PERMISSION_ERROR'];
+return false;
+}
+		$bans=explode(";",$_POST['bans']);
 
 		$db->query("update node_access set node_permission='' where node_id=$node_id and node_permission='ban'");
 		foreach ($bans as $ban) {

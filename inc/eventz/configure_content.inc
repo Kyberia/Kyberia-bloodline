@@ -1,47 +1,43 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
+function configure_content() {
+    global $db,$error,$node;
+    $node_id = $node['node_id'];
 
-	function configure_content() {
+    if ($node['node_permission']!=('owner' || 'master' || 'op')) {
+        $error = $error_messages['EVENT_PERMISSION_ERROR'];
+        return false;
+    }
 
-		global $db,$error,$node;
-		$node_id=$node['node_id'];
+    $node_content = nodes::processContent($_POST['node_content']);
 
-                if ($node['node_permission']!=('owner' OR 'master' OR 'op')) {
-                        $error=$error_messages['EVENT_PERMISSION_ERROR'];
-                        return false;
-                }
+    if ($_POST['code']) {
+        $params['node_creator'] = UBIK_ID;
+        $params['node_parent'] = WARNING_ZONE;
+        $params['node_name'] = "node $node_id configured as code";
+        $params['node_content'] = mysql_real_escape_string("node <a href=/id/$node_id>$node_id</a> added as code  by user ".$_SESSION['user_name']);
+        unset($_POST['code']);
+        nodes::addNode($params);
+    }
 
+    if (!$node_content) {
+        return false;
+    }
 
+    $db->update("update nodes set node_updated=NOW() where node_id='$node_id'");
+    $user_id = $_SESSION['user_id'];
+    $qtiamat = "insert into tiamat (node_id,node_name,node_parent,node_vector,
+            node_external_access,node_system_access,node_children_count,node_creator,node_created,lastchild_created,k,
+            node_views,node_destructor,node_content,node_descendant_count,lastdescendant_created,template_id,update_performed)
+            select node_id,node_name,node_parent,node_vector,node_external_access,node_system_access,
+            node_children_count,node_creator,node_created,lastchild_created,k,node_views,'$user_id',node_content,
+            node_descendant_count,lastdescendant_created,template_id, NOW()
+            from nodes where node_id = '$node_id'";
+    $db->query($qtiamat);
+    $qu = "update nodes set node_content = '$node_content' where node_id = '$node_id'";
+    $result = $db->update($qu);
+    $qu2 = "update node_content set node_content = '$node_content' where node_id = '$node_id'";
+    $result = $db->update($qu2);
 
-		//warning - not forget!!! - if self-presentation of content (template form) than save as file into OWN_TEMPLATE folder
-		if ($node['template_id']==$node['node_id']) {
-		        $node_content=stripslashes($_POST['node_content']);
-		        $template_id=$node['template_id'];
-		        $fp = fopen (OWN_TEMPLATE_DIR.$template_id.".tpl", "w+");
-		        fwrite($fp,$node_content);
-		        fclose($fp);
-			$external_link=OWN_TEMPLATE_DIR.$template_id.".tpl";
-		        chown(OWN_TEMPLATE_DIR.$template_id.".tpl","www");
-			$q="update nodes set external_link='$external_link' where node_id='".$node['node_id']."'";
-			$db->query($q);
-		}
-
-		$node_content=nodes::processContent($_POST['node_content']);
-
-		if (!$node_content) {
-			return false;
-		}
-		$db->update("update nodes set node_updated=NOW() where node_id='$node_id'");
-
-		$result=$db->update("update node_content set node_content='$node_content' where node_id='$node_id'");
-		if (!$result) {
-			$result=$db->query("insert into node_content set node_content='$node_content',node_id='$node_id'");
-			return true;
-		}
-		else return true;
-	}
+    return true;
+}
 ?>

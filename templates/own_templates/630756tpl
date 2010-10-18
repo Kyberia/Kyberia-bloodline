@@ -1,4 +1,0 @@
-{* toto zobrazi obsah nody v ktorej sa nachadzate *}
-{$node.node_content}
-<br><br>
-hello world ;-)

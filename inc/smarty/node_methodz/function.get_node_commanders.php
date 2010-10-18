@@ -8,11 +8,15 @@ function smarty_function_get_node_commanders($brawco,&$smarty) {
  		$commanders[$set->getString('node_permission')].=$set->getString('login').";";
 	}
 
+	$smarty->assign('get_node_commanders',$commanders);
 	$smarty->assign('masters',$commanders['master']);
 	$smarty->assign('ops',$commanders['op']);
 	$smarty->assign('access',$commanders['access']);
 	$smarty->assign('bans',$commanders['ban']);
 	$smarty->assign('silence',$commanders['silence']);
+	$smarty->assign('execute',$commanders['execute']);
+
 }
 
 ?>
+

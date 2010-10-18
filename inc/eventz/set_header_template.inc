@@ -1,21 +1,24 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
-
-
+// modifikacia ktora dovoli natiahnut iba spravny header template
 function set_header_template() {
-	global $db,$error;
-	$header_id=$_POST['header_id'];
-	$user_id=$_SESSION['user_id'];
-	if (!$user_id) {
-		return false;
-	}
+global $db,$error;
+$header_id=mysql_real_escape_string($_POST['header_id']);
+$user_id=$_SESSION['user_id'];
 
-	$db->query("update users set header_id='$header_id' where user_id='$user_id'");
-	$_SESSION['header_id']=$header_id;
+if (!$user_id) {
+return false;
+}
+if ($header_id !=''){
+$header_id = (int) $header_id; //integer only..[a odsekne medzery]
+$set=$db->query("select * from nodes where external_link='template://$header_id'");
+if($set->getNumRows()!=1) {
+global $error;
+$error="dana noda bud neexistuje alebo neni nakonfigurovana ako template";
+return false;        }
+}
+
+$db->query("update users set header_id='$header_id' where user_id='$user_id'");
+$_SESSION['header_id']=$header_id;
 }
 
 ?>

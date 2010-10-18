@@ -1,35 +1,52 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
+// output buffering forcing (mx)
+if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
 
-//die("kyberia maintenance<br>please be patient<br>thanks<br>stab");
-//error_reporting(0);
-
+//header("Location: http://kyberia.sk");
+// just a little joke:-))) darkaural
+//header("Location: http://kenny.in-the-hell.org/albums/album22/HPIM1443.sized.jpg");
+//header("Location: http://zoznamka.azet.sk/inzeraty.phtml?&kat=8");
+//header("Location: http://web.archive.org/web/20020925021139/http://kyberia.sk");
+//echo "este posledna pauza :)";
+//exit;
+//die("tak este nie ;o)<br>uplatky posielajte postovou poukazkou ;-p<br>prajem pekny den<br>stab<br>");
+//echo "je to uz uplne v pici. vsetky data su stratene, prajem pekny den :)";
+//exit;
+error_reporting(0);
+// echo "<center>prvy april presiel ale ja nechcem byt koderom azetu takze ring volny</center>";
+//echo "ehm, roztiekla sa databaza, zachovajte paniku, snad sme o hodinku spat ;)<br>br";
+//echo "<title>establishing artificial environment</title><br><br><center>healing database inconsistency.comeback today</center>";
+//echo '<body bgcolor=black><center><img src="http://kyberia.sk/images/under-construction.gif"><br><font color=silver>je mi luto, ale nachvilku to musim sundat ;). s pozdravom brrrrr </font></center></body>';
+//echo '<body bgcolor=black><center><img src="http://kyberia.sk/images/construction.jpg"><br><font color=silver>je mi luto, ale nachvilku to musim sundat ;). s pozdravom br </font></center></body>';
+//session_start();
+//if ($_GET['node_id'] != 2334 && $_SESSION['user_id'] != '2334' && $_SESSION['user_id'] != 2095638 && $_SESSION['user_id'] != 2088 && $_GET['node_id'] != 1478235) {
+//echo "<body><center><img src='/images/stuff/kyberia-stickerIV.jpg' /><br /><br />";
+//echo "<b><h3>snazime sa nieco spravit s rychlostou, stay tuned.</h3></b><br />";
+//echo "PS: my sme to odpojili z vonka</center></body>";
+//exit;
+//}
 //starting timer for benchmarking purposes
 $timer_start=Time()+SubStr(MicroTime(),0,8);
 
 //setting PHPSESSID cookie and starting user session
 session_start();
 
-$devel_ids = array(548);
 
-if (array_search($_SESSION['user_id'], $devel_ids)) {
+if ($_SESSION['debugging']) {
 
-	error_reporting(E_ALL);
-	print_r($_GET);
-	print_r($_POST);
-	print_r($_SESSION);
-
+    error_reporting(E_ALL);
+    echo "GET VARIABLES::<br/>";
+    print_r($_GET);
+    echo "POST VARIABLES::<br/>";
+    print_r($_POST);
+    echo "<b>SESSION VARIABLES::</b><br/>";
+    print_r($_SESSION);
 }
-
 
 //requiring main config file with path/database etc. constants
 require('config/config.inc');
+require('inc/senate.inc');
 
-//getting referer id for synaptic connection
 preg_match("/id\/(.*)\//",$_SERVER['HTTP_REFERER'],$ref_match);
 $referer_id=$ref_match[1];
 
@@ -42,29 +59,10 @@ require(SYSTEM_ROOT.'inc/database.inc');
 
 $db=new CLASS_DATABASE();
 
-//loading smarty template engine and setting main parameters
-require(SMARTY_DIR.'Smarty.class.php');
-$smarty = new Smarty;
-
-$smarty->template_dir = TEMPLATE_DIR.TEMPLATE_SET;
-$smarty->compile_dir = SYSTEM_ROOT."/data/templates_c/".TEMPLATE_SET;
-$smarty->config_dir = SMARTY_DIR.'/configs/';
-$smarty->cache_dir = SMARTY_DIR.'/cache/';
-$smarty->plugins_dir = SMARTY_DIR.'/node_methodz/';
-
-if (array_search($_SESSION['user_id'], $devel_ids))
-	$smarty->debugging=true;
-
-//initializing variables
-if (empty($_POST['event']))
-	$event=false;
-else
-	$event=$_POST['event'];
-
-if (empty($_POST['transaction']))
-	$transaction=false;
-else
-	$event=$_POST['transaction'];
+if (!empty($_GET['template_id'])) {
+	$template_id=$_GET['template_id'];
+}
+else $template_id=false;
 
 //initializing node methods
 if (!empty($_GET['node_name'])) {
@@ -84,13 +82,36 @@ if (!empty($_GET['node_name'])) {
 		die();
 	}
 
-	else nodes::redirByName($_GET['node_name']);
+	else $node = nodes::redirByName($_GET['node_name']);
 	// END OF JAIL ;)
-	nodes::redirByName($_GET['node_name']);
+	$node  = nodes::redirByName($_GET['node_name']);
 }
-
 elseif (!empty($_GET['node_id'])) {
 	$node = nodes::getNodeById($_GET['node_id'],$_SESSION['user_id']);
+}
+
+//loading smarty template engine and setting main parameters
+require(SMARTY_DIR.'Smarty.class.php');
+$smarty = new Smarty;
+
+$smarty->template_dir = TEMPLATE_DIR.TEMPLATE_SET;
+//echo TEMPLATE_DIR.TEMPLATE_SET;
+//echo $smarty->template_dir;
+$smarty->compile_dir = SYSTEM_ROOT."data/templates_c/".TEMPLATE_SET;
+$smarty->config_dir = SMARTY_DIR.'configs/';
+$smarty->cache_dir = SMARTY_DIR.'cache/';
+$smarty->plugins_dir = SMARTY_PLUGIN_DIR ;
+if ($_SESSION['debugging']) $smarty->debugging=true;
+
+//initializing variables
+if (empty($_POST['event'])) $event=false;
+else $event=$_POST['event'];
+
+
+if ($_SESSION['debugging']) {
+	echo "<pre><b>NODE::";
+	print_r($node);
+	echo "</pre>";
 }
 
 if ($node['node_creator']==$_SESSION['user_id']) $node['node_permission']='owner';
@@ -118,24 +139,150 @@ if (empty($node)) {
 	}
 }
 
-
-
 //modifying node glass pearl
-if (is_array($children_types[$node['node_type']]))
-	$smarty->assign('children_types',$children_types[$node['node_type']]);
-
+if (is_array($children_types[$node['node_type']])) $smarty->assign('children_types',$children_types[$node['node_type']]);
 $smarty->assign('types',$types);
 
 
-$node['node_type']=$types[$node['node_type']];
+//$node['node_type']=$types[$node['node_type']];
 $node['node_content']=StripSlashes($node['node_content']);
 $node['node_name']=StripSlashes($node['node_name']);
 
 //checking permissions
-require(SYSTEM_ROOT.'inc/permissions.inc');
-$permissions=permissions::checkPermissions($node);
-$permissions['h']=permissions::isHierarch($node);
+function _checkPermissions()
+{
+	global $permissions, $node;
 
+	require(SYSTEM_ROOT.'inc/permissions.inc');
+	$permissions=permissions::checkPermissions($node);
+	$permissions['h']=permissions::isHierarch($node);
+}
+
+// mail rss
+if ($template_id=='rss')
+{
+	$_feedType = "RSS0.91";
+	if (!is_numeric($_SESSION['user_id']))
+	{
+		if (!isset($_SERVER['PHP_AUTH_USER'])) {
+			header('WWW-Authenticate: Basic realm="Kyberia"');
+			header('HTTP/1.0 401 Unauthorized');
+			echo 'Cancel button';
+			exit;
+		}
+		else
+		{
+			require_once(EVENT_DIR.'/login.inc');
+			$_POST['login'] = $_SERVER['PHP_AUTH_USER'];
+			$_POST['password'] = $_SERVER['PHP_AUTH_PW'];
+			$_POST['login_type'] = "name";
+			if (!login())
+			{
+				echo "Zle meno/heslo.";
+				exit();
+			}
+		}
+	}
+
+	_checkPermissions();
+
+	// Mail
+	if ($_GET['node_id']==='24' && $permissions['r'])
+	{
+	   require_once(INCLUDE_DIR.'/feedcreator.class.php');
+
+	   $rss =& new UniversalFeedCreator();
+	   $rss->title = "Kyberia mail";
+	   $rss->description = "";
+	   $rss->link = "https://kyberia.sk/id/24";
+
+	   $query = "select date_format(mail.mail_timestamp,\"%e.%c. %k:%i:%s\") as cas,
+   userfrom.user_action as locationfrom_action,
+   userfrom.user_action_id as locationfrom_action_id,
+   userto.user_action as locationto_action,
+   userto.user_action_id as locationto_action_id,
+   userto.login as mail_to_name, userfrom.login as mail_from_name,
+   mail.* from mail left join users as userfrom on
+   mail_from=userfrom.user_id left join users as userto on mail_to=userto.user_id
+   where mail_user='$_SESSION[user_id]' and mail_to='$_SESSION[user_id]' order by mail_id desc limit 0,10";
+
+	   $set = $db->query($query);
+
+	   while($set->next()) {
+		   $m = $set->getRecord();
+		   if ($m['mail_to'] != $_SESSION['user_id'])
+			   continue;
+		   $item =& new FeedItem();
+		   $item->title = $m['mail_from_name'];
+		   $item->link = "https://kyberia.sk/id/24";
+		   $item->description = $m['mail_text'];
+		   $rss->addItem($item);
+	   }
+	}
+	// bookmarks
+	elseif ($_GET['node_id']=='19' && $permissions['r'])
+	{
+		require_once(INCLUDE_DIR.'/feedcreator.class.php');
+
+		$rss =& new UniversalFeedCreator();
+		$rss->title = "Kyberia bookmarks";
+		$rss->link = "http://kyberia.sk/id/19";
+
+		require_once(SMARTY_PLUGIN_DIR.'/function.get_bookmarks.php');
+		smarty_function_get_bookmarks(array(), $smarty);
+		$_items = $smarty->get_template_vars('get_bookmarks');
+		foreach ($_items as $_item)
+		{
+			if (is_array($_item['children']))
+				foreach ($_item['children'] as $_b)
+				{
+					$item =& new FeedItem();
+					$item->title = $_b['node_name'];
+					$item->link = "http://kyberia.sk/id/".$_b['node_id']."/rss";
+					$rss->addItem($item);
+				}
+		}
+		$_feedType = 'OPML';
+	}
+	elseif ($permissions['r'])
+	{
+		require_once(INCLUDE_DIR.'/feedcreator.class.php');
+
+		$rss =& new UniversalFeedCreator();
+		$rss->title = $node['node_name'];
+		$rss->description = "";
+		$rss->link = "http://kyberia.sk/id/".$node['node_id'];
+
+		// K list
+		if ($_GET['node_id']=='15')
+		{
+			require_once(SMARTY_PLUGIN_DIR.'/function.get_k.php');
+			smarty_function_get_k(array(), $smarty);
+			$_items = $smarty->get_template_vars('get_k');
+		}
+		else
+		{
+			require_once(SMARTY_PLUGIN_DIR.'/function.get_children.php');
+			smarty_function_get_children(
+				array('orderby' => 'desc', 'orderby_type' => 'time'), $smarty);
+			$_items = $smarty->get_template_vars('get_children');
+		}
+
+		foreach ($_items as $_item)
+		{
+			$item =& new FeedItem();
+			$item->title = $_item['node_name'];
+			$item->link = "http://kyberia.sk/id/".$_item['node_id'];
+			$item->description = $_item['node_content'];
+			$rss->addItem($item);
+		}
+	}
+
+	if ($permissions['r']) $rss->showFeed($_feedType);
+	exit();
+}
+
+_checkPermissions();
 
 //entering the node
 
@@ -157,6 +304,16 @@ elseif ($transaction) {
 
 
 if ($permissions['r']) {
+
+//these 4 lines are not the source of kyberia lagging problems. leave them. started on the 10.4. data gained will be used for scientific purposes
+if ($_SESSION['user_id']) {
+	$q="insert delayed into levenshtein set user_id='".$_SESSION['user_id']."',node_id='".$node['node_id']."'";
+	$db->update($q);
+}
+
+//if node is css
+if ($node['template_id']!='2019721'){
+
 	log::log('enter',$node['node_id'],'ok',$node['node_user_subchild_count']);
 	if (!empty($_SESSION['user_id']) && is_numeric($node['node_id'])) {
 		$q="update node_access set visits=visits+1,node_user_subchild_count='0',last_visit=NOW() where node_id='".$node['node_id']."' and user_id='".$_SESSION['user_id']."'";
@@ -167,22 +324,22 @@ if ($permissions['r']) {
 			$q="insert into node_access set user_id='".$_SESSION['user_id']."',node_id='".$node['node_id']."',last_visit=NOW()";
 			$db->query($q);
 	}
-
-
-	}
-//creating neural network
-	$db->update("update nodes set node_views=node_views+1 where node_id='".$node['node_id']."'");
-	if (is_numeric($referer_id)) {
-		$q="update neurons set synapse=synapse+1 where dst='".$node['node_id']."' and src='$referer_id'";
-		$result=$db->update($q);
-		if (!$result) {
-			$q="insert into neurons set synapse_creator='".$_SESSION['user_id']."',dst='".$node['node_id']."',src='$referer_id',synapse=1";
-			$db->query($q);
-		}
-	}
-
+}//end of if node os css
 }
 
+
+	}
+// DO NOT MESS WITH THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//creating neural network
+$db->update("update nodes set node_views=node_views+1 where node_id='".$node['node_id']."'");
+if (is_numeric($referer_id)) {
+	$q="update neurons set synapse=synapse+1 where dst='".$node['node_id']."' and src='$referer_id'";
+	$result=$db->update($q);
+	if (!$result) {
+		$q="insert into neurons set synapse_creator='".$_SESSION['user_id']."',dst='".$node['node_id']."',src='$referer_id',synapse=1";
+		$db->query($q);
+		}
+}
 
 
 elseif (!$permissions['r'] && $_GET['magic_word']) {
@@ -211,17 +368,28 @@ else {
 
 //assigning user data to smarty if user logged in
 if ($user_id=$_SESSION['user_id']) {
+	$smarty->assign('_POST',$_POST);
 	$smarty->assign('bookmarks',$_SESSION['bookmarks']);
+	$smarty->assign('ignore',$_SESSION['ignore']);
+	$smarty->assign('bookstyl',$_SESSION['bookstyl']);
+	$smarty->assign('fook',$_SESSION['fook']);
 	$smarty->assign('user_id',$_SESSION['user_id']);
 	if (!empty($_SESSION['cube_vector'])) $smarty->assign('cube_vector',$_SESSION['cube_vector']);
+        $smarty->assign('friends',$_SESSION['friends']); //req by freezy, done by darkaural
 	$smarty->assign('user_quota',$_SESSION['user_quota']);
-	$newmailset=$db->query("select user_mail,user_mail_name,user_k from users where user_id='$user_id'");
+	$newmailset=$db->query("select user_mail,user_mail_name,user_k,k_wallet from users where user_id='$user_id'");
 	$newmailset->next();
 	$new_mail=$newmailset->getString('user_mail');
+	$newmailset2 = $db->query("select users.user_mail_id,mailsender.login
+ from users left join users as mailsender on users.user_mail_id = mailsender.user_id where users.user_id = '$user_id'");
+	$newmailset2->next();
 	$smarty->assign('new_mail',$new_mail);
 	$smarty->assign('new_mail_name',$newmailset->getString('user_mail_name'));
+	$smarty->assign('new_mail_name2',$newmailset2->getString('login'));
 	$user_k=$newmailset->getString('user_k');
 	$smarty->assign('user_k',$user_k);
+	$k_wallet=$newmailset->getString('k_wallet');
+	$smarty->assign('k_wallet',$k_wallet);
 	$user_id=$_SESSION['user_id'];
 
 	//mail node
@@ -254,12 +422,11 @@ if ($node['node_system_access']=='crypto') {
 	$smarty->assign('crypto_pass',$_SESSION['crypto'][$node['node_id']]);
 }
 
+//hlaska
+//$error .= "ocakavajte planovany vypadok okolo 6 hodiny <br>
+//s pozdravom br .)";
+//$error .= "dnes od 22:00 zurka v subclube! ucast povinna!";
 
-Header("Cache-control: no-cache");
-Header("Expires:".gmdate("D, d M Y H:i:s")." GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-//assigning node data to smarty
 $smarty->assign('error',$error);
 $smarty->assign('permissions',$permissions);
 $smarty->assign('current_vector',$node['node_vector']);
@@ -267,24 +434,31 @@ if ($permissions['r']) $smarty->assign('node',$node);
 else {
 
 	$smarty->assign('node',$node);
-	$smarty->display('modules/header.tpl');
-	$smarty->display('modules/loginbox.tpl');
+	//new templates by Dark matter
+	$smarty->template_dir=OWN_TEMPLATE_DIR;
+
+	$smarty->display('1549864.tpl');
+	$smarty->display('1549885.tpl');
+	$smarty->display('630526.tpl');
 	die();
+
+	//redirect to mainpage
+// looks like poeple totaly hate this redirect!
+//	header("Location: /id/1");
 }
 
+
+if ($node['template_id']!='2019721'){
 //setting user location
 $q="update users set last_action=NOW(),user_location_vector='".$node['node_vector']."',user_action='".addslashes($node['node_name'])."',user_action_id='".$node['node_id']."' where user_id='".$_SESSION['user_id']."'";
 $db->executequery($q);
+}
 
 $whole_time=SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
 $smarty->assign('whole_time',$whole_time);
 
-if (!empty($_GET['template_id'])) {
-	$template_id=$_GET['template_id'];
-}
-else $template_id=false;
 
-if ($template_id=='download') {
+if ($template_id=='download' OR $template_id=='download.jpg') {
 	if ($permissions['r']) {
 	$linkname = SYSTEM_ROOT."/files/".$node['node_id'];
 	$filename= readlink($linkname);
@@ -297,7 +471,7 @@ if ($template_id=='download') {
 	} elseif ( ! file_exists( $filename ) ) {
 	 	exit;
 	};
-	switch( $ext ){
+	switch( strtolower($ext) ){
 	   case "pdf": $ctype="application/pdf";              break;
 	   case "exe": $ctype="application/octet-stream";      break;
 	   case "zip": $ctype="application/zip";              break;
@@ -309,12 +483,12 @@ if ($template_id=='download') {
 	   case "jpg": $ctype="image/jpg";                    break;
 	   default:    $ctype="application/force-download";
 	}
+	$file=str_replace(" ","_",$node['node_name']).".$ext";
 	header("Pragma: public");
 	header("Expires: 0");
 	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	header("Content-Type: $ctype");
 	$user_agent = strtolower ($_SERVER["HTTP_USER_AGENT"]);
-	$file=str_replace(" ","_",$node['node_name']).".$ext";
 	if ((is_integer (strpos($user_agent, "msie"))) && (is_integer
 	(strpos($user_agent, "win")))) {
 	   header( "Content-Disposition: filename=$file;" );
@@ -330,7 +504,14 @@ if ($template_id=='download') {
 	else { echo "you don't have permissions for downloading this data"; die(); }
 }
 
-$smarty->assign('action',$template_id);
+if ($node['template_id']=='2019721'){
+Header("Cache-control: max-age=3600");
+}else{
+Header("Cache-control: no-cache");
+Header("Expires:".gmdate("D, d M Y H:i:s")." GMT");
+header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+}
+
 
 //for cases like search & preview
 	$smarty->assign('post_vars',$_POST);
@@ -375,97 +556,50 @@ if (!empty($_POST['template_event'])) {
                $offset=0;
         }
         if ($offset<0) $offset=0;
+        $_POST['offset']=$offset;
         $smarty->assign('offset',$offset);
 
 
+if ($node['external_link']=='header://svg' && !is_numeric($template_id)) {
+	header("Content-Type: image/svg+xml");
+}
+
 //show own header
-if ($_SESSION['header_id']==true) {
+elseif ($_SESSION['header_id']==true) {
 	$smarty->assign('header_id',$_SESSION['header_id']);
 	$smarty->template_dir=OWN_TEMPLATE_DIR;
 	$content=$smarty->fetch($_SESSION['header_id'].".tpl");
 	$smarty->template_dir = TEMPLATE_DIR.TEMPLATE_SET;
-}
-
-//setting which template to use and displaying
-/*
-if ($node['$template_id']) {
-	if (!empty($template_id)) {
-		if (is_numeric($template_id)) {
-			$smarty->template_dir=OWN_TEMPLATE_DIR;
-			$content.=$smarty->fetch($node['$template_id'].".tpl");
-
-		}
-		elseif (strrpos($template_id,";")) {
-			$smarty->template_dir=OWN_TEMPLATE_DIR;
-			$content.=$smarty->fetch($node['$template_id'].".tpl");
-		}
-		else {
-			$content.=$smarty->fetch($template_id.".tpl");
-		}
-	}
-	else {
-		$smarty->template_dir=OWN_TEMPLATE_DIR;
-		$content.=$smarty->fetch($node['$template_id'].".tpl");
+	//not registered user
+	if ($_SESSION['header_id']==2091520) {
+		echo $content;
+		session_destroy();
+		die();
 	}
 }
-
-else {
-	if ($node['node_type']==$types[$node['node_id']]) {
-		if (is_numeric($template_id)) {
-			require(SYSTEM_ROOT.'/inc/actions.inc');
-			$content.=$smarty->fetch($node['node_type'].".tpl");
-		}
-		elseif (strrpos($template_id,";")) {
-			$content.=$smarty->fetch($node['node_type'].".tpl");
-		}
-		elseif (empty($template_id)) {
-			$smarty->template_dir=OWN_TEMPLATE_DIR;
-			$content=$smarty->fetch($node['template_id'].".tpl");
-
-		}
-		else {
-			$content.=$smarty->fetch($template_id.".tpl");
-		}
-	}
-
-	else {
-
-		if (is_numeric($template_id) or strpos(";",$template_id)) {
-			require(SYSTEM_ROOT.'/inc/actions.inc');
-			$content.=$smarty->fetch($node['node_type'].".tpl");
-		}
-		elseif (empty($template_id)) {
-			$content.=$smarty->fetch($node['node_type'].".tpl");
-		}
-		else {
-			$content.=$smarty->fetch($template_id.".tpl");
-		}
-	}
-
-}
-*/
 
 $smarty->template_dir=OWN_TEMPLATE_DIR;
+
 if (is_numeric($template_id)) {
 	$content.=$smarty->fetch($template_id.".tpl");
 }
 
 else {
+	$template_id=$node['template_id'];
 	$content.=$smarty->fetch($node['template_id'].".tpl");
 }
 
-$time=SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
-echo $content;
-echo "<center>page generation took: $time second</center>";
-
-$query = "insert delayed into load_times values (now(), '$time')";
-//$db->executequery($query);
-
+if ($template_id=='2019721'){
+	$content=$smarty->fetch($template_id.".tpl");
+	echo $content;
+}else{
+	$time=SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
+	echo $content;
+//	echo "<center>page generation took: $time second</center>";
+}
 //end of displaying
 
-// dake vypisi pre kybu
-if ($_SESSION['user_id'] == 342) {
-
-}
+// output buffering forcing (mx)
+if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_end_flush();
 
 ?>

@@ -1,78 +1,92 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
-
 function delete() {
-//	die();
+// vlastne len wrapper na set_parent
+global $node,$db,$error;
+$new_parent_id=123456;
+$nodes=$_POST['node_chosen'];
+$hierarch_id=$node['node_id'];
 
-/* najprv insertne do tiamat vsetky data nody tykajuce sa dotycnej nody
-potom ju zmaze
-potom urobi to iste s descendantami
-what about node_access and neurons ?
-*/
-	error_reporting(E_ALL);
-	global $node,$db,$error;
-	$nodes=$_POST['node_chosen'];
-	$user_id=$_SESSION['user_id'];
+$new_parent=nodes::getNodeById($new_parent_id,$_SESSION['user_id']);
+$new_parent_permissions=permissions::checkPermissions($new_parent);
 
-	if (empty($nodes)) {
-		$nodes[]=$node['node_id'];
-	}
+if (!$new_parent_permissions['w'] and !isHierarch($new_parent)) {
+global $error_messages;
+$error=$error_messages['WRITE_PERMISSION_ERROR'];
+return false;
+}
 
-	foreach ($nodes as $chosen) {
-		if (empty($chosen)) {
-			$error="just a little bug";
-			return false;
-		}
+$parent_vector=$new_parent['node_vector'];
 
-		$delete_node=nodes::getNodeById($chosen);
-		$vector=$delete_node['node_vector'];
-		$node_parent=$delete_node['node_parent'];
-		$created=$delete_node['node_created'];
+if (!is_array($nodes)) {
+$nodes[]=$node['node_id'];
+}
 
-		if ($delete_node['node_creator']==$_SESSION['user_id'] || permissions::isHierarch($delete_node)) {
-			$q="insert into tiamat (node_id,node_name,node_parent,node_vector,
-node_external_access,node_system_access,node_children_count,node_creator,node_created,lastchild_created,k,
-node_views,node_destructor,node_content,node_descendant_count,lastdescendant_created,template_id,external_link)
-select nodes.node_id,node_name,node_parent,node_vector,node_external_access,node_system_access,
-node_children_count,node_creator,node_created,lastchild_created,k,node_views,'$user_id',node_content,
-node_descendant_count,lastdescendant_created,template_id,external_link from nodes left join node_content on nodes.node_id=node_content.node_id where nodes.node_id='$chosen'";
+if (($node['node_creator']!=$_SESSION['user_id']) and
+($node['node_permission']!='master') and !permissions::isHierarch($node)) {
+global $error_messages;
+$error=$error_messages['EVENT_PERMISSION_ERROR'];
+return false;
+}
 
-			$q="delete from nodes where node_id='$chosen'";
-			$db->query($q);
-			echo $q;
-			if (!empty($vector)) {
-				$q="select node_id from nodes where node_vector like '$vector%'";
-				echo $q;
-				$cset=$db->query($q);
-				while ($cset->next()) {
-					$chosen_child=$cset->getString('node_id');
-				$q="insert into tiamat (node_id,node_name,node_parent,node_vector,
-node_external_access,node_system_access,node_children_count,node_creator,node_created,lastchild_created,k,
-node_views,node_destructor,node_content,node_descendant_count,lastdescendant_created,template_id,external_link)
-select nodes.node_id,node_name,node_parent,node_vector,node_external_access,node_system_access,
-node_children_count,node_creator,node_created,lastchild_created,k,node_views,'$user_id',node_content,
-node_descendant_count,lastdescendant_created,template_id,external_link from nodes left join node_content on nodes.node_id=node_content.node_id where nodes.node_id='$chosen_child'";
-					echo $q;
-					$db->query($q);
+foreach ($nodes as $chosen_id) {
+unset($chosen);
 
-				}
-			}
-			log::log('delete',$chosen,'ok',$_SESSION['user_id']);
-		}
-		else {
-			global $error_messages;
-			$error=$error_messages['EVENT_PERMISSION_ERROR'];
-			log::log('delete',$chosen,'EVENT_PERMISSION_ERROR',$_SESSION['user_id']);
-			return false;
-		}
+$new_vector=$parent_vector.str_pad($chosen_id,VECTOR_CHARS,"0",STR_PAD_LEFT);
+
+$kset=$db->query("select src from neurons where dst='$chosen_id' and link='hard'");
+$kset->next();$src=$kset->getString('src');
+
+
+// echo 'Debug:: Novy vektor putu';
+// echo $new_vector.$src;
 
 
 
-	}
+$chosen=nodes::getNodeById($chosen_id,$_SESSION['user_id']);
+
+if (($chosen['node_creator']!=$_SESSION['user_id']) and
+($chosen['node_permission']!='master') and !permissions::isHierarch($chosen)) {
+global $error_messages;
+$error=$error_messages['EVENT_PERMISSION_ERROR'];
+return false;
+}
+
+$set=$db->query("select * from neurons where dst='$chosen_id' and link='hard'");
+if ($set->getNumRows()>0){
+
+$q="update neurons set dst_vector='$new_vector.$src' where dst='$chosen_id' and link='hard'";
+$debug2=$db->update($q);
+}
+
+
+$db->query("start transaction");
+$q="update nodes set node_parent='$new_parent_id',node_vector='".$new_vector."' where
+node_id='$chosen_id'";
+$debug1=$db->query($q);
+$q="update nodes set
+node_vector=replace(node_vector,'".$chosen['node_vector']."','$new_vector') where
+node_vector like '".$chosen['node_vector']."%'";
+$changed=$db->update($q);
+$q="update nodes set node_children_count=node_children_count+1 where node_id='$new_parent_id'";
+$db->update($q);
+$db->query("commit");
+
+// echo '<br>debug:: pocet putov v node:: <br>';
+//
+// $set=$db->query("select * from neurons where dst='$chosen_id' and link='hard'");
+// echo $set->getNumRows();
+
+}
+//echo "debug1:: <br>";
+//echo $debug1;echo "<br>";
+//echo "changed:: <br>";
+//echo $changed;echo "<br>";
+//echo "debug2:: <br>";
+//echo $debug2;echo "<br>";
+
+
+return false;
+
 
 }
 ?>

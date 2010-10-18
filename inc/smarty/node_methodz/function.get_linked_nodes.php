@@ -1,48 +1,48 @@
 <?php
+//returns array of linked nodes, possible args listing_amount,offset,node_id,orderby=synapse
 
 	function smarty_function_get_linked_nodes($params,&$smarty) {
-		global $db, $error, $node, $time_1, $time_2;
-		$time_1=$time_1;
-		$time_2=$time_2;
-                $orderby=$params['orderby'];
-		if ($orderby!='desc' && $orderby!='asc') $orderby='desc';
+		global $db, $error, $node;
 
-		if (!empty($time_1) || !empty($time_2)) {
-			if ($orderby=='desc') {
-				$from=$time_2;
-				$to=$time_1;
-			}
-			else {
-				$from=$time_1;
-				$to=$time_2;
-			}
-			$time=" and synapse_created>'$from' and synapse_created<='$to'";
+                if ($params['listing_amount']=='all') $listing_amount='23232323232323323';
+                elseif (is_numeric($params['listing_amount'])) $listing_amount=$params['listing_amount'];
+                else $listing_amount=DEFAULT_LISTING_AMOUNT;
+
+                if (is_numeric($params['offset'])) $offset=$params['offset'];
+		elseif (is_numeric($_POST['offset'])) $offset=$_POST['offset'];
+		else $offset=0;
+
+
+
+		if ($params['node_id']) {
+			$node_id=$params['node_id'];
 		}
+
 		else {
-			$time="";
+			$node_id=$node['node_id'];
 		}
 
-		$node_id=$node['node_id'];
-		$q="select neurons.synapse_created,node_content,author.login,linker.login as linker,nodes.* from neurons left join nodes on neurons.src=nodes.node_id left join users as linker on neurons.synapse_creator=linker.user_id left join users as author on nodes.node_creator=author.user_id left join node_content on node_content.node_id=nodes.node_id where dst='$node_id' and link='hard' $time order by synapse_created $orderby";
+		if ($params['orderby']='synapse') {
+			$orderby='synapse_created';
+		}
+
+		else {
+			$orderby='node_id';
+		}
+
+
+
+		$q="select neurons.synapse_created,node_content,author.login,linker.login as linker,nodes.* from neurons left join nodes on neurons.src=nodes.node_id left join users as linker on neurons.synapse_creator=linker.user_id left join users as author on nodes.node_creator=author.user_id  where dst='$node_id' and link in ('hard','bookmark') order by $orderby desc limit $offset , $listing_amount";
 		$result=$db->query($q);
 		while ($result->next()) {
 			$array=$result->getRecord();
 			$array['node_status']="linked";
-			$array['node_vector']=$node['node_vector'].";".$node['node_id'];
 			$array['node_created']=$array['synapse_created'];
 			$get_linked_nodes[]=$array;
 		}
 		$smarty->assign('get_linked_nodes',$get_linked_nodes);
 
-		$q="select neurons.synapse_created,node_content,users.login,nodes.* from neurons left join nodes on neurons.src=nodes.node_id left join users on nodes.node_creator=users.user_id left join node_content on node_content.node_id=nodes.node_id where dst='$node_id' and link='bookmark' $time order by synapse_created $orderby";
-		$result=$db->query($q);
-		while ($result->next()) {
-			$array=$result->getRecord();
-			$array['node_status']="linked";
-			$array['node_vector']=$node['node_vector'].";".$node['node_id'];
-			$array['node_created']=$array['synapse_created'];
-			$get_linked_bookmarks[]=$array;
-		}
-		$smarty->assign('get_linked_bookmarks',$get_linked_bookmarks);
-		}
+}
+
 ?>
+

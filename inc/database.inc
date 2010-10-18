@@ -1,19 +1,16 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
-
 require ("result.inc");
 
 class CLASS_DATABASE {
 
+/*
 var $Database="";
 var $User="";
 var $Password="";
 var $Url="";
+*/
 
+var $Master = true;
 var $_linkId = false;
 var $_url = "";
 var $_user = "";
@@ -21,26 +18,31 @@ var $_password = "";
 var $_database = "";
 var $_halt_on_error = true;
 
+/*
 function CLASS_DATABASE ($database=DB_DATABASE,$user=DB_USER,$password=DB_PASS,$url=DB_HOST) {
 	$this->Database=$database;
 	$this->Password=$password;
 	$this->User=$user;
 	$this->Url=$url;
-	$this->connect($this->Url,$this->User,$this->Password,$this->Database);
+*/
+
+function CLASS_DATABASE() {
+	$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
 }
 
-function connect($url, $user, $password, $database, $halt_on_error = true) {
+function connect($url,$user,$password,$database, $halt_on_error = true) {
 		global $error;
 		$this->_halt_on_error = $halt_on_error;
 		if ($this->_linkId == false) {
-
 			$this->_linkId=mysql_connect($url, $user, $password);
 			if ($this->_linkId == false) {
 				$error='chcipla databaza';
 				$this->exception($error);
 				return false;
 				//die();
-			}
+			}// else {
+		 	 //	mysql_query('set character set utf8');
+			 //}
 			$this->_url=$url;
 			$this->_user=$user;
 			$this->_password=$password;
@@ -61,11 +63,26 @@ function closeMysql() {
 
 function query($sql) {
 
+//		if (preg_match("/^select/i",$sql) && (rand(0,1000)>MASTER2SLAVE) && $this->Master) {
+// every select query goes to onyx + opraveny regexp, aby matchoval vnorene selecty (br)
+		if (preg_match('/^\(?select/i',$sql) && $this->Master) {
+			$this->_linkId = false;
+			$this->connect(SLAVE_HOST,SLAVE_USER,SLAVE_PASS,SLAVE_DATABASE);
+			$this->Master = false;
 
+		}
+
+		elseif (!preg_match("/^select/i",$sql) && !$this->Master) {
+			$this->_linkId = false;
+			$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
+			$this->Master = true;
+		}
 
 		$this->_queryId = mysql_query($sql,$this->_linkId);
 
-		if ($_SESSION['user_id']==548) {
+		if ($_SESSION['debugging']) {
+			if ($this->Master) echo "Master::";
+			else echo "Slave::";
 			echo $sql;
 			global $timer_start;
 			echo "<BR>".SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
@@ -99,6 +116,11 @@ function executeupdate($sql) {
 }
 
 function update($sql) {
+	if (!$this->Master) {
+		$this->_linkId = false;
+		$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
+                $this->Master = true;
+	}
 
 	$this->_queryId = @mysql_db_query($this->_database,$sql,$this->_linkId);
 		if ($this->_queryId == false) {
@@ -113,9 +135,11 @@ function getLastInsertId() {
 }
 
 function exception($errorMessage) {
+
 	echo "<!-- ";
 	echo @mysql_error($this->_linkId)," (",@mysql_errno($this->_linkId),")";
 	echo "-->";
+
 	if ($this->_halt_on_error) {
 		die("<pre>".$errorMessage."</pre>");
 		} else {

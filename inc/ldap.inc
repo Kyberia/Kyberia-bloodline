@@ -1,10 +1,3 @@
-<?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
-
 
 <?
 
@@ -25,7 +18,7 @@ class LDAPuser {
 		$this->ldif['cn'] = $uid;
 		$this->ldif['sn'] = $uid;
 		$this->ldif['hkid'] = $hkid;
-		$this->ldif['userpassword'] = "{clear}".$password;
+		$this->ldif['userpassword'] = "{SHA}".base64_encode(pack("H*", sha1($password)));
 		$this->ldif['o'] = "h-k.sk";
 //		$this->ldif['homeDirectory'] = "/home/".$hkid;
 //		$this->ldif['loginShell'] = "/bin/false";
@@ -65,6 +58,30 @@ class LDAPuser {
 
 	}
 
+        function ldap_mysql_sync($uid,$hkid,$password) {
+
+                $admindn = "cn=kyberia,ou=Directory Administrators,dc=h-k,dc=sk";
+                $adminpw = "abcd123";
+
+                $this->dn = "ou=People,dc=h-k,dc=sk";
+
+                $this->ldif['cn'] = $uid;
+                $this->ldif['sn'] = $uid;
+                $this->ldif['hkid'] = $hkid;
+                $this->ldif['userpassword'] = "{SHA}".base64_encode(pack("H*", sha1($password)));
+                $this->ldif['o'] = "h-k.sk";
+                $this->ldif['uid'] = $uid;
+
+                $c = ldap_connect("localhost");
+                $b = ldap_bind($c, $admindn, $adminpw);
+                $r = ldap_modify($c, "hkid=".$hkid.",".$this->dn, $this->ldif);
+
+                system("echo \"".$uid.":".$hkid."(".ldap_error($c).")\" >> /tmp/ldapsync.log");
+
+                ldap_close($c);
+
+        }
+
 	function change_pass($uid,$old_pass,$new_pass) {
 
 		$c = ldap_connect("localhost");
@@ -88,14 +105,46 @@ class LDAPuser {
 			}
 
 			$b = ldap_bind($c, $this->dn, $old_pass);
-			echo "binding".$this->dn." with $old_pass";
+//			echo "binding".$this->dn." with $old_pass";
 			if ($b) {
-				$this->ldif['userpassword'] = "{clear}".$new_pass;
+				$this->ldif['userpassword'] = "{SHA}".base64_encode(pack("H*", sha1($new_pass)));
 				$mod_ret = ldap_modify($c, $this->dn, $this->ldif);
 				return $mod_ret;
 			}
 
 			return false;
+
+}}
+
+ function change_pass_forced($uid,$pass) {
+
+                $c = ldap_connect("localhost");
+		$adminpw = "abcd123";
+		$admindn = "cn=kyberia,ou=Directory Administrators,dc=h-k,dc=sk";
+
+                if ($c) {
+                        $this->dn = "ou=People,dc=h-k,dc=sk";
+                        $this->values = array("dn");
+                        $this->filter = "hkid=".$uid;
+
+                        $sr = ldap_search($c, $this->dn, $this->filter, $this->values);
+
+                        $res = ldap_get_entries($c, $sr);
+                        $this->dn = $res[0]["dn"];
+
+                        if ($res['count'] != 1) {
+                                return false;
+                        }
+
+                        $b = ldap_bind($c, $admindn, $adminpw);
+//                      echo "changing password to ".$this->dn."";
+                        if ($b) {
+                                $this->ldif['userpassword'] = "{SHA}".base64_encode(pack("H*", sha1($pass)));
+                                $mod_ret = ldap_modify($c, $this->dn, $this->ldif);
+                                return $mod_ret;
+                        }
+
+                        return false;
 
 }}
 

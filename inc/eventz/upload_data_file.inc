@@ -1,13 +1,13 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
-
 	function upload_data_file() {
 
 		global $db,$error,$node;
+
+if (($node['node_permission']!='owner') && ($node['node_permission']!='master')) {
+$error=$error_messages['EVENT_PERMISSION_ERROR'];
+return false;
+}
+
 		$node_id=$node['node_id'];
 		$node_template=$_POST['node_template'];
 		require(SYSTEM_ROOT.'/inc/filez.inc');

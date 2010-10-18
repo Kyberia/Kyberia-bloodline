@@ -14,7 +14,7 @@
 		$template_id=$_GET['action'];
 		$user_id=$_SESSION['user_id'];
 
-		$q="select parent.node_name as parent_name,nodes.*,node_content.* from nodes left join node_content on (node_content.node_id=nodes.node_id) left  join nodes as parent on parent.node_id=nodes.node_parent where nodes.node_creator='$creator_id'  and
+		$q="select parent.node_name as parent_name,nodes.*  from nodes left  join nodes as parent on parent.node_id=nodes.node_parent where nodes.node_creator='$creator_id'  and
 nodes.template_id='$template_id' and
 nodes.node_system_access!='private' order by
 nodes.node_created desc LIMIT $offset,$listing_amount";

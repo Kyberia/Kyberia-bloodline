@@ -1,39 +1,39 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
+function configure_node_name() {
+    global $db,$error,$node;
+    $node_id=$node['node_id'];
+    $user_id=$_SESSION['user_id'];
 
-	function configure_node_name() {
-		global $db,$error,$node;
-		$node_id=$node['node_id'];
-		$user_id=$_SESSION['user_id'];
+    if (($node['node_permission']=='owner') || ($node['node_permission']=='master')) {
+        $node_name = mysql_real_escape_string($_POST['node_name']);
+        $test=$node_name.'[Locked_OUT]';
 
-		if ($node['node_permission']=='owner') {
+        if(!empty($node_id)) {
+            if($node_id == $user_id) {
+                $node_name=strip_tags($node_name);
 
-			$node_name=addslashes($_POST['node_name']);
+//$validation = strpos($node_name, "'"); 
+//if ($validation) {$error="Nepouzivaj ten otrasny znak '. co si myslis ze ludi to bude bavit pisat ti takto postu?";return false;}
 
-			if ($_POST['apply_on_vector']) {
-				$vector=$node['node_vector'];
-				if (empty($vector))  {
-					$error=$error_messages['INCORRECT_VECTOR'];
-					return false;
-				}
-				$q="update nodes set node_name='$node_name' where node_vector like '$vector%'";
-				$db->query($q);
-			}
+               $node_name=strtr($node_name, "öûõü³¿ñæêœàáäåèéìíïòóôøùúšž¾ýÀÁÄÅÈÉÌÍÏÒÓÔØÙÚŠŽ¼ÝÄ","ououlzncesraalceeidnooruustzlyRAALCEEIDNOORUUSTZLYA"); //prec z diakritikou. ldap ju nezere
 
-			elseif (!empty($node_id)) {
-				$q="update nodes set node_name='$node_name' where node_id='$node_id'";
-				$db->query($q);
-				if ($node['external_link']=='db://user') {
-					$q="update users set login='$node_name' where user_id='$node_id'";
-					$db->query($q);
-				}
-			}
-		}
-		return true;
-
-	}
+                if (strpos($node_name,'[Locked_OUT]')!=NULL){$error='Nemozes pouzit dany suffix';return false;}
+                $set=$db->query("select * from users where login='$node_name'");
+                if($set->getNumRows()>0) {
+                    $error="user $node_name is already here";
+                    return false;
+                }else{
+                $q="update users set login='$node_name' where user_id='$node_id'";
+                $db->query($q);
+                $_SESSION['user_name']=$node_name;}
+            }
+            $q="update nodes set node_name='$node_name' where node_id='$node_id'";
+            $db->query($q);
+        }
+    }else{
+        $error=$error_messages['EVENT_PERMISSION_ERROR'];
+        return false; 
+    }
+    return true;
+}
 ?>

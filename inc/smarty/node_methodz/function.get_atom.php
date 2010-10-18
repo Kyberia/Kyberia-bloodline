@@ -12,7 +12,7 @@
 			 $set->next();
 			 $lv=$set->getString('last_visit');
 
-		$q="select nodes.node_id,node_name,node_content from nodes left join node_content on nodes.node_id=node_content.node_id  where nodes.node_parent='$node_id' and node_created>'$lv' order by node_id desc";
+		$q="select nodes.node_id,node_name,node_content from nodes   where nodes.node_parent='$node_id' and node_created>'$lv' order by node_id desc";
 		$set=$db->query($q);
 }
 		while ($set->next()) {

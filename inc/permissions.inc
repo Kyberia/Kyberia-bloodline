@@ -1,10 +1,4 @@
 <?php
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
-
 
 class permissions {
 
@@ -134,7 +128,6 @@ elseif ($node['node_system_access']=='cube') {
 
 //setting permissions for private node
 elseif ($node['node_system_access']=='private') {
-
 	if (empty($node['node_permission'])) {
 		$permissions['r']=false;
 		$permissions['w']=false;
@@ -198,7 +191,6 @@ else {
 		$permissions['r']=true;
 		$permissions['w']=true;
 }
-
 return $permissions;
 }
 

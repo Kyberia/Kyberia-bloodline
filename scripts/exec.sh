@@ -1,0 +1,22 @@
+#!/bin/bash
+php -f /storage/system/www-kyberia/scripts/user2node.php
+php -f /storage/system/www-kyberia/scripts/userimages.php
+php -f /storage/system/www-kyberia/scripts/bookcat.php
+php -f /storage/system/www-kyberia/scripts/friends2node.php
+php -f /storage/system/www-kyberia/scripts/rubrika2node.php
+php -f /storage/system/www-kyberia/scripts/articles2node.php
+php -f /storage/system/www-kyberia/scripts/articleimages.php
+php -f /storage/system/www-kyberia/scripts/articleprispevky2node.php
+php -f /storage/system/www-kyberia/scripts/articlethread.php
+php -f /storage/system/www-kyberia/scripts/dennik2node.php
+php -f /storage/system/www-kyberia/scripts/dennikprispevky2node.php
+php -f /storage/system/www-kyberia/scripts/dennikthread.php
+php -f /storage/system/www-kyberia/scripts/journauxaccess.php
+php -f /storage/system/www-kyberia/scripts/category2node.php
+php -f /storage/system/www-kyberia/scripts/forum2node.php
+php -f /storage/system/www-kyberia/scripts/forumimages.php
+php -f /storage/system/www-kyberia/scripts/forumaccess.php
+#php -f /storage/system/www-kyberia/scripts/poll2node.php
+#php -f /storage/system/www-kyberia/scripts/poll_access.php
+php -f /storage/system/www-kyberia/scripts/submission2node.php
+php -f /storage/system/www-kyberia/scripts/childcounter.php

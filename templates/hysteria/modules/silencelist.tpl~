@@ -1,8 +1,0 @@
-<textarea class='small' name='bans'>{$bans}</textarea>
-<br>
-<center><input type='submit' name='event' value='banlist'></center>
-<br>
-
-
-
-
