@@ -1,4 +1,10 @@
 <?php
+/* This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar. See
+ * http://sam.zoy.org/wtfpl/COPYING for more details. */
+
 
 class htmlparse {
 
@@ -18,6 +24,7 @@ function htmlparse($data)
                      'br/'=>1, // fix later ;)
                      'li'=>1,
                      'hr'=>1,
+                     '/tr'=>1,
                      'img'=>1,
                      'p'=>1
                      );
@@ -38,7 +45,8 @@ function htmlparse($data)
                     'ol'=>1,
                     'li'=>1,
                     'tt'=>1,
-                    'code'=>1,
+                    'address'=>1,
+		    'code'=>1,
                     'small'=>1,
                     'big'=>1,
                     'caption'=>1,
@@ -124,10 +132,17 @@ function htmlparse($data)
                $htmlparse = 'JavaScript je na hovno!';
                //$htmlparse = 'JavaScript sux!';
                return 0;
+            elseif(Ereg('/on',' '.$attrib[1])): // temporary solution for pernament problem...and it isn suicide
+               $htmlparse = 'z bezpecnostnych dovodov nieje povolene vkladat do tagov retazec "/on"';
+               return 0;
+
+
+/*
             elseif(Ereg(' style',' '.$attrib[1])): // styles are forbidden - don look at me THAT way ;)
                $htmlparse = 'Ten "style" se mi tam nezda!';
                //$htmlparse = '"styles" are forbidden!';
                return 0;
+*/
             elseif(Ereg('://',' '.$attrib[1]) && $attrib[0] != "img" && $attrib[0] != "a"): // adresses in attributes (except A and IMG tags) are forbidden
                $htmlparse = 'Neco se mi tam nelibi! To je hlaska HTML validace - nejedna se o nejakou cenzuru ;)';
                //$htmlparse = 'Forbidden usage of adresses in tags!';
