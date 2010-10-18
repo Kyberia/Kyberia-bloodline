@@ -1,0 +1,1 @@
+http://www.subclub.sk/images/banners/overkill468x60.swf; http://www.subclub.sk/images/banners/468x60_2.swf

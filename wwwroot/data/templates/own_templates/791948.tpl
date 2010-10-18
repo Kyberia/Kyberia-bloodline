@@ -1,0 +1,1 @@
+{$node.node_name|strip_tags} @ Nech sa asociuje!
