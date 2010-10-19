@@ -1,1 +1,0 @@
-hierarchie nihiluju http://kyberia.sk/id/967368

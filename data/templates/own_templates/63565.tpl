@@ -1,1 +1,0 @@
-vstavat a cvicit!

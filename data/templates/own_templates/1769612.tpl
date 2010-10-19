@@ -1,1 +1,0 @@
-<div style='width:43px; height:21px; background:#264778; float:left;'></div><div style='width:43px; height:21px; background:#e3d841; float:left;'></div><div style='width:43px; height:21px; background:#a81717; float:left;'></div><div style='width:43px; height:21px; background:#f8f8f8; float:left;'></div>

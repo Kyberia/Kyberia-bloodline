@@ -1,3 +1,0 @@
-<!--<img src='/images/stuff/progress.gif' />-->
-<center><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0' width='468' height='90'><param name='movie' value='http://sfd.skosi.org/BANNER3alink_sfd.swf'><param name='quality' value='high'><embed src='http://sfd.skosi.org/BANNER3alink_sfd.swf' quality=high width='468' height='90' type='application/x-shockwave-flash' pluginspace='http://www.macromedia.com/go/getflashplayer'></embed></object><br><br>
-<a href="http://www.nextfestival.sk/2006"><img src="http://www.nextfestival.sk/2006/press/next06.banner.486x60.gif" /></a></center>
