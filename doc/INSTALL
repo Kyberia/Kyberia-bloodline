@@ -1,25 +1,14 @@
-#Kyberia README
-
-##Kyberia
-  * This repository contains sources of Kyberia.sk website.
-  * See http://kyberia.sk/ and http://kyberia.cz/ for more.
-
-##COPYING
-  * everything in this repository
-    * is protected by copyright of it's respective author(s)
-    * is licensed as specified in COPYING file in root of this repository
-    * can be licensed somehow else if other licence was specified by author
-
 ## How to make your kyberia run.
 
-1.  Install: apache2 (+php support), mysql
+1.  Install: apache2 (+php&mysql support ), mysql
 2.  Create mysql account ( create user kyberia identified by "pass")
 3.  Create database kyberia2 (as user kyberia)
 4.  Import data (mysql -u kyberia -p kyberia2 < kyberia_2.3_...sql )
-5.  Copy http dir from svn into your www-root (for example cp kyberia/trunk /var/www/ )
+5.  Copy http dir from repository into your www-root ( XXX)
 6.  Copy kyberia-data dir into same directory.
-7.  Copy 003-kyberia.conf (apache2 conf. file) into /etc/apache2/sites-enabled. Edit if needed.
-8.  Maybe you will need something apache configuration tweaks (like a2enmod rewrite).
+7.  Include kyberia.conf into your apache conf.
+    (dir /etc/apache2/sites-enabled in debian). Edit if needed.
+8.  Maybe you will need some apache configuration tweaks (like a2enmod rewrite).
 9.  Start apache and mysql (something like /etc/init.d/apache2 start, ...)
 10. Set DB login data in inc/db.inc
 11. Depends on your DNS, maybe add alias www.localhost to /etc/hosts file.
@@ -27,6 +16,7 @@
 13. Find out why it is still not working. (check permisions, symlinks, directory names...)
 14. If you want full functionality, add following lines to your www users crontab
 
+   XXX
    */2 * * * * /path-to-kyberia-wwwroot/cron/logoutidle.php
    0 0 * * * /path-to-kyberia-wwwroot/cron/k.php
    */3 * * * * /path-to-kyberia-wwwroot/cron/process-img.sh

@@ -2,29 +2,12 @@
 // output buffering forcing (mx)
 if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
 
-//header("Location: http://kyberia.sk");
-// just a little joke:-))) darkaural
-//header("Location: http://kenny.in-the-hell.org/albums/album22/HPIM1443.sized.jpg");
-//header("Location: http://zoznamka.azet.sk/inzeraty.phtml?&kat=8");
 //header("Location: http://web.archive.org/web/20020925021139/http://kyberia.sk");
-//echo "este posledna pauza :)";
-//exit;
-//die("tak este nie ;o)<br>uplatky posielajte postovou poukazkou ;-p<br>prajem pekny den<br>stab<br>");
 //echo "je to uz uplne v pici. vsetky data su stratene, prajem pekny den :)";
 //exit;
-error_reporting(0);
-// echo "<center>prvy april presiel ale ja nechcem byt koderom azetu takze ring volny</center>";
-//echo "ehm, roztiekla sa databaza, zachovajte paniku, snad sme o hodinku spat ;)<br>br";
-//echo "<title>establishing artificial environment</title><br><br><center>healing database inconsistency.comeback today</center>";
-//echo '<body bgcolor=black><center><img src="http://kyberia.sk/images/under-construction.gif"><br><font color=silver>je mi luto, ale nachvilku to musim sundat ;). s pozdravom brrrrr </font></center></body>';
-//echo '<body bgcolor=black><center><img src="http://kyberia.sk/images/construction.jpg"><br><font color=silver>je mi luto, ale nachvilku to musim sundat ;). s pozdravom br </font></center></body>';
-//session_start();
-//if ($_GET['node_id'] != 2334 && $_SESSION['user_id'] != '2334' && $_SESSION['user_id'] != 2095638 && $_SESSION['user_id'] != 2088 && $_GET['node_id'] != 1478235) {
-//echo "<body><center><img src='/images/stuff/kyberia-stickerIV.jpg' /><br /><br />";
-//echo "<b><h3>snazime sa nieco spravit s rychlostou, stay tuned.</h3></b><br />";
-//echo "PS: my sme to odpojili z vonka</center></body>";
+error_reporting(1);
 //exit;
-//}
+
 //starting timer for benchmarking purposes
 $timer_start=Time()+SubStr(MicroTime(),0,8);
 
@@ -44,7 +27,7 @@ if ($_SESSION['debugging']) {
 }
 
 //requiring main config file with path/database etc. constants
-require('../config/config.inc');
+require('config/config.inc');
 require(INCLUDE_DIR.'senate.inc');
 
 preg_match("/id\/(.*)\//",$_SERVER['HTTP_REFERER'],$ref_match);
