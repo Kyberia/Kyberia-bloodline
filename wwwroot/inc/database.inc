@@ -65,7 +65,7 @@ function query($sql) {
 
 //		if (preg_match("/^select/i",$sql) && (rand(0,1000)>MASTER2SLAVE) && $this->Master) {
 // every select query goes to onyx + opraveny regexp, aby matchoval vnorene selecty (br)
-		if (preg_match('/^\(?select/i',$sql) && $this->Master) {
+/*		if (preg_match('/^\(?select/i',$sql) && $this->Master) {
 			$this->_linkId = false;
 			$this->connect(SLAVE_HOST,SLAVE_USER,SLAVE_PASS,SLAVE_DATABASE);
 			$this->Master = false;
@@ -73,10 +73,10 @@ function query($sql) {
 		}
 
 		elseif (!preg_match("/^select/i",$sql) && !$this->Master) {
-			$this->_linkId = false;
+*/			$this->_linkId = false;
 			$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
 			$this->Master = true;
-		}
+//		}
 
 		$this->_queryId = mysql_query($sql,$this->_linkId);
 
