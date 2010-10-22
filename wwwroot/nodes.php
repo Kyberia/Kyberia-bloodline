@@ -44,18 +44,18 @@ if ($_SESSION['debugging']) {
 }
 
 //requiring main config file with path/database etc. constants
-require('config/config.inc');
-require('inc/senate.inc');
+require('../config/config.inc');
+require(INCLUDE_DIR.'senate.inc');
 
 preg_match("/id\/(.*)\//",$_SERVER['HTTP_REFERER'],$ref_match);
 $referer_id=$ref_match[1];
 
 //connecting to database and creating universal $db object
-require(SYSTEM_ROOT.'inc/log.inc');
-require(SYSTEM_ROOT.'inc/ubik.inc');
-require(SYSTEM_ROOT.'inc/nodes.inc');
-require(SYSTEM_ROOT.'inc/error_messages.inc');
-require(SYSTEM_ROOT.'inc/database.inc');
+require(INCLUDE_DIR.'log.inc');
+require(INCLUDE_DIR.'ubik.inc');
+require(INCLUDE_DIR.'nodes.inc');
+require(INCLUDE_DIR.'error_messages.inc');
+require(INCLUDE_DIR.'database.inc');
 
 $db=new CLASS_DATABASE();
 
