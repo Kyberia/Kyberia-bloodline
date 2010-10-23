@@ -1,0 +1,9 @@
+#Disable access
+Deny from all
+
+#Disable listing
+Options -Indexes
+
+#Disable PHP
+AddHandler default-handler php
+AddType text/html php
