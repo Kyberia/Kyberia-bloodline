@@ -40,7 +40,8 @@ require(INCLUDE_DIR.'nodes.inc');
 require(INCLUDE_DIR.'error_messages.inc');
 require(INCLUDE_DIR.'database.inc');
 
-$db=new CLASS_DATABASE();
+$db = new CLASS_DATABASE();
+$log = new log; //XXX
 
 if (!empty($_GET['template_id'])) {
 	$template_id=$_GET['template_id'];
@@ -279,7 +280,7 @@ if ($_SESSION['user_id']) {
 //if node is css
 if ($node['template_id']!='2019721'){
 
-	log::log('enter',$node['node_id'],'ok',$node['node_user_subchild_count']);
+	$log->log('enter',$node['node_id'],'ok',$node['node_user_subchild_count']);
 	if (!empty($_SESSION['user_id']) && is_numeric($node['node_id'])) {
 		$q="update node_access set visits=visits+1,node_user_subchild_count='0',last_visit=NOW() where node_id='".$node['node_id']."' and user_id='".$_SESSION['user_id']."'";
 //		echo $q;
@@ -326,7 +327,7 @@ elseif (!$permissions['r'] && $_GET['magic_word']) {
 
 
 else {
-	log::log('enter',$node['node_id'],'failed');
+	$log->log('enter',$node['node_id'],'failed'); XXX
 }
 
 

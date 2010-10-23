@@ -28,7 +28,7 @@ function addNode($params) {
         $parent_permissions=permissions::checkPermissions($parent_id);
         if (!$parent_permissions['w']) {
                 $error=$error_messages['WRITE_PERMISSION_ERROR'];
-                log::log('add','error','WRITE_PERMISSION_ERROR');
+                $log->log('add','error','WRITE_PERMISSION_ERROR');
                 return false;
         }
 
@@ -100,7 +100,7 @@ node_vector='".$params['node_vector']."'";
         --$user_k;
         $db->query("update users set user_k='$user_k' where user_id='$params[node_creator]'");
         $db->query("commit");
-        log::log('add','ok',$id);
+        $log->log('add','ok',$id);
 
         if ($_POST['code']) {
                 $params['node_creator']=UBIK_ID;

@@ -22,7 +22,7 @@ return false;
 					$q="insert into node_access set node_permission='access',node_id=$node_id,user_id=".$set->getString('user_id');
 					$db->query($q);
 				}
-				log::log('add access',$node_id,'ok',$acc);
+				$log->log('add access',$node_id,'ok',$acc);
 			}
 			else { $error .= "$acc does not exist..."; }
 		}

@@ -50,7 +50,7 @@ function configure_parent() {
 				$db->update($q);
 				$q="update nodes set node_children_count=node_children_count-1 where node_id='$old_parent'";
 				$db->update($q);
-				log::log('vector change',$changed,$old_vector,$node_vector);
+				$log->log('vector change',$changed,$old_vector,$node_vector);
 			}
 			return true;
 ?>

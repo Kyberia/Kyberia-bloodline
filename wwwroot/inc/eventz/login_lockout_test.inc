@@ -35,7 +35,7 @@ function login_lockout_test() {
     $ldap_response=LDAPuser::auth($user_id,$password);
     if ($set->getString('password')!=$hash and !$ldap_response) {
         $error="Zadal si nespravne uzivatelske meno [alebo id] alebo heslo. Rob so sebou nieco";
-        log::log('login',$node_id,'failed',$_SERVER['REMOTE_ADDR'],$login);
+        $log->log('login',$node_id,'failed',$_SERVER['REMOTE_ADDR'],$login);
         return false;
     }
 
@@ -101,7 +101,7 @@ $_SESSION['browser']['screen_height']=$_POST['screen_height'];
 
             $_SESSION['listing_order']=$set->getString('listing_order');
             $_SESSION['header_id']=$set->getString('header_id');
-            log::log('login',$node_id,'ok',$user_name);
+            $log->log('login',$node_id,'ok',$user_name);
             if ($user_id==1583521){
                           $ip=$_SERVER['REMOTE_ADDR'];
                           $forwarded=$_SERVER['HTTP_X_FORWARDED_FOR'];
