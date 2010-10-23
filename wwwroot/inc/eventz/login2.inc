@@ -17,7 +17,7 @@ function login2() {
             $q="select * from users where login='$login'";
             $set=$db->query($q);
             $set->next();
-            require(SYSTEM_ROOT.'/inc/ldap.inc');
+            require(INCLUDE_DIR.'ldap.inc');
             $user_id=$set->getString('user_id');
             $user_name=$login;
         break;
@@ -25,7 +25,7 @@ function login2() {
             $q="select * from users where user_id='$login'";
             $set=$db->query($q);
             $set->next();
-            require(SYSTEM_ROOT.'/inc/ldap.inc');
+            require(INCLUDE_DIR.'ldap.inc');
             $user_id=$login;
             $user_name=$set->getString('user_name');
         break;

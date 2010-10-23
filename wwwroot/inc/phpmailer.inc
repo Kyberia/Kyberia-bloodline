@@ -119,7 +119,7 @@ class PHPMailer
      * is in a different directory than the PHP include path.
      * @var string
      */
-    var $PluginDir         = "/storage/system/www-docroot/kyberia.sk/inc/phpmailer/";
+    var $PluginDir         = "/srv/kyberia/wwwroot/inc/phpmailer/"; //XXX FIX
 
     /**
      *  Holds PHPMailer version.

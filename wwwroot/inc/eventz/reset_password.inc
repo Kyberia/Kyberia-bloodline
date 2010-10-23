@@ -48,7 +48,7 @@ function reset_password() {
     $q="update users set password='$password' where user_id='$user_id'";
     $db->query($q);
 
-    require(SYSTEM_ROOT.'/inc/ldap.inc');
+    require(INCLUDE_DIR.'ldap.inc');
     LDAPuser::change_pass_forced($user_id,$password1);
 
     $error="Password changed. Now you can login with your new password.";

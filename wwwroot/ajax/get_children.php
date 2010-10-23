@@ -1,7 +1,7 @@
 <?php
 error_reporting(1);
 require('../config/config.inc');
-require(SYSTEM_ROOT.'inc/database.inc');
+require(INCLUDE_DIR.'database.inc');
 $db=new CLASS_DATABASE();
 $user_id = $_GET['user_id'];
 $node_id = $_GET['node_id'];

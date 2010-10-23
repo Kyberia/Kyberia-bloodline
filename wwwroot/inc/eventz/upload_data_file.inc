@@ -10,7 +10,7 @@ return false;
 
 		$node_id=$node['node_id'];
 		$node_template=$_POST['node_template'];
-		require(SYSTEM_ROOT.'/inc/filez.inc');
+		require(INCLUDE_DIR.'filez.inc');
 		$suffix = array_pop(explode('.', basename($_FILES['data_file']['name'])));
 	        if (!is_dir(FILE_DIR.$_SESSION['user_id'])) {
        		         mkdir(FILE_DIR.$_SESSION['user_id']);

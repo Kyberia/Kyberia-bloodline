@@ -13,7 +13,7 @@ function smarty_modifier_preview($node_content)
                         $node_content=htmlspecialchars($node_content);
                 }
 
-                require(SYSTEM_ROOT.'/inc/htmlparse.inc');
+                require(INCLUDE_DIR.'htmlparse.inc');
 		global $htmlparse;
                 htmlparse::htmlparse($node_content);
 

@@ -2,7 +2,7 @@
 error_reporting(1);
 session_start();
 require('../config/config.inc');
-require(SYSTEM_ROOT.'inc/database.inc');
+require(INCLUDE_DIR.'database.inc');
 $db=new CLASS_DATABASE();
 
 $set=$db->query("select user_id,last_action from users where (user_id > 2334 and user_id < 123456 and last_action like '2005-11-06 00:00:02')");

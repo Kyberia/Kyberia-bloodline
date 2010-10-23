@@ -3,7 +3,7 @@ function login() {
 // lockout capatibility
 // with ldap sync
 // <h1> This is da default one</h1>
-    require(SYSTEM_ROOT.'/inc/ldap.inc');
+    require(INCLUDE_DIR.'ldap.inc');
 
     global $db,$error,$node_id;
     $login = mysql_real_escape_string($_POST['login']);

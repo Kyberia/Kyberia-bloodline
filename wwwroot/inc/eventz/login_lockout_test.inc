@@ -18,7 +18,7 @@ function login_lockout_test() {
             $q="select * from users where login='$login'";
             $set=$db->query($q);
             $set->next();
-            require(SYSTEM_ROOT.'/inc/ldap.inc');
+            require(INCLUDE_DIR.'ldap.inc');
             $user_id=$set->getString('user_id');
             $user_name=$set->getString('login');
         break;
@@ -26,7 +26,7 @@ function login_lockout_test() {
             $q="select * from users where user_id='$login'";
             $set=$db->query($q);
             $set->next();
-            require(SYSTEM_ROOT.'/inc/ldap.inc');
+            require(INCLUDE_DIR.'ldap.inc');
             $user_id=$set->getString('user_id');
             $user_name=$set->getString('login');
         break;

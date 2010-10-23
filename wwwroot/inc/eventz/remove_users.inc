@@ -5,7 +5,7 @@ function remove_users() {
 $user_id=$_SESSION['user_id'];
 $user_name=$_SESSION['user_name'];
 
-require(SYSTEM_ROOT."/inc/phpmailer.inc");
+require(INCLUDE_DIR."phpmailer.inc");
 $mail = new PHPMailer();
 $mail->IsSMTP();                                   // send via SMTP
 $mail->Host     = "onyx.hysteria.sk"; // SMTP servers

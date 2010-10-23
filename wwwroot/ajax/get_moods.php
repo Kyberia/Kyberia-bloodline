@@ -2,7 +2,7 @@
 error_reporting(1);
 session_start();
 require('../config/config.inc');
-require(SYSTEM_ROOT.'inc/database.inc');
+require(INCLUDE_DIR.'database.inc');
 $db=new CLASS_DATABASE();
 $user_id = $_GET['user_id'];
 

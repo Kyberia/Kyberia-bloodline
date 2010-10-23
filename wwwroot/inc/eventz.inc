@@ -1,11 +1,11 @@
 <?php
 //do not make a permission check if an event was executed before
 if ($_SESSION['eventz'][$event]) {
-	include_once(SYSTEM_ROOT."/inc/eventz/$event.inc");
+	include_once(INCLUDE_DIR."eventz/$event.inc");
 	$status=$event();
 }
 
-elseif (is_file(SYSTEM_ROOT."/inc/eventz/$event.inc")) {
+elseif (is_file(INCLUDE_DIR."eventz/$event.inc")) {
 	$event_id=nodes::getNodeIdByName($event,"event://$event");
 	$event_node=nodes::getNodeById($event_id,$_SESSION['user_id']);
 	if ($event_node['node_system_access']=='public'
@@ -13,7 +13,7 @@ elseif (is_file(SYSTEM_ROOT."/inc/eventz/$event.inc")) {
 || $event_node['node_permission']=='op'
 || $event_node['node_permission']=='execute'
 || $event_node['node_permission']=='master' ) {
-		include_once(SYSTEM_ROOT."/inc/eventz/$event.inc");
+		include_once(INCLUDE_DIR."eventz/$event.inc");
 		$status=$event();
 		$_SESSION['eventz'][$event]=true;
 

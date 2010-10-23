@@ -27,7 +27,7 @@ function set_password() {
 	}
 
 	//changing in LDAP
-        require(SYSTEM_ROOT.'/inc/ldap.inc');
+        require(INCLUDE_DIR.'ldap.inc');
 	LDAPuser::change_pass_forced($user_id,$new_password1);
 
 	//changing in MySQL

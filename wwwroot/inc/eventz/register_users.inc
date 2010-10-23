@@ -2,8 +2,8 @@ function register_users() {
 global $permissions,$node,$db,$error;
 $user_id=$_SESSION['user_id'];
 $user_name=$_SESSION['user_name'];
-$hello="ahoj, tymto ta vitam v systeme kyberia.sk. do systemu ta zaregistrovala moja malickost. v pripade ze budes mat akykolvek problem, kontaktuj ma prosim cez postunnako prve by si mal navstivit forum Zaciname s kyberiounntoto je automaticky vygenerovana sprava";
-require(SYSTEM_ROOT."/inc/phpmailer.inc");
+$hello="ahoj, tymto ta vitam v systeme kyberia.sk. do systemu ta zaregistrovala moja malickost. v pripade ze budes mat akykolvek problem, kontaktuj ma prosim cez postunnako prve by si mal navstivit forum Zaciname s kyberiou\n\ntoto je automaticky vygenerovana sprava";
+require(INCLUDE_DIR."phpmailer.inc");
 $mail = new PHPMailer();
 $mail->IsSMTP(); // send via SMTP
 $mail->Host = "onyx.hysteria.sk"; // SMTP servers

@@ -118,7 +118,7 @@ function _checkPermissions()
 {
 	global $permissions, $node;
 
-	require(SYSTEM_ROOT.'inc/permissions.inc');
+	require(INCLUDE_DIR.'permissions.inc');
 	$permissions=permissions::checkPermissions($node);
 	$permissions['h']=permissions::isHierarch($node);
 }
@@ -256,11 +256,11 @@ if (($permissions['r']) || ($event != 'register')) {
 
 //performing node_events (based on update/insert/delete db queries)
 if ($event) {
-	require(SYSTEM_ROOT.'inc/eventz.inc');
+	require(INCLUDE_DIR.'eventz.inc');
 }
 
 elseif ($transaction) {
-	require(SYSTEM_ROOT.'inc/transaction.inc');
+	require(INCLUDE_DIR.'transaction.inc');
 }
 //end of performing node events
 

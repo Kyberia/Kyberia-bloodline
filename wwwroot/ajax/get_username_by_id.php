@@ -1,7 +1,7 @@
 <?php
 error_reporting(0);
 require('../config/config.inc');
-require(SYSTEM_ROOT.'inc/database.inc');
+require(INCLUDE_DIR.'database.inc');
 $db=new CLASS_DATABASE();
 $name = addslashes($_GET['name']);
 $q="select users.user_id from users where users.login='$name' limit 1";

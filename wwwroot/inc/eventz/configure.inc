@@ -69,7 +69,7 @@
 			$node_external_access=$_POST['node_external_access'];
 			$node_system_access=$_POST['node_system_access'];
 
-			require(SYSTEM_ROOT.'/inc/htmlparse.inc');
+			require(INCLUDE_DIR.'htmlparse.inc');
 			global $htmlparse;
 			htmlparse::htmlparse($node_name);
 

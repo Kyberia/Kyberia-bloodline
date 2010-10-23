@@ -117,7 +117,7 @@ node_vector='".$params['node_vector']."'";
 
 function processContent($node_content) {
         global $node;
-        include_once(SYSTEM_ROOT.'/inc/htmlparse.inc');
+        include_once(INCLUDE_DIR.'htmlparse.inc');
 
         if ($node['template_id']==$node['node_id'] && $_POST['event']=='configure_content') {
 

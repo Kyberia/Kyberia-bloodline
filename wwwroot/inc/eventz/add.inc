@@ -91,7 +91,7 @@ function add() {
 
     if ($node_system_access=='crypto') {
 
-    require(SYSTEM_ROOT.'/inc/crypto.inc');
+    require(INCLUDE_DIR.'crypto.inc');
 
     if ($_SESSION['crypto'][$node_parent]) {
     $key=$_SESSION['crypto'][$node_parent];
