@@ -18,3 +18,5 @@
   ( inc/eventz/upload_data_node.php => Shell injections in .zip hanling, .jpg handling,
     "strange" filenames like .htacess (to allow listing of folder)
 
+- Refactor directory structure
+  ( Whole <Directory "/var/www/kyberia-wwwroot> section from apache should go to .htaccess )
