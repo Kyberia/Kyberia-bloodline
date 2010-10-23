@@ -162,7 +162,7 @@ if ($template_id=='rss')
 	   $rss =& new UniversalFeedCreator();
 	   $rss->title = "Kyberia mail";
 	   $rss->description = "";
-	   $rss->link = "https://kyberia.sk/id/24";
+	   $rss->link = "https://". SYSTEM_URL . "/id/24";
 
 	   $query = "select date_format(mail.mail_timestamp,\"%e.%c. %k:%i:%s\") as cas,
    userfrom.user_action as locationfrom_action,
@@ -182,7 +182,7 @@ if ($template_id=='rss')
 			   continue;
 		   $item =& new FeedItem();
 		   $item->title = $m['mail_from_name'];
-		   $item->link = "https://kyberia.sk/id/24";
+		   $item->link = "https://".SYSTEM_URL."/id/24";
 		   $item->description = $m['mail_text'];
 		   $rss->addItem($item);
 	   }
@@ -194,7 +194,7 @@ if ($template_id=='rss')
 
 		$rss =& new UniversalFeedCreator();
 		$rss->title = "Kyberia bookmarks";
-		$rss->link = "http://kyberia.sk/id/19";
+		$rss->link = "http://".SYSTEM_URL."/id/19";
 
 		require_once(SMARTY_PLUGIN_DIR.'/function.get_bookmarks.php');
 		smarty_function_get_bookmarks(array(), $smarty);
@@ -206,7 +206,7 @@ if ($template_id=='rss')
 				{
 					$item =& new FeedItem();
 					$item->title = $_b['node_name'];
-					$item->link = "http://kyberia.sk/id/".$_b['node_id']."/rss";
+					$item->link = "http://".SYSTEM_URL."/id/".$_b['node_id']."/rss";
 					$rss->addItem($item);
 				}
 		}
@@ -219,7 +219,7 @@ if ($template_id=='rss')
 		$rss =& new UniversalFeedCreator();
 		$rss->title = $node['node_name'];
 		$rss->description = "";
-		$rss->link = "http://kyberia.sk/id/".$node['node_id'];
+		$rss->link = "http://".SYSTEM_URL."/id/".$node['node_id'];
 
 		// K list
 		if ($_GET['node_id']=='15')
@@ -240,7 +240,7 @@ if ($template_id=='rss')
 		{
 			$item =& new FeedItem();
 			$item->title = $_item['node_name'];
-			$item->link = "http://kyberia.sk/id/".$_item['node_id'];
+			$item->link = "http://".SYSTEM_URL."/id/".$_item['node_id'];
 			$item->description = $_item['node_content'];
 			$rss->addItem($item);
 		}

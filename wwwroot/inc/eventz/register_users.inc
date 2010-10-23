@@ -2,15 +2,15 @@ function register_users() {
 global $permissions,$node,$db,$error;
 $user_id=$_SESSION['user_id'];
 $user_name=$_SESSION['user_name'];
-$hello="ahoj, tymto ta vitam v systeme kyberia.sk. do systemu ta zaregistrovala moja malickost. v pripade ze budes mat akykolvek problem, kontaktuj ma prosim cez postunnako prve by si mal navstivit forum Zaciname s kyberiou\n\ntoto je automaticky vygenerovana sprava";
+$hello="ahoj, tymto ta vitam v systeme ".SYSTEM_URL.". do systemu ta zaregistrovala moja malickost. v pripade ze budes mat akykolvek problem, kontaktuj ma prosim cez postunnako prve by si mal navstivit forum Zaciname s kyberiou\n\ntoto je automaticky vygenerovana sprava";
 require(INCLUDE_DIR."phpmailer.inc");
 $mail = new PHPMailer();
 $mail->IsSMTP(); // send via SMTP
-$mail->Host = "onyx.hysteria.sk"; // SMTP servers
-$mail->From = "admin@kyberia.sk";
-$mail->FromName = "kyberia.sk admin";
+$mail->Host = "molly.kyberia.cz"; // SMTP servers
+$mail->From = "root@kyberia.cz";
+$mail->FromName = "kyberia.cz admin";
 $mail->WordWrap = 50; // set word wrap
-$mail->Subject = "kyberia.sk uspesna registracia";
+$mail->Subject = "kyberia.cz uspesna registracia";
 
 
 if (!$permissions['w']) {
@@ -38,7 +38,7 @@ $db->query("insert into mail set mail_user='$user_id',mail_to='$user',mail_from=
 $db->query("update users set user_mail='1',user_mail_name='$user_name' where user_id='$user'");
 $mail->ClearAddresses();
 $mail->AddAddress($email); // optional name
-$mail->AltBody = "bol si uspesne zaregistrovany do komunity kyberia.sk s loginom $login . njoy";
+$mail->AltBody = "bol si uspesne zaregistrovany do komunity ".SYSTEM_URL." s loginom $login . njoy";
 if(!$mail->Send())
 {
 $error="could not sent mail";

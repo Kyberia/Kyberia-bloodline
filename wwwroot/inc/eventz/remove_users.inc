@@ -7,12 +7,12 @@ $user_name=$_SESSION['user_name'];
 
 require(INCLUDE_DIR."phpmailer.inc");
 $mail = new PHPMailer();
-$mail->IsSMTP();                                   // send via SMTP
-$mail->Host     = "onyx.hysteria.sk"; // SMTP servers
-$mail->From     = "admin@kyberia.sk";
-$mail->FromName = "kyberia.sk admin";
-$mail->WordWrap = 50;                              // set word wrap
-$mail->Subject  =  "kyberia.sk neuspesna registracia";
+$mail->IsSMTP();                                // send via SMTP
+$mail->Host     = "molly.kyberia.cz";		// SMTP servers
+$mail->From     = "root@kyberia.cz";
+$mail->FromName = "kyberia.cz admin";
+$mail->WordWrap = 50;                           // set word wrap
+$mail->Subject  =  "kyberia.cz neuspesna registracia";
 
 
 	if (!$permissions['w']) {
@@ -52,7 +52,7 @@ $mail->Subject  =  "kyberia.sk neuspesna registracia";
 
 		$mail->ClearAddresses();
 		$mail->AddAddress($email);
-		$mail->AltBody  =  "bohuzial si nebol zaregistrovany na kyberia.sk. ked chces skus znovu";
+		$mail->AltBody  =  "bohuzial si nebol zaregistrovany na ".SYSTEM_URL.". ked chces skus znovu";
 		if(!$mail->Send())
 		{
 		   $error="could not sent mail";

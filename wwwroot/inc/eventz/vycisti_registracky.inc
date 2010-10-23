@@ -26,7 +26,7 @@ echo $q;
 echo "<br>";
 echo "<hr>";
 $mail=$set->getString('email');
-mail($mail,"kyberia.sk registracia","Lutujem, vasa registracia bola zamietnuta");
+mail($mail,SYSTEM_URL. " registracia","Lutujem, vasa registracia bola zamietnuta");
 // echo $mail;
 
 

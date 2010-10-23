@@ -12,9 +12,13 @@ define('SYSTEM_DATA',		SYSTEM_ROOT . '/wwwroot/data/');
 define('CONFIG_DIR',		SYSTEM_ROOT . 'config/');
 define('AJAX_DIR',		SYSTEM_ROOT . 'wwwroot/ajax/');
 define('INCLUDE_DIR',		SYSTEM_ROOT . 'wwwroot/inc/');
+
 define('SMARTY_DIR',		SYSTEM_ROOT . 'wwwroot/smarty/libs/');
 define('SMARTY_PLUGIN_DIR',	SYSTEM_ROOT . 'wwwroot/inc/smarty/node_methodz/');
 define('TEMPLATE_DIR',		SYSTEM_DATA . 'templates/');
+#XXX FIX
+define('OWN_TEMPLATE_DIR',      TEMPLATE_DIR. 'own_templates/');
+
 define('TMP',			SYSTEM_DATA . 'tmp/');
 define('FILE_DIR',		SYSTEM_DATA . 'files/');
 define('CLASS_DIR',		INCLUDE_DIR . 'class/');

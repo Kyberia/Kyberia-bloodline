@@ -82,13 +82,11 @@ $registrators->getString('login') . "</a><br>";
         echo "<br><hr>";
 
         $mailto = $set->getString('email');
-        $headers =  'From: admin@kyberia.sk' . "\r\n" .
-                    'Reply-To: darkaural@kyberia.sk, freezy@kyberia.sk' . "\r\n" .
+        $headers =  'From: root@kyberia.cz' . "\r\n" .
                     'X-Mailer: PHP/' . phpversion();
         $emailtext = " Vitaj v Kyberii. \n S radostou ti oznamujem, ze registracia, ktoru si napisal(a) dna $created bola
  uspesne schvalena s poctom hlasov $set->getString('k'). Odteraz je tvoje konto povolene a mozes sa volne prihlasovat,
- prispievat...no proste 'bavit sa':-)) \n Uzivaj si kyberpriestoru:-)))
- \n\n DarkAural & freezy \n DarkAural@kyberia.sk & freezy@kyberia.sk";
+ prispievat...no proste 'bavit sa':-)) \n Uzivaj si kyberpriestoru:-))) XXX";
         mail($mailto,"kyberia gate opened",$emailtext,$headers );
 
 
@@ -102,7 +100,7 @@ Momentalne ti chcem povedat jedno hlasne VITAJ!. Vitaj v projekte ktory nikdy ne
  nekonecnej siete, prosim, vstup.
 
 Predtym ako vsak zacnes vnikat hlbsie do tajov systemu chcel by som ta odkazat na
- <a href='http://kyberia.sk/id/2111313/'>Newcommers forum</a> ktore ti ujasni niektore zakladne veci v systeme a
+ <a href='http://".SYSTEM_URL."/id/2111313/'>Newcommers forum</a> ktore ti ujasni niektore zakladne veci v systeme a
  tym ti v nom ulachci orientaciu.
 
 peace & respect";
@@ -138,14 +136,12 @@ peace & respect";
         echo "<br><hr>";
 
         $mailto =   $set->getString('email');
-        $headers =  'From: admin@kyberia.sk' . "\r\n" .
-                    'Reply-To: darkaural@kyberia.sk, freezy@kyberia.sk' . "\r\n" .
+        $headers =  'From: root@kyberia.cz' . "\r\n" .
                     'X-Mailer: PHP/' . phpversion();
         $emailtext = " Tak mam pre teba smutnu spravu. \n Registracia ktoru si napisal(a) dna $created bola zamietnuta
  z dovodu nedostatocneho poctu hlasov ($set->getString('k')) ktore tvoja osoba dostala. Je celkom mozne,
  ze to, co si o sebe napisal(a) dostatocne nezaujalo ludi co su dnu ale to neni dovod na to aby si to vzdal(a)!
- \n Registrovat sa mozes hocikedy znovu a snad sa to nabuduce vydari.
- \n\n DarkAural & freezy \n DarkAural@kyberia.sk & freezy@kyberia.sk";
+ \n Registrovat sa mozes hocikedy znovu a snad sa to nabuduce vydari.";
         mail($mailto,"kyberia: registracia zamietnuta",$emailtext,$headers );
     }
 
@@ -178,15 +174,13 @@ peace & respect";
         echo "<br><hr>";
 
         $mailto = $set->getString('email');
-        $headers =  'From: admin@kyberia.sk' . "\r\n" .
-                    'Reply-To: darkaural@kyberia.sk, freezy@kyberia.sk' . "\r\n" .
+        $headers =  'From: root@kyberia.cz' . "\r\n" .
                     'X-Mailer: PHP/' . phpversion();
         $emailtext = " Registracia, ktoru si napisal(a) dna $created si neverifikoval(a) a tak po tyzdni stratila svoju platnost
  a bola zmazana. Ak ti nedosiel ziaden verifikacny kod prosim kontaktuj ma, je to mozne ze je to chyba niekde
  na ceste medzi kyberiou a tebou, ak to bol zamer neverifikovat sa tak tuto spravu ber cisto informacne:-)).
  \n Ak sa naozaj stala chyba a mas stale chut a volu vstupit do autonomnej zony mozes hocikedy znovu vyplnit
- registracny formular a pokusit sa o to znovu.
- \n\n DarkAural & freezy \n DarkAural@kyberia.sk & freezy@kyberia.sk";
+ registracny formular a pokusit sa o to znovu.";
         mail($mailto,"kyberia: neverifikovana ziadost zmazana",$emailtext,$headers );
     }
 

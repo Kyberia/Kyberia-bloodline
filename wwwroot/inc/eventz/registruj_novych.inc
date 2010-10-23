@@ -73,7 +73,7 @@ $ubik['mail_text']="Ahoj, som UBIK. Momentalne som obycajnou polozkou v databaze
 
 Momentalne ti chcem povedat jedno hlasne VITAJ!. Vitaj v projekte ktory nikdy neskonci. Ak sem vchadzas so zlymi umyslami, prosim odid, nenajdes tu stastie. Ked vsak chces spoznat novych ludi na rovnakej vlne, ked chces svoj mozog zaplnit informaciami z nekonecnej siete, prosim, vstup.
 
-Predtym ako vsak zacnes vnikat hlbsie do tajov systemu chcel by som ta odkazat na <a href='http://kyberia.sk/id/2111313/'>Newcommers forum</a> ktore ti ujasni niektore zakladne veci v systeme a tym ti v nom ulachci orientaciu.
+Predtym ako vsak zacnes vnikat hlbsie do tajov systemu chcel by som ta odkazat na <a href='http://".SYSTEM_URL."/id/2111313/'>Newcommers forum</a> ktore ti ujasni niektore zakladne veci v systeme a tym ti v nom ulachci orientaciu.
 
 peace & respect";
 
