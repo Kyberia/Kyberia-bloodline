@@ -6,6 +6,7 @@ if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
 //echo "je to uz uplne v pici. vsetky data su stratene, prajem pekny den :)";
 //exit;
 error_reporting(1);
+$_SESSION['debugging']=1;
 //exit;
 
 //starting timer for benchmarking purposes
@@ -62,11 +63,11 @@ require(SMARTY_DIR.'Smarty.class.php');
 $smarty = new Smarty;
 
 //$smarty->php_handling = SMARTY_PHP_REMOVE; //XXX
-$smarty->template_dir = TEMPLATE_DIR.TEMPLATE_SET;
+$smarty->template_dir = TEMPLATE_DIR;
 //echo TEMPLATE_DIR.TEMPLATE_SET;
 //echo $smarty->template_dir;
-$smarty->compile_dir = SYSTEM_ROOT."data/templates_c/".TEMPLATE_SET;
-$smarty->config_dir = SMARTY_DIR.'configs/';
+$smarty->compile_dir = SYSTEM_DATA."templates_c/";
+$smarty->config_dir = SMARTY_DIR.'configs/'; #XXX neexistuje
 $smarty->cache_dir = SMARTY_DIR.'cache/';
 $smarty->plugins_dir = SMARTY_PLUGIN_DIR ;
 if ($_SESSION['debugging']) $smarty->debugging=true;
