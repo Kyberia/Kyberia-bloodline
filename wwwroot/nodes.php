@@ -56,10 +56,12 @@ elseif (!empty($_GET['node_id'])) {
 	$node = nodes::getNodeById($_GET['node_id'],$_SESSION['user_id']);
 }
 
+//XXX Paths are wrong (!)
 //loading smarty template engine and setting main parameters
 require(SMARTY_DIR.'Smarty.class.php');
 $smarty = new Smarty;
 
+//$smarty->php_handling = SMARTY_PHP_REMOVE; //XXX
 $smarty->template_dir = TEMPLATE_DIR.TEMPLATE_SET;
 //echo TEMPLATE_DIR.TEMPLATE_SET;
 //echo $smarty->template_dir;
@@ -327,7 +329,7 @@ elseif (!$permissions['r'] && $_GET['magic_word']) {
 
 
 else {
-	$log->log('enter',$node['node_id'],'failed'); XXX
+	$log->log('enter',$node['node_id'],'failed');
 }
 
 
@@ -387,11 +389,6 @@ if ($user_id=$_SESSION['user_id']) {
 if ($node['node_system_access']=='crypto') {
 	$smarty->assign('crypto_pass',$_SESSION['crypto'][$node['node_id']]);
 }
-
-//hlaska
-//$error .= "ocakavajte planovany vypadok okolo 6 hodiny <br>
-//s pozdravom br .)";
-//$error .= "dnes od 22:00 zurka v subclube! ucast povinna!";
 
 $smarty->assign('error',$error);
 $smarty->assign('permissions',$permissions);
