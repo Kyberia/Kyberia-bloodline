@@ -343,17 +343,32 @@ if ($user_id=$_SESSION['user_id']) {
 	$smarty->assign('bookstyl',$_SESSION['bookstyl']);
 	$smarty->assign('fook',$_SESSION['fook']);
 	$smarty->assign('user_id',$_SESSION['user_id']);
-	if (!empty($_SESSION['cube_vector'])) $smarty->assign('cube_vector',$_SESSION['cube_vector']);
+	if (!empty($_SESSION['cube_vector'])) 
+		$smarty->assign('cube_vector',$_SESSION['cube_vector']);
         $smarty->assign('friends',$_SESSION['friends']); //req by freezy, done by darkaural
 	$smarty->assign('user_quota',$_SESSION['user_quota']);
-	$newmailset=$db->query("select user_mail,user_mail_name,user_k,k_wallet from users where user_id='$user_id'");
+
+	$newmail_q = sprintf('select u.user_mail_id
+				, u.user_k
+				, u.k_wallet
+				, u.user_mail
+				, ms.user_id as mail_sender_id
+				, ms.login as mail_sender
+				from users u
+				left join users ms on ms.user_id = u.user_mail_id
+				where u.user_id = %d',
+				$user_id);
+	$newmailset = $db->query($newmail_q);
+
+#	$newmailset=$db->query("select user_mail,user_mail_name,user_k,k_wallet from users where user_id='$user_id'");
+
 	$newmailset->next();
 	$new_mail=$newmailset->getString('user_mail');
 	$newmailset2 = $db->query("select users.user_mail_id,mailsender.login
  from users left join users as mailsender on users.user_mail_id = mailsender.user_id where users.user_id = '$user_id'");
 	$newmailset2->next();
 	$smarty->assign('new_mail',$new_mail);
-	$smarty->assign('new_mail_name',$newmailset->getString('user_mail_name'));
+	$smarty->assign('new_mail_name',$newmailset->getString('mail_sender'));
 	$smarty->assign('new_mail_name2',$newmailset2->getString('login'));
 	$user_k=$newmailset->getString('user_k');
 	$smarty->assign('user_k',$user_k);

@@ -30,12 +30,13 @@ class ubik {
 		else return false;
 		if (!empty($params['mail_text'])) $mail_text=addslashes($params['mail_text']);
 		else return false;
-		$q="insert into mail set mail_from='".UBIK_ID."',mail_to='$mail_to',mail_user='$mail_to',mail_timestamp=NOW(),mail_text='$mail_text'";
-		$db->query($q);
-		$db->query("update users set
-user_mail_name='ubik',user_mail_id=".UBIK_ID.",user_mail=user_mail+1 where
-user_id='$mail_to'");
 
+
+	$q_i = sprintf('insert into mail set mail_user = %2$d, mail_from = %1$d, mail_to = %2$d, mail_timestamp = NOW(), mail_text = "%3$s"'
+		,UBIK_ID, $mail_to, $mail_text);
+	$db->update($q_i);
+	$q_u = sprintf('update users set user_mail = user_mail + 1, user_mail_id = %1$d where user_id = %2$d', UBIK_ID, $mail_to);
+	$db->update($q_u);
 	}
 }
 
