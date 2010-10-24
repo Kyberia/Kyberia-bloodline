@@ -3,11 +3,11 @@ function login() {
 // lockout capatibility
 // with ldap sync
 // <h1> This is da default one</h1>
-    require(INCLUDE_DIR.'ldap.inc');
+//    require(INCLUDE_DIR.'ldap.inc');
 
     global $db,$error,$node_id;
     $login = mysql_real_escape_string($_POST['login']);
-    $password = $_POST['password'];
+    $password = $_POST['password']; //XXX nice SQLi
     $hash = md5($password);
     $login_type = $_POST['login_type'];
     $referer = $_SERVER['HTTP_REFERER'];
@@ -19,14 +19,14 @@ function login() {
 
     switch ($login_type) {
         case "name":
-            $q = "select * from users where login='$login'";
+            $q = "select * from users where login='$login' and password='$hash'";
             $set = $db->query($q);
             $set->next();
             $user_id = $set->getString('user_id');
             $user_name = $set->getString('login');
         break;
         case "id":
-            $q="select * from users where user_id='$login'";
+            $q="select * from users where user_id='$login' and password='$hash'";
             $set=$db->query($q);
             $set->next();
             $user_id=$set->getString('user_id');
@@ -34,8 +34,9 @@ function login() {
         break;
     }
 
-    $ldap_response=LDAPuser::auth($user_id,$password);
-    if ($set->getString('password') != $hash and !$ldap_response) {
+//    $ldap_response=LDAPuser::auth($user_id,$password);
+
+    if (!$set) { //XXX test
         $error="Zadal si nespravne uzivatelske meno [alebo id] alebo heslo. Rob so sebou nieco";
         return false;
     }
@@ -90,7 +91,7 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
             $_SESSION['fook'][$fookset->getString('node_parent')]=true;
         }
 
-        LDAPuser::replicate($user_name,$user_id,$password);
+//        LDAPuser::replicate($user_name,$user_id,$password);
 
         //save bookstyle into user session
         $q="select node_content from nodes where node_parent=19 and external_link='session://bookstyl' and node_creator='$user_id'";
