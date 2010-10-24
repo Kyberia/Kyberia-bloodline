@@ -30,12 +30,12 @@ return false;
                                        $error="Dana osobka ktorej by si chcel poslat spravicku si bud zmenila nick alebo robis preklepy.";
                                        return false;
                         }
-                        // fuck off toth
+                        /* // fuck off toth
                         elseif ($user_id == 1859269 && $to['user_id'] == 2334) {
                             global $error;
                             $error = 'fuck you!';
                             return false;
-                        }
+                        } */
                         else {
                             $mail_to_id[]=$to['user_id'];
                         }
@@ -51,12 +51,12 @@ return false;
                                        global $error;
                                        $error="Pravdepodobne si osobka $mail_to_exploded zmenila nick alebo mas niekde preklep. Skus to opravit a potom try again:-]";
                                        return false; }
-                                // fuck off toth
+                                /* // fuck off toth
                                 elseif ($user_id == 1859269 && $to['user_id'] == 2334) {
                                     global $error;
                                     $error = 'fuck you!';
                                     return false;
-                                }
+                                } */
                                 else {$mail_to_id[]=$to['user_id'];}
             }
         }
