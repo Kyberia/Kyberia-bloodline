@@ -20,3 +20,6 @@
 
 - Refactor directory structure
   ( Whole <Directory "/var/www/kyberia-wwwroot> section from apache should go to .htaccess )
+
+- Deprecated PHP features
+  ( Deprecated: Assigning the return value of new by reference is deprecated in /srv/kyberia/wwwroot/nodes.php on line 163 Deprecated: Assigning the return value of new by reference is deprecated in /srv/kyberia/wwwroot/nodes.php on line 184 Deprecated: Assigning the return value of new by reference is deprecated in /srv/kyberia/wwwroot/nodes.php on line 196 Deprecated: Assigning the return value of new by reference is deprecated in /srv/kyberia/wwwroot/nodes.php on line 208 Deprecated: Assigning the return value of new by reference is deprecated in /srv/kyberia/wwwroot/nodes.php on line 220 Deprecated: Assigning the return value of new by reference is deprecated in /srv/kyberia/wwwroot/nodes.php on line 242 )
