@@ -1,7 +1,7 @@
 <?php
 
 	function accesslist() {
-		global $db,$error,$node,$error_messages,$logger;
+		global $db,$error,$node,$error_messages;
 		$node_id=$node['node_id'];
 		$access=explode(";",$_POST['access']);
 
@@ -22,7 +22,7 @@ return false;
 					$q="insert into node_access set node_permission='access',node_id=$node_id,user_id=".$set->getString('user_id');
 					$db->query($q);
 				}
-				$logger->log('add access',$node_id,'ok',$acc);
+				logger::log('add access',$node_id,'ok',$acc);
 			}
 			else { $error .= "$acc does not exist..."; }
 		}

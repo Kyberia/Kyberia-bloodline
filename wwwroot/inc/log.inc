@@ -1,7 +1,7 @@
 <?php
 class logger {
 
-	function log($action,$node_id,$result,$parameter1='',$parameter2='') {
+	public static function log($action,$node_id,$result,$parameter1='',$parameter2='') {
 
 		global $db,$node;
 		$user_id = isSet($_SESSION['user_id'])?$_SESSION['user_id']:"";

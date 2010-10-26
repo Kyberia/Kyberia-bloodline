@@ -1,7 +1,7 @@
 <?php
 
 	function silencelist() {
-		global $db,$error,$node,$logger;
+		global $db,$error,$node;
 		$node_id=$node['node_id'];
 		$silence=explode(";",$_POST['silence']);
 
@@ -20,7 +20,7 @@ return false;
 					$q="insert into node_access set node_permission='silence',node_id=$node_id,user_id=".$set->getString('user_id');
 					$db->query($q);
 				}
-				$logger->log('add silence',$node_id,'ok',$sil);
+				logger::log('add silence',$node_id,'ok',$sil);
 			}
 			else { $error .= "$sil does not exist..."; }
 		}

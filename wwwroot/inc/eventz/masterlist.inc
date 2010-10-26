@@ -1,7 +1,7 @@
 <?php
 
 	function masterlist() {
-		global $db,$error,$node,$logger;
+		global $db,$error,$node;
 		$node_id=$node['node_id'];
 if (($node['node_permission']!='owner') && ($node['node_permission']!='master')) {
 $error=$error_messages['EVENT_PERMISSION_ERROR'];
@@ -18,7 +18,7 @@ return false;
 				if (!$changed) {
 					$q="insert into node_access set node_permission='master',node_id=$node_id,user_id=".$set->getString('user_id');
 					$db->query($q);
-					$logger->log('add master',$node_id,'ok',$master);
+					logger::log('add master',$node_id,'ok',$master);
 
 				}
 			}

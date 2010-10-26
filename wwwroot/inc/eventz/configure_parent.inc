@@ -1,6 +1,6 @@
 <?php
 function configure_parent() {
-	global $db,$error,$node,$logger;
+	global $db,$error,$node;
 	$user_id=$_SESSION['user_id'];
 
 			if (empty($_POST['node_creator'])) {
@@ -50,7 +50,7 @@ function configure_parent() {
 				$db->update($q);
 				$q="update nodes set node_children_count=node_children_count-1 where node_id='$old_parent'";
 				$db->update($q);
-				$logger->log('vector change',$changed,$old_vector,$node_vector);
+				logger::log('vector change',$changed,$old_vector,$node_vector);
 			}
 			return true;
 ?>
