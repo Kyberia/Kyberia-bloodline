@@ -132,7 +132,7 @@ function processContent($node_content) {
                 require_once 'Text/Wiki.php';
 
                 // instantiate a Text_Wiki object with the default rule set
-                $wiki =& new Text_Wiki();
+                $wiki = new Text_Wiki();
 
                 $node_content = $wiki->transform($node_content, 'Xhtml');
         }
@@ -142,7 +142,7 @@ function processContent($node_content) {
         else {
                 global $db,$htmlparse,$error;
 
-                if (!htmlparse->htmlparse($node_content)) {
+                if (!htmlparse::htmlparse($node_content)) {
                         $error=$htmlparse;
                         return false;
                 }
