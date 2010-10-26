@@ -71,7 +71,7 @@
 
 			require(INCLUDE_DIR.'htmlparse.inc');
 			global $htmlparse;
-			htmlparse::htmlparse($node_name);
+			htmlparser::htmlparse($node_name);
 
 			if (!empty($htmlparse)) {
 				$error=$htmlparse;

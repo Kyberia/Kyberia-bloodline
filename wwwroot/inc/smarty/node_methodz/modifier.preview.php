@@ -15,7 +15,7 @@ function smarty_modifier_preview($node_content)
 
                 require(INCLUDE_DIR.'htmlparse.inc');
 		global $htmlparse;
-                htmlparse::htmlparse($node_content);
+                htmlparser::htmlparse($node_content);
 
                 if (!empty($htmlparse)) {
                         $error=$htmlparse;
