@@ -100,6 +100,7 @@ node_vector='".$params['node_vector']."'";
         --$user_k;
         $db->query("update users set user_k='$user_k' where user_id='$params[node_creator]'");
         $db->query("commit");
+				global $logger;
         $logger->log('add','ok',$id);
 
         if ($_POST['code']) {
