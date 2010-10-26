@@ -4,7 +4,7 @@
 		global $db;
 		$q="update users set user_action_id=null where user_id='".$_SESSION['user_id']."'";
 		$db->query($q);
- 		$log->log('logout',$node['node_id'],'ok',$_SESSION['user_name']);
+ 		//$log->log('logout',$node['node_id'],'ok',$_SESSION['user_name']); //obnovit kdyz to bude mozne. ~harvie
 		session_unset();
 		Header("Location: /main");
 	}
