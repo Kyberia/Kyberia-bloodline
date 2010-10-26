@@ -4,6 +4,7 @@ class htmlparse {
 
 public static function htmlparse($data)
 {
+	echo 'fooooook\n';
    /*
    if function finds anything unsafe,it will return
    FALSE and saves a reason info global variable $htmlparse
