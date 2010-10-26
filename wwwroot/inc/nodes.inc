@@ -142,7 +142,7 @@ function processContent($node_content) {
         else {
                 global $db,$htmlparse,$error;
 
-                if (!htmlparse::htmlparse($node_content)) {
+                if (!htmlparser::htmlparse($node_content)) {
                         $error=$htmlparse;
                         return false;
                 }

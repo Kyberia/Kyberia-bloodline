@@ -1,8 +1,8 @@
 <?php
 
-class htmlparse {
+class htmlparser {
 
-function htmlparse($data)
+public static function htmlparse($data)
 {
    /*
    if function finds anything unsafe,it will return
