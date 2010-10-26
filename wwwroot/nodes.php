@@ -160,7 +160,7 @@ if ($template_id=='rss')
 	{
 	   require_once(INCLUDE_DIR.'/feedcreator.class.php');
 
-	   $rss =& new UniversalFeedCreator();
+	   $rss = new UniversalFeedCreator();
 	   $rss->title = "Kyberia mail";
 	   $rss->description = "";
 	   $rss->link = "https://". SYSTEM_URL . "/id/24";
@@ -181,7 +181,7 @@ if ($template_id=='rss')
 		   $m = $set->getRecord();
 		   if ($m['mail_to'] != $_SESSION['user_id'])
 			   continue;
-		   $item =& new FeedItem();
+		   $item = new FeedItem();
 		   $item->title = $m['mail_from_name'];
 		   $item->link = "https://".SYSTEM_URL."/id/24";
 		   $item->description = $m['mail_text'];
@@ -193,7 +193,7 @@ if ($template_id=='rss')
 	{
 		require_once(INCLUDE_DIR.'/feedcreator.class.php');
 
-		$rss =& new UniversalFeedCreator();
+		$rss = new UniversalFeedCreator();
 		$rss->title = "Kyberia bookmarks";
 		$rss->link = "http://".SYSTEM_URL."/id/19";
 
@@ -205,7 +205,7 @@ if ($template_id=='rss')
 			if (is_array($_item['children']))
 				foreach ($_item['children'] as $_b)
 				{
-					$item =& new FeedItem();
+					$item = new FeedItem();
 					$item->title = $_b['node_name'];
 					$item->link = "http://".SYSTEM_URL."/id/".$_b['node_id']."/rss";
 					$rss->addItem($item);
@@ -217,7 +217,7 @@ if ($template_id=='rss')
 	{
 		require_once(INCLUDE_DIR.'/feedcreator.class.php');
 
-		$rss =& new UniversalFeedCreator();
+		$rss = new UniversalFeedCreator();
 		$rss->title = $node['node_name'];
 		$rss->description = "";
 		$rss->link = "http://".SYSTEM_URL."/id/".$node['node_id'];
@@ -239,7 +239,7 @@ if ($template_id=='rss')
 
 		foreach ($_items as $_item)
 		{
-			$item =& new FeedItem();
+			$item = new FeedItem();
 			$item->title = $_item['node_name'];
 			$item->link = "http://".SYSTEM_URL."/id/".$_item['node_id'];
 			$item->description = $_item['node_content'];
