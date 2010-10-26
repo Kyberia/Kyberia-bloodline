@@ -1,7 +1,7 @@
 <?php
 
         function executorlist() {
-                global $db,$error,$node;
+                global $db,$error,$node,$logger;
                 $node_id=$node['node_id'];
                 if ($node['node_permission']!='owner') {
                         $error=$error_messages['EVENT_PERMISSION_ERROR'];
@@ -22,7 +22,7 @@ user_id='".$set->getString('user_id')."'";
                                         $q="insert into node_access set
 node_permission='exec',node_id=$node_id,user_id=".$set->getString('user_id');
                                         $db->query($q);
-                                        $log->log('add exec',$node_id,'ok',$executor);
+                                        $logger->log('add exec',$node_id,'ok',$executor);
 
                                 }
                         }

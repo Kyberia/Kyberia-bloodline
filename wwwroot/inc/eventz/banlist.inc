@@ -1,7 +1,7 @@
 <?php
 
 	function banlist() {
-		global $db,$error,$node;
+		global $db,$error,$node,$logger;
 		$node_id=$node['node_id'];
 
 if ($node['node_permission']!=('owner' || 'master' || 'op')) {
@@ -22,7 +22,7 @@ return false;
 					$q="insert into node_access set node_permission='ban',node_id=$node_id,user_id=".$set->getString('user_id');
 					$db->query($q);
 				}
-				$log->log('add ban',$node_id,'ok',$ban);
+				$logger->log('add ban',$node_id,'ok',$ban);
 			}
 			else { $error .= "$ban does not exist..."; }
 		}

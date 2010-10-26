@@ -1,6 +1,6 @@
 <?php
 function oplist() {
-    global $db,$error,$node;
+    global $db,$error,$node,$logger;
     $node_id=$node['node_id'];
 
     if (($node['node_permission']!='owner') && ($node['node_permission']!='master')) {
@@ -21,7 +21,7 @@ function oplist() {
                 echo $q;
                 $db->query($q);
             }
-            $log->log('add op',$node_id,'ok',$op);
+            $logger->log('add op',$node_id,'ok',$op);
         }else { $error .= "$op does not exist..."; }
     }
 }
