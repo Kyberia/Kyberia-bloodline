@@ -110,9 +110,9 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
             $_SESSION['mood_name'] = $mset->getString('node_name');
             $_SESSION['mood_content'] = addslashes(substr(strip_tags($mset->getString('node_content')),0,223));
         }
-
         // last login
-        $db->query(sprintf('update users set last_login = NOW() where user_id = %d', $user_id));
+
+	$db->query(sprintf('update users set date_last_login = NOW() where user_id = %d', $user_id));
 
         $_SESSION['user_id']=$user_id;
         $_SESSION['user_name']=addslashes($user_name);
