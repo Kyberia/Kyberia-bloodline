@@ -1,6 +1,7 @@
 - User mail is not working
 
 - Registration process is not working
+  (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
 
 - Cron scripts are not executed 
   (no automatic logouts, no K generation, ...)
