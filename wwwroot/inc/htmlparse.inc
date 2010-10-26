@@ -2,7 +2,7 @@
 
 class htmlparse {
 
-function htmlparse($data)
+public static function htmlparse($data)
 {
    /*
    if function finds anything unsafe,it will return
