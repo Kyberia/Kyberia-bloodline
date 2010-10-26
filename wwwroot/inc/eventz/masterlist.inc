@@ -1,7 +1,7 @@
 <?php
 
 	function masterlist() {
-		global $db,$error,$node;
+		global $db,$error,$node,$logger;
 		$node_id=$node['node_id'];
 if (($node['node_permission']!='owner') && ($node['node_permission']!='master')) {
 $error=$error_messages['EVENT_PERMISSION_ERROR'];

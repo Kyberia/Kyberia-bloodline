@@ -1,6 +1,6 @@
 <?php
 function configure_parent() {
-	global $db,$error,$node;
+	global $db,$error,$node,$logger;
 	$user_id=$_SESSION['user_id'];
 
 			if (empty($_POST['node_creator'])) {

@@ -1,7 +1,7 @@
 <?php
 	function unbook() {
 
-		global $db,$error,$node;
+		global $db,$error,$node,$logger;
 		$q="update neurons set link='soft' where synapse_creator='".$_SESSION['user_id']."' and src='".$node['node_id']."' and link='bookmark'";
 		$result=$db->update($q);
 

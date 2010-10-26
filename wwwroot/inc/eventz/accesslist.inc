@@ -1,7 +1,7 @@
 <?php
 
 	function accesslist() {
-		global $db,$error,$node,$error_messages;
+		global $db,$error,$node,$error_messages,$logger;
 		$node_id=$node['node_id'];
 		$access=explode(";",$_POST['access']);
 

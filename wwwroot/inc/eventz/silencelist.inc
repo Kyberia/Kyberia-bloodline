@@ -1,7 +1,7 @@
 <?php
 
 	function silencelist() {
-		global $db,$error,$node;
+		global $db,$error,$node,$logger;
 		$node_id=$node['node_id'];
 		$silence=explode(";",$_POST['silence']);
 

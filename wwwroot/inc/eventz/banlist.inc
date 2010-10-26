@@ -1,7 +1,7 @@
 <?php
 
 	function banlist() {
-		global $db,$error,$node;
+		global $db,$error,$node,$logger;
 		$node_id=$node['node_id'];
 
 if ($node['node_permission']!=('owner' || 'master' || 'op')) {
