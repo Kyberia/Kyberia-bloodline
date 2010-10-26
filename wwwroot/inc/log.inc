@@ -1,5 +1,5 @@
 <?php
-class log {
+class logger {
 
 	function log($action,$node_id,$result,$parameter1='',$parameter2='') {
 

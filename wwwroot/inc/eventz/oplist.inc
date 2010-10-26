@@ -21,7 +21,7 @@ function oplist() {
                 echo $q;
                 $db->query($q);
             }
-            $log->log('add op',$node_id,'ok',$op);
+            $logger->log('add op',$node_id,'ok',$op);
         }else { $error .= "$op does not exist..."; }
     }
 }

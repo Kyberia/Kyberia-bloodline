@@ -22,7 +22,7 @@ user_id='".$set->getString('user_id')."'";
                                         $q="insert into node_access set
 node_permission='exec',node_id=$node_id,user_id=".$set->getString('user_id');
                                         $db->query($q);
-                                        $log->log('add exec',$node_id,'ok',$executor);
+                                        $logger->log('add exec',$node_id,'ok',$executor);
 
                                 }
                         }

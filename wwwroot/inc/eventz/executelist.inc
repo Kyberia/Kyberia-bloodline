@@ -18,7 +18,7 @@ function executelist() {
                 $q="insert into node_access set node_permission='execute',node_id=$node_id,user_id=".$set->getString('user_id');
                 $db->query($q);
             }
-            $log->log('add execute',$node_id,'ok',$execute);
+            $logger->log('add execute',$node_id,'ok',$execute);
         }else { $error .= "$execute does not exist..."; }
     }
 }

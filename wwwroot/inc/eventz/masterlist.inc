@@ -18,7 +18,7 @@ return false;
 				if (!$changed) {
 					$q="insert into node_access set node_permission='master',node_id=$node_id,user_id=".$set->getString('user_id');
 					$db->query($q);
-					$log->log('add master',$node_id,'ok',$master);
+					$logger->log('add master',$node_id,'ok',$master);
 
 				}
 			}
