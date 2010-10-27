@@ -85,9 +85,10 @@ mail_from='$user_id',mail_text='$mail_text',mail_to='$mail_to_id_send',mail_time
                        $q="insert into mail set mail_duplicate_id='$duplicate_id',
 mail_read='no',mail_user='$mail_to_id_send',mail_from='$user_id',mail_text='$mail_text',
 mail_to='$mail_to_id_send',mail_timestamp=NOW()";
-                        $result=$db->query($q);
-                        $db->query("update users set user_mail=user_mail+1,
-user_mail_name='$user_name', user_mail_id = '".mysql_real_escape_string($_SESSION['user_id'])."' where user_id='$mail_to_id_send'");
+			$result=$db->query($q);
+			$db->query("update users set user_mail=user_mail+1,".
+			//"user_mail_name='$user_name',". //Not in DB yet!
+			"user_mail_id='".mysql_real_escape_string($_SESSION['user_id'])."' where user_id='$mail_to_id_send'");
                 }
             return true;
 
