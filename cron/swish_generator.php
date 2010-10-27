@@ -1,16 +1,28 @@
 #!/usr/local/bin/php
 <?php
-error_reporting(0);
-//requiring main config file with path/database etc. constants
-require('/storage/system/www-docroot/kyberia.sk/config/config.inc');
+/*
+ * Script that XXX
+ * Called XXX
+ */
+
+//error_reporting(0);
+
+// Use relative address of config file
+// Change this, if you move you cron directory.
+$dir=substr(__FILE__, 0, strrpos(__FILE__, '/'));
+require($dir.'/../wwwroot/config/config.inc');
 
 //connecting to database and creating universal $db object
-require(SYSTEM_ROOT.'/inc/log.inc');
-require(SYSTEM_ROOT.'/inc/database.inc');
-require(SYSTEM_ROOT.'/inc/nodes.inc');
+require(INCLUDE_DIR.'/log.inc');
+require(INCLUDE_DIR.'/database.inc');
+require(INCLUDE_DIR.'/nodes.inc');
 $db=new CLASS_DATABASE();
 
-$set=$db->query("select nodes.*,node_content from nodes left join node_content on node_content.node_id=nodes.node_id where node_system_access='public' and date(node_created)<=current_date()-interval 1 day and (nodes.k>0 or nodes.node_views>0)");
+$set=$db->query("select nodes.*,node_content from nodes 
+		left join node_content on node_content.node_id=nodes.node_id 
+		where node_system_access='public' and 
+		date(node_created)<=current_date()-interval 1 day and 
+		(nodes.k>0 or nodes.node_views>0)");
 while ($set->next()) {
 	$node_id=$set->getString('node_id');
 	$node_content=$set->getString('node_content');

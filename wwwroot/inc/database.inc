@@ -63,26 +63,13 @@ function closeMysql() {
 
 function query($sql) {
 
-//		if (preg_match("/^select/i",$sql) && (rand(0,1000)>MASTER2SLAVE) && $this->Master) {
-// every select query goes to onyx + opraveny regexp, aby matchoval vnorene selecty (br)
-/*		if (preg_match('/^\(?select/i',$sql) && $this->Master) {
-			$this->_linkId = false;
-			$this->connect(SLAVE_HOST,SLAVE_USER,SLAVE_PASS,SLAVE_DATABASE);
-			$this->Master = false;
-
-		}
-
-		elseif (!preg_match("/^select/i",$sql) && !$this->Master) {
-*/			$this->_linkId = false;
-			$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
-			$this->Master = true;
-//		}
+		$this->_linkId = false;
+		$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
+		$this->Master = true;
 
 		$this->_queryId = mysql_query($sql,$this->_linkId);
 
-		if ($_SESSION['debugging']) {
-			if ($this->Master) echo "Master::";
-			else echo "Slave::";
+		if (isset($_SESSION['debugging'])) {
 			echo $sql;
 			global $timer_start;
 			echo "<BR>".SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);

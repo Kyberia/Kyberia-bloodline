@@ -1,5 +1,12 @@
 #!/usr/local/bin/php
 <?php
+
+/*
+ * Script that XXX
+ * Called XXX
+ */
+
+
 //registration question specification
 $requests[] = array("senate_request"=>2228983,
 "function"=>"update_template",
@@ -17,12 +24,16 @@ function update_template($params) {
   chown(OWN_TEMPLATE_DIR.$node_id.".tpl","www");
 }
 
-require('../config/config.inc');
+// Use relative address of config file
+// Change this, if you move you cron directory.
+$dir=substr(__FILE__, 0, strrpos(__FILE__, '/'));
+require($dir.'/../wwwroot/config/config.inc');
+
 //connecting to database and creating universal $db object
-require(SYSTEM_ROOT.'/inc/log.inc');
-require(SYSTEM_ROOT.'/inc/database.inc');
-require(SYSTEM_ROOT.'/inc/nodes.inc');
-require(SYSTEM_ROOT.'/inc/senate.inc');
+require(INCLUDE_DIR.'/log.inc');
+require(INCLUDE_DIR.'/database.inc');
+require(INCLUDE_DIR.'/nodes.inc');
+require(INCLUDE_DIR.'/senate.inc');
 $db=new CLASS_DATABASE();
 
 foreach ($requests as $request) {

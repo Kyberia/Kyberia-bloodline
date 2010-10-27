@@ -11,9 +11,9 @@
 $dir=substr(__FILE__, 0, strrpos(__FILE__, '/'));
 require($dir.'/../wwwroot/config/config.inc');
 
-require('../config/config.inc');
 require(INCLUDE_DIR.'/database.inc');
 require(INCLUDE_DIR.'/senate.inc');
+require(INCLUDE_DIR.'/log.inc');
 
 $db = new CLASS_DATABASE();
 $db->query('update users set user_k = '. DAILY_K);
