@@ -2,8 +2,8 @@ _*
 *~
 *.part
 
-pkg/
-src/
+.htaccess
+.htpasswd
 
 *.exe
 *.EXE
