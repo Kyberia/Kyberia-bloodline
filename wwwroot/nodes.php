@@ -72,9 +72,10 @@ $smarty->cache_dir = SMARTY_DIR.'cache/';
 $smarty->plugins_dir = SMARTY_PLUGIN_DIR ;
 if ($_SESSION['debugging']) $smarty->debugging=true;
 
-//initializing variables
+// initializing variables
+// preg_replace prevents LFI
 if (empty($_POST['event'])) $event=false;
-else $event=$_POST['event'];
+else $event= preg_replace( "![^a-zA-Z0-9_]+!", "", $_POST['event']);
 
 
 if ($_SESSION['debugging']) {
