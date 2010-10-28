@@ -12,7 +12,7 @@ $dir=substr(__FILE__, 0, strrpos(__FILE__, '/'));
 require($dir.'/../wwwroot/config/config.inc');
 
 //require(INCLUDE_DIR.'/log.inc');
-require(INCLUDE_DIR.'/inc/database.inc');
+require(INCLUDE_DIR.'/database.inc');
 //require(INCLUDE_DIR.'/nodes.inc');
 
 $db=new CLASS_DATABASE();
