@@ -2,6 +2,11 @@
 
 - Registration process is not working
   (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
+  (We can use multiple hash algorithms (so we'll have backward DB compatibility):
+		{SHA256}0654209dbde29a5c17e4f04ab63a91d303d2e7c791c7b5777581a7fa6550054e
+		{SHA1}f67c52c4a27cf05c99e4f3f946d6500f045a4735
+		5b077a0ab90992d9763c5b120b22c9d7
+  )
 
 - Cron scripts are not executed 
   (no automatic logouts, no K generation, ...)
@@ -27,6 +32,8 @@
   ( sms_payment.php  => yes, sqli but is it really used? )
   ( inc/eventz/upload_data_node.php => Shell injections in .zip handling, .jpg handling,
     "strange" filenames like .htacess (to allow listing of folder)
+
+- Implement URL handling using PATH_INFO instead of mod_rewrite
 
 - Refactor directory structure
 
