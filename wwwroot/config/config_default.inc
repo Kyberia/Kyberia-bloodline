@@ -16,7 +16,7 @@ define('INCLUDE_DIR',		SYSTEM_ROOT . 'wwwroot/inc/');
 define('SMARTY_DIR',		SYSTEM_ROOT . 'wwwroot/smarty/libs/');
 define('SMARTY_PLUGIN_DIR',	SYSTEM_ROOT . 'wwwroot/inc/smarty/node_methodz/');
 define('TEMPLATE_DIR',		SYSTEM_DATA . 'templates/');
-#XXX FIX
+//XXX FIX
 define('OWN_TEMPLATE_DIR',      TEMPLATE_DIR. 'own_templates/');
 
 define('TMP',			SYSTEM_DATA . 'tmp/');

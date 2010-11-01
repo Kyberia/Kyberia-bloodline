@@ -67,7 +67,7 @@ $smarty->template_dir = TEMPLATE_DIR;
 //echo TEMPLATE_DIR.TEMPLATE_SET;
 //echo $smarty->template_dir;
 $smarty->compile_dir = SYSTEM_DATA."templates_c/";
-$smarty->config_dir = SMARTY_DIR.'configs/'; #XXX neexistuje
+$smarty->config_dir = SMARTY_DIR.'configs/'; //XXX neexistuje
 $smarty->cache_dir = SMARTY_DIR.'cache/';
 $smarty->plugins_dir = SMARTY_PLUGIN_DIR ;
 if ($_SESSION['debugging']) $smarty->debugging=true;
@@ -361,7 +361,7 @@ if ($user_id=$_SESSION['user_id']) {
 				$user_id);
 	$newmailset = $db->query($newmail_q);
 
-#	$newmailset=$db->query("select user_mail,user_mail_name,user_k,k_wallet from users where user_id='$user_id'");
+//$newmailset=$db->query("select user_mail,user_mail_name,user_k,k_wallet from users where user_id='$user_id'");
 
 	$newmailset->next();
 	$new_mail=$newmailset->getString('user_mail');
