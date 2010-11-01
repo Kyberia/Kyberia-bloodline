@@ -9,6 +9,8 @@
 
 <title>{* title.tpl *}{include file="791948.tpl"}</title>
 
+
+<script language="JavaScript" type="text/javascript" src="/js/jrc4.js"></script>
 <script language="JavaScript" type="text/javascript">
 <!--
 {literal}

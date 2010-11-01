@@ -26,8 +26,8 @@
   </select>
   -->
 
-  <input type='text' name='template_id' size=5 value='4' title='[submission: 4 | forum: 3 | nodeshell: 2 | article: 5 | data: 12]' />
-
+  <input type='text' name='template_id' size=5 value='4' id='vernamseed' title='[submission: 4 | forum: 3 | nodeshell: 2 | article: 5 | data: 12]' />
+  <input type='submit' name='template_event' value='encrypt' onClick='document.getElementById("node_content").innerHTML=rc4Encrypt(document.getElementById("vernamseed").value,document.getElementById("node_content").innerHTML);'/>
   <input type='submit' name='template_event' value='preview' />
 
   <select name='sel_help' onchange='document.getElementById("node_content").innerHTML += sel_help.value;'  style='margin-right:4px'>
