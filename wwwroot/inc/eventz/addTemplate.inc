@@ -23,7 +23,7 @@
             $fp = fopen (OWN_TEMPLATE_DIR.$add_template_id.".tpl", "w+");
             fwrite($fp,$node_content);
             fclose($fp);
-            chown(OWN_TEMPLATE_DIR.$add_template_id.".tpl","wwwedit");
+            chown(OWN_TEMPLATE_DIR.$add_template_id.".tpl","wwwedit"); // XXX WTF
         $q="update nodes set external_link = 'template://$add_template_id' where node_id='".$add_template_id."'";
         $db->query($q);
 

@@ -1,13 +1,31 @@
 <?php
 class filez {
 
-function filez($id) {
+//XXX function not used, remove?
+
+public static function files($id) {
 	global $db,$error;
 	if (!is_dir(FILE_DIR.$_SESSION['user_id'])) {
 		mkdir(FILE_DIR.$_SESSION['user_id']);
 	}
 	copy($_FILES['data_file']['tmp_name'],FILE_DIR.$_SESSION['user_id'].'/'.$_FILES['data_file']['name']);
 	return $_SESSION['user_id'].'/'.$_FILES['data_file']['name'];
+}
+
+// Function that check if given filename is "secure" (for uploading)
+// Dont use for reading files, directory traversal is not checked
+
+public static function filename_secure(name){
+	$suffix = array_pop(explode('.', basename($name)));
+	
+	// This is unfornately blacklist
+	// TODO extend for all possible server configuations
+	// TODO: why js?
+	$preg_disallowed = '/([a-z]*)(php|htm|inc|js|vbs|cgi|asp|jsp|htaccess)([a-z]*)$/i';
+	if (preg_match($preg_disallowed, $suffix) > 0) {
+		return false;
+	}
+	return true;
 }
 
 }

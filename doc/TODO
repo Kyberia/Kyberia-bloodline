@@ -1,17 +1,10 @@
 - User mail is not working
 
 - Registration process is not working
-  (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
-  (We can use multiple hash algorithms (so we'll have backward DB compatibility):
-		{SHA256}0654209dbde29a5c17e4f04ab63a91d303d2e7c791c7b5777581a7fa6550054e
-		{SHA1}f67c52c4a27cf05c99e4f3f946d6500f045a4735
-		5b077a0ab90992d9763c5b120b22c9d7
-  )
+  (rewrite sending of reg. mails)
 
-- Cron scripts are not executed 
-  (no automatic logouts, no K generation, ...)
-
-- fix uploading of files
+- Cron scripts are not executed (most of them should be OK now)
+  (no automatic logouts, no K generation, ...) 
 
 - fix ALL sql injections
 
@@ -29,11 +22,33 @@
 
 - Suspected security holes:
   ( cron/process-img.sh )
-  ( sms_payment.php  => yes, sqli but is it really used? )
-  ( inc/eventz/upload_data_node.php => Shell injections in .zip handling, .jpg handling,
-    "strange" filenames like .htacess (to allow listing of folder)
+  ( ./inc/eventz/spamuj_ubik.inc )
+  ( ./inc/eventz/upload_own_template.inc ) (is even needed?)
 
-- Implement URL handling using PATH_INFO instead of mod_rewrite
+- Remove eventz (and files) that are not used (verify this before removing)
+  ( ./inc/eventz/login_lockout_test.inc )
+  ( ./inc/eventz/add_test.inc )
+  ( ./inc/eventz/add_ubik_friend.inc )
+  ( ./inc/eventz/cron_test.inc )
+  ( ./inc/eventz/login_lockout_test.inc )
+  ( ./inc/eventz/login_test.inc )
+  ( ./inc/eventz/mail_test.inc )
+  ( ./inc/eventz/test_button.inc )
+  ( ./inc/eventz/testing_cron.inc )
+  ( ./inc/eventz/testm.inc )
+  ( ./inc/eventz/send-old.inc )
+  ( ./inc/eventz/destroy_synapse2.inc )
+  ( ./inc/eventz/login2.inc )
+  ( ./inc/eventz/send2.inc )
+  ( ./inc/eventz/set_parent2.inc )
+
+- Remove/fix not working eventz
+  ( ./inc/eventz/addClass.inc  )
+  ( ./inc/eventz/addEvent.inc )
+  ( ./inc/eventz/addAjax.inc )
+  ( ./inc/eventz/addPlugin.inc )
+  ( ./inc/eventz/kyberia.inc ) (wtf)
+ 
 
 - Refactor directory structure
 
@@ -45,3 +60,13 @@
 - documentation/installation guide (see README)
 
 - Clean code => fix uninitialized variables
+
+- Implement URL handling using PATH_INFO instead of mod_rewrite
+
+- (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
+  (We can use multiple hash algorithms (so we'll have backward DB compatibility):
+		{SHA256}0654209dbde29a5c17e4f04ab63a91d303d2e7c791c7b5777581a7fa6550054e
+		{SHA1}f67c52c4a27cf05c99e4f3f946d6500f045a4735
+		5b077a0ab90992d9763c5b120b22c9d7
+  ) Harvie
+

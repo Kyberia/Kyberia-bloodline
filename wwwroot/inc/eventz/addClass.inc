@@ -1,4 +1,7 @@
 <?php
+
+// XXX WTF
+
 function addClass() {
 
 global $db,$error,$node, $error_messages;

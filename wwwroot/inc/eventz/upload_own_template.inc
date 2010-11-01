@@ -1,4 +1,7 @@
 <?php
+
+// XXX remove completly?
+	
 	function upload_own_template() {
 
 		global $db,$error,$node;
