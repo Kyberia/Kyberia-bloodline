@@ -1,10 +1,12 @@
 - User mail is not working
 
+- Userinfo is not working
+ ()
+
+- Uploading of datafiles is not working
+
 - Registration process is not working
   (rewrite sending of reg. mails)
-
-- Cron scripts are not executed (most of them should be OK now)
-  (no automatic logouts, no K generation, ...) 
 
 - fix ALL sql injections
 

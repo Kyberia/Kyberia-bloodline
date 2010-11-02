@@ -9,9 +9,9 @@ class ubik {
 		global $db;
 		$user_info=$_POST['user_info'];
 		$login=$_POST['login'];
-		$user_www=$_POST['user_www'];
+//		$user_www=$_POST['user_www'];
 		$email=$_POST['email'];
-		$icq=$_POST['user_icq'];
+//		$icq=$_POST['user_icq'];
 
 		$text=nodes::processContent($user_info)."<br><br>";
 		$node_name="user $login registration";
