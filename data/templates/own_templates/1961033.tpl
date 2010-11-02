@@ -220,7 +220,6 @@
 		<center>
 			&copy; kyberia.sk v2.3 - solon's revenge<br />
 			prevadzkovatel stranky ruci za nic<br />
-			<script src="http://p1.naj.sk/code?site=25986;t=b14" type="text/javascript"></script><noscript><div><a href="http://naj.sk/"><img src="http://p1.naj.sk/hit?site=25986;t=b14;ref=;jss=0" width="14" height="14" alt="NAJ.sk" style="border:none" /></a></div></noscript>
 		</center>
    </body>
 </html>

@@ -203,12 +203,6 @@ value='configure_content'></center>
 <center>&copy; kyberia.sk v2 - ergond's crypt<br>
 prevadzkovatel stranky ruci za nic
 </center>
-<!-- NAJ.sk -->
-<noscript>
-<img src="http://www.naj.sk/hit?id=10686;n=1" width="1" height="1"
-alt="" border="0">
-</noscript>
-<!-- NAJ.sk - konec -->
 
 </body>
 </html>
