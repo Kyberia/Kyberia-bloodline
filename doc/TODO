@@ -1,9 +1,10 @@
 - User mail is not working
 
-- Uploading of datafiles is not working
-
 - Registration process is not working
   (rewrite sending of reg. mails)
+
+- FIX function.get_image_link.php: 
+  ("GET /id/select%20user_id%20from%20users%20where%20user_id%20=%20332%3CBR%3E0.19035/images/nodes///.gif ) wtf?
 
 - fix ALL sql injections
 
