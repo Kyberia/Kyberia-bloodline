@@ -26,6 +26,8 @@ function upload_data_file() {
 		 mkdir(FILE_DIR.$_SESSION['user_id']);
 	}
 
+	$suffix = array_pop(explode('.', basename($_FILES['data_file']['name'])));
+
 	if ($suffix=='zip' && $_POST['unzip']) {
 		mkdir(TMP."/".$_FILES['data_file']['name']);
 
