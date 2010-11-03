@@ -5,15 +5,16 @@ if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
 //header("Location: http://web.archive.org/web/20020925021139/http://kyberia.sk");
 //echo "je to uz uplne v pici. vsetky data su stratene, prajem pekny den :)";
 //exit;
-error_reporting(1);
-$_SESSION['debugging']=1;
-//exit;
 
 //starting timer for benchmarking purposes
 $timer_start=Time()+SubStr(MicroTime(),0,8);
 
 //setting PHPSESSID cookie and starting user session
 session_start();
+
+error_reporting(1);
+$_SESSION['debugging']=1;
+//exit;
 
 
 if ($_SESSION['debugging']) {

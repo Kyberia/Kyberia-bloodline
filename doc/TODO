@@ -1,8 +1,5 @@
 - User mail is not working
 
-- Userinfo is not working
- ()
-
 - Uploading of datafiles is not working
 
 - Registration process is not working
@@ -51,7 +48,6 @@
   ( ./inc/eventz/addPlugin.inc )
   ( ./inc/eventz/kyberia.inc ) (wtf)
  
-
 - Refactor directory structure
 
 - Deprecated PHP features
@@ -64,6 +60,8 @@
 - Clean code => fix uninitialized variables
 
 - Implement URL handling using PATH_INFO instead of mod_rewrite
+
+- some templates are fixed only in .tpl, not in sql database
 
 - (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
   (We can use multiple hash algorithms (so we'll have backward DB compatibility):

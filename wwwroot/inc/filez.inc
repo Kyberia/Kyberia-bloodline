@@ -15,7 +15,7 @@ public static function files($id) {
 // Function that check if given filename is "secure" (for uploading)
 // Dont use for reading files, directory traversal is not checked
 
-public static function filename_secure(name){
+public static function filename_secure($name){
 	$suffix = array_pop(explode('.', basename($name)));
 	
 	// This is unfornately blacklist
