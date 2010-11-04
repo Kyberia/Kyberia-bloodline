@@ -1,9 +1,5 @@
 <?php
 function login() {
-// lockout capatibility
-// with ldap sync
-// <h1> This is da default one</h1>
-//    require(INCLUDE_DIR.'ldap.inc');
 
     global $db,$error,$node_id;
     $login = mysql_real_escape_string($_POST['login']);
@@ -37,8 +33,6 @@ function login() {
         break;
     }
 
-//    $ldap_response=LDAPuser::auth($user_id,$password);
-
     if (!$set) { //XXX test
         $error="Zadal si nespravne uzivatelske meno [alebo id] alebo heslo. Rob so sebou nieco";
         return false;
@@ -57,11 +51,11 @@ Prajem prijemnu odvykacku:-)";
             return false;
         }
 
-//ldap replicate
-// LDAPuser::ldap_mysql_sync($user_name,$user_id,$password);
+//	Login sucessfull
 
+	// prevent session fixation
+	session_regenerate_id(); 
 
-//
         $cube_vector=$set->getString('cube_vector');
 
         // saves friends list as an array into user session
@@ -94,7 +88,6 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
             $_SESSION['fook'][$fookset->getString('node_parent')]=true;
         }
 
-//        LDAPuser::replicate($user_name,$user_id,$password);
 
         //save bookstyle into user session
         $q="select node_content from nodes where node_parent=19 and external_link='session://bookstyl' and node_creator='$user_id'";
