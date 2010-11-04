@@ -1,0 +1,7 @@
+- User mail is not working
+
+- There may be some SQL injections
+
+- If debuging is enabled, something (http links) can break
+
+

@@ -3,22 +3,14 @@
 - Registration process is not working
   (rewrite sending of reg. mails)
 
-- FIX function.get_image_link.php: 
-  ("GET /id/select%20user_id%20from%20users%20where%20user_id%20=%20332%3CBR%3E0.19035/images/nodes///.gif ) wtf?
-
 - SQL injections (many fixed, but some should be still there)
 
 - remove absolute paths from all source files (!) (over 50)
 
-- remove hard-coded kyberia.sk from:
-  ( ./inc/eventz/configure_email.inc )
-  ( ./inc/eventz/delete.inc )
-  ( ./inc/smarty/node_methodz/modifier.replaceLocalURLs.php )
-  ( ./inc/replaceLocalURLs.inc )
-  ( ./nodes.php )
-  ( ./cron/rssparse.php )
-  ( ./scripts/contentregexp.php ) (obsolete?)
-  Fix https vs http problem (url)
+- remove hard-coded hostname from:
+  ( registration mails )
+  ( scripts in "scripts" directory (system paths))
+- Fix https vs http problem (url) 
 
 - Suspected security holes:
   ( cron/process-img.sh )
