@@ -5,12 +5,14 @@
 
 # Created & maintained by maniax
 
-cd /storage/system/www-root/kyberia.sk/process-img
+#cd /storage/system/www-root/kyberia.sk/process-img
+
+echo "`pwd`"; >> /tmp/log1
 
 PREPARED_FILES=`ls prepared/`
 CURRENT_DATE=`date`
 
-for PREPARED_FILE in $PREPARED_FILES
+for PREPARED_FILE in "$PREPARED_FILES"
 do
   echo "[$CURRENT_DATE] Processing file: $PREPARED_FILE" >> process-img.log
 
@@ -27,12 +29,12 @@ do
 
   rm -f prepared/$PREPARED_FILE
 
-  TGT_PART1=`echo $NODE_FILENAME | cut -b 1`
-  TGT_PART2=`echo $NODE_FILENAME | cut -b 2`
+  TGT_PART1=`echo "$NODE_FILENAME" | cut -b 1`
+  TGT_PART2=`echo "$NODE_FILENAME" | cut -b 2`
 
-  mv ready/$NODE_FILENAME ../images/nodes/$TGT_PART1/$TGT_PART2/$NODE_FILENAME
-  chgrp www ../images/nodes/$TGT_PART1/$TGT_PART2/$NODE_FILENAME
-  chmod 664 ../images/nodes/$TGT_PART1/$TGT_PART2/$NODE_FILENAME
+  mv ready/"$NODE_FILENAME" ../images/nodes/"$TGT_PART1/$TGT_PART2/$NODE_FILENAME"
+  chgrp www ../images/nodes/"$TGT_PART1/$TGT_PART2/$NODE_FILENAME"
+  chmod 664 ../images/nodes/"$TGT_PART1/$TGT_PART2/$NODE_FILENAME"
 
   echo "[$CURRENT_DATE] Finished file processing." >> process-img.log
 done
