@@ -29,7 +29,7 @@
 			}
 
 			else {
-				$node_creator=$_POST['node_creator'];
+				$node_creator=intval($_POST['node_creator']);
 				$q="select user_id from users where login like '$node_creator'";
 				$ownerset=$db->query($q);
 				if (!$ownerset->getNumRows()) {
@@ -42,11 +42,11 @@
 				}
 			}
 
-			$node_vector=$_POST['node_vector'];
+			$node_vector=mysql_real_escape_string($_POST['node_vector']);
 			$old_vector=$node['node_vector'];
 			if (is_numeric($_POST['template_id'])) $template_id=$_POST['template_id'];
-			$node_parent=$_POST['node_parent'];
-			$node_created=$_POST['node_created'];
+			$node_parent=intval($_POST['node_parent']);
+			$node_created=mysql_real_escape_string($_POST['node_created']);
 			$node_id=$node['node_id'];
 
 
@@ -64,10 +64,10 @@
 				$node_vector=$parent_node['node_vector'].";".$parent_node['node_id'];;
 			}
 
-			$node_name=$_POST['node_name'];
+			$node_name=mysql_real_escape_string($_POST['node_name']);
 
-			$node_external_access=$_POST['node_external_access'];
-			$node_system_access=$_POST['node_system_access'];
+			$node_external_access=mysql_real_escape_string($_POST['node_external_access']);
+			$node_system_access=mysql_real_escape_string($_POST['node_system_access']);
 
 			require(INCLUDE_DIR.'htmlparse.inc');
 			global $htmlparse;

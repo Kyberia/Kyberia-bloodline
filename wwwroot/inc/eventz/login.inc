@@ -7,7 +7,7 @@ function login() {
 
     global $db,$error,$node_id;
     $login = mysql_real_escape_string($_POST['login']);
-    $password = $_POST['password']; //XXX nice SQLi
+    $password = $_POST['password']; // Not SQLi but be carefull
     $hash = md5($password);
     $login_type = $_POST['login_type'];
     $referer = $_SERVER['HTTP_REFERER'];
@@ -26,6 +26,9 @@ function login() {
             $user_name = $set->getString('login');
         break;
         case "id":
+            // HA! if it is number, escape_string is not enough
+	    $login=intval($login);
+
             $q="select * from users where user_id='$login' and password='$hash'";
             $set=$db->query($q);
             $set->next();

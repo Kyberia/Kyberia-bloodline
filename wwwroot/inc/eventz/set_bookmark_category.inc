@@ -4,7 +4,12 @@
 function set_bookmark_category() {
 	global $node,$db,$error;
 	$bookmarks=$_POST['bookmarks_chosen'];
-	$category_id=$_POST['bookmark_category_id'];
+
+	if (isset($_POST['bookmark_category_id']) && 
+		is_numeric($_POST['bookmark_category_id'])) {
+		$category_id=$_POST['bookmark_category_id'];
+	}
+
 	$new_parent=nodes::getNodeById($category_id,$_SESSION['user_id']);
 	$new_parent_permissions=permissions::checkPermissions($new_parent);
 
@@ -20,6 +25,11 @@ function set_bookmark_category() {
 	foreach ($bookmarks as $chosen_id) {
 
 		unset($chosen);
+		if (!is_numeric($chosen_id)) 
+		{
+			$error=$error_messages['What a strange number..'];	
+			return false;
+		}
 
                 $db->query("start transaction");
 

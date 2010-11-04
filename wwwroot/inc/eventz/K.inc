@@ -70,6 +70,11 @@ function K() {
 
     foreach ($k as $id) {
 
+	// prevent sqli
+	$k = intval($k);
+	if ($k == 0) {	continue; }
+	
+	
         if ($user_k) {
             $isSenat = hasAncestor(getAncestors($id), $senat_id);
             if ($isSenat && !($isComm || $isSOwner)){
