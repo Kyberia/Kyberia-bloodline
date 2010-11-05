@@ -43,7 +43,6 @@ require(INCLUDE_DIR.'error_messages.inc');
 require(INCLUDE_DIR.'database.inc');
 
 $db = new CLASS_DATABASE();
-//$logger = new logger; //XXX
 
 if (!empty($_GET['template_id'])) {
 	$template_id=$_GET['template_id'];

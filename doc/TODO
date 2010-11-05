@@ -22,7 +22,6 @@
   ( ./inc/eventz/add_test.inc )
   ( ./inc/eventz/add_ubik_friend.inc )
   ( ./inc/eventz/cron_test.inc )
-  ( ./inc/eventz/login_lockout_test.inc )
   ( ./inc/eventz/login_test.inc )
   ( ./inc/eventz/mail_test.inc )
   ( ./inc/eventz/test_button.inc )
