@@ -13,7 +13,7 @@ $timer_start=Time()+SubStr(MicroTime(),0,8);
 session_start();
 
 error_reporting(1);
-$_SESSION['debugging']=1;
+//$_SESSION['debugging']=1;
 //exit;
 
 
