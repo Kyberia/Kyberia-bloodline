@@ -84,9 +84,11 @@ if ($_SESSION['debugging']) {
 	echo "</pre>";
 }
 
-if ($node['node_creator']==$_SESSION['user_id']) $node['node_permission']='owner';
+if ((isset($_SESSION['user_id']) && ($node['node_creator']==$_SESSION['user_id'])) {
+	$node['node_permission']='owner';
+}
 
-if ($_SESSION['cube_vector']) {
+if (isset($_SESSION['cube_vector']) && ($_SESSION['cube_vector'])) {
 	if (strpos($node['node_vector'],$_SESSION['cube_vector'])===false) {
 		echo "node::".$node['node_vector'];
 		echo "cube_Vector::".$_SESSION['cube_vector'];
@@ -109,14 +111,16 @@ if (empty($node)) {
 	}
 }
 
-//modifying node glass pearl
-if (is_array($children_types[$node['node_type']])) $smarty->assign('children_types',$children_types[$node['node_type']]);
+//modifying node glass pearl //XXX WTF
+if (is_array($children_types[$node['node_type']])) {
+	$smarty->assign('children_types',$children_types[$node['node_type']]);
+}
 $smarty->assign('types',$types);
 
 
 //$node['node_type']=$types[$node['node_type']];
-$node['node_content']=StripSlashes($node['node_content']);
-$node['node_name']=StripSlashes($node['node_name']);
+$node['node_content']= StripSlashes($node['node_content']);
+$node['node_name']= StripSlashes($node['node_name']);
 
 //checking permissions
 function _checkPermissions()
