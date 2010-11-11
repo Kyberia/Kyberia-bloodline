@@ -84,7 +84,7 @@ if ($_SESSION['debugging']) {
 	echo "</pre>";
 }
 
-if ((isset($_SESSION['user_id']) && ($node['node_creator']==$_SESSION['user_id'])) {
+if ((isset($_SESSION['user_id']) && ($node['node_creator']==$_SESSION['user_id']))) {
 	$node['node_permission']='owner';
 }
 
