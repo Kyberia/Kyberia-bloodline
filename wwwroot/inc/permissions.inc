@@ -29,7 +29,9 @@ function isHierarch($node) {
 
 function checkPermissions($node) {
 global $db;
-$user_id=IsSet($_SESSION['user_id']);
+if (IsSet($_SESSION['user_id']) {
+	$user_id=$_SESSION['user_id'];
+}
 
 /*
 thousand lights   // OMGto Hierarchy!
