@@ -32,8 +32,10 @@ if ($_SESSION['debugging']) {
 require('config/config.inc');
 require(INCLUDE_DIR.'senate.inc');
 
-preg_match("/id\/(.*)\//",$_SERVER['HTTP_REFERER'],$ref_match);
-$referer_id=$ref_match[1];
+if (isset($_SERVER['HTTP_REFERER'])) {
+	preg_match("/id\/([0-9]*)\//",$_SERVER['HTTP_REFERER'],$ref_match);
+	$referer_id=$ref_match[1];
+}
 
 //connecting to database and creating universal $db object
 require(INCLUDE_DIR.'log.inc');
@@ -54,7 +56,7 @@ if (!empty($_GET['node_name'])) {
 	$node  = nodes::redirByName($_GET['node_name']);
 }
 elseif (!empty($_GET['node_id'])) {
-	$node = nodes::getNodeById($_GET['node_id'],$_SESSION['user_id']);
+	$node = nodes::getNodeById($_GET['node_id'],isset($_SESSION['user_id']))?$_SESSION['user_id']:'');
 }
 
 //XXX Paths are wrong (!)
