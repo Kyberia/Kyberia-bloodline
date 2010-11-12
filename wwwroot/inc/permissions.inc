@@ -29,7 +29,7 @@ function isHierarch($node) {
 
 function checkPermissions($node) {
 global $db;
-$user_id=$_SESSION['user_id'];
+$user_id=IsSet($_SESSION['user_id']);
 
 /*
 thousand lights   // OMGto Hierarchy!
@@ -55,10 +55,10 @@ if (($node['node_system_access']!='public' and $node['node_system_access']!='cry
 		elseif ($result->getString('node_permission')!='') {
 			array_pop($hierarchy_bounce);
 			$node['node_permission']=$result->getString('node_permission');
-				$q="update node_access set node_permission='".$result->getString('node_permission')."' where node_id='".$node['node_id']."' and user_id='".$user_id"'";
+				$q="update node_access set node_permission='".$result->getString('node_permission')."' where node_id='".$node['node_id']."' and user_id='".$user_id."'";
 				$updated=$db->update($q);
 				if (!$updated && IsSet($_SESSION['user_id'])) {
-					$q="insert into node_access set node_permission='".$result->getString('node_permission')."', node_id='".$node['node_id']."',user_id='".$_SESSION['user_id']."'";
+					$q="insert into node_access set node_permission='".$result->getString('node_permission')."', node_id='".$node['node_id']."',user_id='".$user_id."'";
 					$db->query($q);
 				}
 			break;
@@ -68,10 +68,10 @@ if (($node['node_system_access']!='public' and $node['node_system_access']!='cry
 		elseif ($result->getString('node_creator')==$user_id) {
 			array_pop($hierarchy_bounce);
 			$node['node_permission']='access';
-				$q="update node_access set node_permission='access' where node_id='".$node['node_id']."' and user_id='".$_SESSION['user_id']."'";
+				$q="update node_access set node_permission='access' where node_id='".$node['node_id']."' and user_id='".$user_id."'";
 				$updated=$db->update($q);
 				if (!$updated && IsSet($_SESSION['user_id'])) {
-					$q="insert into node_access set node_permission='access', node_id='".$node['node_id']."',user_id='".$_SESSION['user_id']."'";
+					$q="insert into node_access set node_permission='access', node_id='".$node['node_id']."',user_id='".$user_id."'";
 					$db->query($q);
 				}
 			break;
@@ -85,12 +85,12 @@ if (($node['node_system_access']!='public' and $node['node_system_access']!='cry
 
 
 //setting permissions for not logged in users
-if ($_SESSION['user_id']==$node['node_creator']) {
-		$permissions['r']=true;
-		$permissions['w']=true;
+if ($user_id==$node['node_creator']) {
+	$permissions['r']=true;
+	$permissions['w']=true;
 }
 
-elseif (!$_SESSION['user_id']) {
+elseif (!$user_id) {
 
 	if ($node['node_external_access']=='yes' AND ($node['node_system_access']=='public' OR $node['node_system_access']=='moderated' OR $node['node_system_access']=='cube')) {
 		$permissions['r']=true;
