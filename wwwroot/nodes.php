@@ -56,7 +56,7 @@ if (!empty($_GET['node_name'])) {
 	$node  = nodes::redirByName($_GET['node_name']);
 }
 elseif (!empty($_GET['node_id'])) {
-	$node = nodes::getNodeById($_GET['node_id'],isset($_SESSION['user_id']))?$_SESSION['user_id']:'');
+	$node = nodes::getNodeById($_GET['node_id'],(isset($_SESSION['user_id']))?$_SESSION['user_id']:'');
 }
 
 //XXX Paths are wrong (!)
