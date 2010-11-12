@@ -5,8 +5,13 @@ class permissions {
 function isHierarch($node) {
 
 	global $db;
-	$user_id=$_SESSION['user_id'];
+	if (IsSet($_SESSION['user_id'])) {
+	        $user_id=$_SESSION['user_id'];
+	} else {
+	        $user_id=0;
+	}
 	if (!$user_id) return false;
+
 	$node_vector=chunk_split($node['node_vector'],VECTOR_CHARS,';');
 	$hierarchy=explode(';',$node_vector);
 	foreach ($hierarchy as $hierarch) {
