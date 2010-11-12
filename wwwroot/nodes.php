@@ -282,7 +282,7 @@ elseif ($transaction) {
 if ($permissions['r']) {
 
 //these 4 lines are not the source of kyberia lagging problems. leave them. started on the 10.4. data gained will be used for scientific purposes
-if ($_SESSION['user_id']) {
+if ((isset($_SESSION['user_id'])) && ($_SESSION['user_id'])) {
 	$q="insert delayed into levenshtein set user_id='".$_SESSION['user_id']."',node_id='".$node['node_id']."'";
 	$db->update($q);
 }
