@@ -343,7 +343,7 @@ else {
 
 
 //assigning user data to smarty if user logged in
-if (isset($_SESSION['user_id'])&($user_id=$_SESSION['user_id'])) {
+if (isset($_SESSION['user_id'])&&($user_id=$_SESSION['user_id'])) {
 	$smarty->assign('_POST',$_POST);
 	$smarty->assign('bookmarks',$_SESSION['bookmarks']);
 	$smarty->assign('ignore',$_SESSION['ignore']);
@@ -434,7 +434,7 @@ else {
 }
 
 
-if (($node['template_id']!='2019721') & (isset($_SESSION['user_id']))){
+if (($node['template_id']!='2019721') && (isset($_SESSION['user_id']))){
 //setting user location
 $q="update users set last_action=NOW(),user_location_vector='".$node['node_vector']."',user_action='".addslashes($node['node_name'])."',user_action_id='".$node['node_id']."' where user_id='".$_SESSION['user_id']."'";
 $db->executequery($q);
@@ -551,7 +551,7 @@ if ($node['external_link']=='header://svg' && !is_numeric($template_id)) {
 }
 
 //show own header
-elseif (isset($_SESSION['header_id']) & ($_SESSION['header_id']==true)) {
+elseif (isset($_SESSION['header_id']) && ($_SESSION['header_id']==true)) {
 	$smarty->assign('header_id',$_SESSION['header_id']);
 	$smarty->template_dir=OWN_TEMPLATE_DIR;
 	$content=$smarty->fetch($_SESSION['header_id'].".tpl");
