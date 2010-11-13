@@ -308,7 +308,7 @@ if ($node['template_id']!='2019721'){
 // DO NOT MESS WITH THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //creating neural network
 $db->update("update nodes set node_views=node_views+1 where node_id='".$node['node_id']."'");
-if (is_numeric($referer_id)) {
+if (isset($referer_id) && is_numeric($referer_id)) {
 	$q="update neurons set synapse=synapse+1 where dst='".$node['node_id']."' and src='$referer_id'";
 	$result=$db->update($q);
 	if (!$result) {
@@ -510,18 +510,21 @@ if (!empty($_POST['template_event'])) {
         $children_count=$node['node_children_count'];
 	$descendant_count=$node['node_descendant_count'];
 
-        if (is_numeric($_POST['listing_amount'])) $listing_amount=$_POST['listing_amount'];
-        elseif (!empty($_SESSION['listing_amount'])) $listing_amount=$_SESSION['listing_amount'];
+        if (isset($_POST['listing_amount']) && is_numeric($_POST['listing_amount'])) { 
+		$listing_amount=mysql_real_escape_string($_POST['listing_amount']);
+	}elseif (!empty($_SESSION['listing_amount'])) $listing_amount=$_SESSION['listing_amount'];
         else $listing_amount=DEFAULT_LISTING_AMOUNT;
 	$smarty->assign('listing_amount',$listing_amount);
 
-	if ($_POST['listing_order']) $listing_order=$_POST['listing_order'];
-	elseif (!empty($_SESSION['listing_order'])) $listing_order=$_SESSION['listing_order'];
+	if (isset($_POST['listing_order']) && $_POST['listing_order']) {
+		$listing_order=mysql_real_escape_string($_POST['listing_order']);
+	} elseif (!empty($_SESSION['listing_order'])) $listing_order=$_SESSION['listing_order'];
 	else $listing_order=DEFAULT_LISTING_ORDER;
 	$smarty->assign('listing_order',$listing_order);
 
-	if (is_numeric($_POST['get_children_offset'])) $offset=$_POST['get_children_offset'];
-        else $offset=0;
+	if (isset ($_POST['get_children_offset']) && is_numeric($_POST['get_children_offset'])) {
+		$offset=$_POST['get_children_offset'];
+	} else { $offset=0; }
 
 
         //movement forward and backward
