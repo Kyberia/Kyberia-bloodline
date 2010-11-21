@@ -27,7 +27,8 @@
   </tr>
 {*/if*}
   <tr>
-    <td width='{math equation="(x-y)-8" x=$child.depth y=$node.vector_depth}%'></td>
+<!--XXX test oflogarithmic threading (original (x-y)-8 )-->
+    <td width='{math equation="10*log(3+(x-y))-8" x=$child.depth y=$node.vector_depth}%'></td>
     <td valign='top' rowspan='2'>
 {* put.Ty hack *}
 {if $child.synapse_creator neq ''}
