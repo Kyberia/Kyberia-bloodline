@@ -1,17 +1,15 @@
 <?php
+
+// XXX is this even used?
+
 function registruj_novych() {
 global $db,$error;
-// 2110364 >> debug user
+
+// XXX parametrize
 
 $q="select users.login as persona,users.email as email,k,node_id,node_creator,login from nodes
-left join users on nodes.node_creator=users.user_id where node_name='request for access' and node_parent=2091448 and
-k>=5";
-
-/*
-$q="select users.login as persona,users.email as email,k,node_id,node_creator,login from nodes
-left join users on nodes.node_creator=users.user_id where node_name!='request for access' and node_parent=2091448 and
-k>=3 and user_id=2110364";
-*/
+left join users on nodes.node_creator=users.user_id where 
+node_name='request for access' and node_parent=2091448 and k>=5";
 
 $set=$db->query($q);
 while ($set->next()) {

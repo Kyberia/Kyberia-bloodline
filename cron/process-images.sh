@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# XXX do we even need this? 
+# configure_image_new could resize image itself
+
 # Script na upravu uploadnutych obrazkov k nodes (backend k eventu configure_image_new #2105641)
 # Spustane z CRONu cca raz za 2 - 5 minut
 

@@ -2,6 +2,7 @@
 // Default kyberia configuration file.
 // This runs kyberia on localhost with single database.
 
+define('DB_TYPE',		'mysql');	// mysql of psql so far.
 define('DB_HOST',		'localhost');
 define('DB_USER',		'kyberia');
 define('DB_PASS',		'levenshtein');
@@ -24,6 +25,11 @@ define('FILE_DIR',		SYSTEM_DATA . 'files/');
 define('CLASS_DIR',		INCLUDE_DIR . 'class/');
 define('EVENT_DIR',		INCLUDE_DIR . 'eventz/');
 define('SYSTEM_URL',		'kyberia.cz:8023');
+
+define('SYSTEM_SMTP',		'molly.kyberia.cz');
+define('SYSTEM_EMAIL',		'admin@kyberia.cz');
+define('SYSTEM_EMAIL_NAME',	'Ubik osobne');
+
 
 define('UBIK_ID',		'332');
 define('DEFAULT_LISTING_AMOUNT','32');

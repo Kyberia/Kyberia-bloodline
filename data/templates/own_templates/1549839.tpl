@@ -27,7 +27,7 @@
   </tr>
 {*/if*}
   <tr>
-<!--XXX test oflogarithmic threading (original (x-y)-8 )-->
+<!--XXX test oflogarithmic threading (original (x-y)-8 ) XXX TODO fit to resolutions-->
     <td width='{math equation="5*log((x-y))-8" x=$child.depth y=$node.vector_depth}%'></td>
     <td valign='top' rowspan='2'>
 {* put.Ty hack *}

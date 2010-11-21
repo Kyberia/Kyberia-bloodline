@@ -2,7 +2,9 @@
 <?php
 /*
  * Script that register new users who gaind enough K (votes)
- * Called XXX
+ * Called once a day at 0:42
+ * 
+ * TODO: ? call only function from eventz ? 
  */
 
 
@@ -49,7 +51,7 @@ while ($set->next()) {
       mail($mail,"kyberia gate is opened","Vitaj v kyberii");
 
       //VHODNE POSLAT ZACIATOCNIKOVI POSTU
-//      ubik::ubikMail($params);
+      ubik::ubikMail($params);
 }
 
 ?>

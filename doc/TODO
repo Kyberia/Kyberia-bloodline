@@ -1,37 +1,28 @@
 - User mail is not working
+ (mail seems to be stored in db,
+  error is probably somewhere in template
+  1549888.tpl, 1549887.tpl or 25.tpl )
+  Anyway move whole mail handling out of nodes.php (?)
 
 - Registration process is not working
-  (rewrite sending of reg. mails)
+  (rewrite sending of reg. mails) (TEST)
 
 - SQL injections (many fixed, but some should be still there)
 
-- remove absolute paths from all source files (!) (over 50)
+- remove absolute paths from all source files (!)
+
+- User images (icons) seems to be broken somehow
 
 - remove hard-coded hostname from:
   ( registration mails )
   ( scripts in "scripts" directory (system paths))
+
 - Fix https vs http problem (url) 
 
 - Suspected security holes:
   ( cron/process-img.sh )
   ( ./inc/eventz/spamuj_ubik.inc )
   ( ./inc/eventz/upload_own_template.inc ) (is even needed?)
-
-- Remove eventz (and files) that are not used (verify this before removing)
-  ( ./inc/eventz/login_lockout_test.inc )
-  ( ./inc/eventz/add_test.inc )
-  ( ./inc/eventz/add_ubik_friend.inc )
-  ( ./inc/eventz/cron_test.inc )
-  ( ./inc/eventz/login_test.inc )
-  ( ./inc/eventz/mail_test.inc )
-  ( ./inc/eventz/test_button.inc )
-  ( ./inc/eventz/testing_cron.inc )
-  ( ./inc/eventz/testm.inc )
-  ( ./inc/eventz/send-old.inc )
-  ( ./inc/eventz/destroy_synapse2.inc )
-  ( ./inc/eventz/login2.inc )
-  ( ./inc/eventz/send2.inc )
-  ( ./inc/eventz/set_parent2.inc )
 
 - Remove/fix not working eventz
   ( ./inc/eventz/addClass.inc  )
@@ -47,13 +38,16 @@
 
 - keep fixing XSS
 
-- documentation/installation guide (see README)
+- Test & scale logarithmic threading
+
+- some templates are fixed only in .tpl, not in sql database
+  => synchronize .tpl vs SQL templates (permanently)
 
 - Clean code => fix uninitialized variables
 
-- Implement URL handling using PATH_INFO instead of mod_rewrite
+- documentation/installation guide (see README)
 
-- some templates are fixed only in .tpl, not in sql database
+- Implement URL handling using PATH_INFO instead of mod_rewrite
 
 - (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
   (We can use multiple hash algorithms (so we'll have backward DB compatibility):

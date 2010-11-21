@@ -48,15 +48,16 @@ $db = new CLASS_DATABASE();
 
 if (!empty($_GET['template_id'])) {
 	$template_id=$_GET['template_id'];
+} else {
+	$template_id=false;
 }
-else $template_id=false;
 
 //initializing node methods
 if (!empty($_GET['node_name'])) {
 	$node  = nodes::redirByName($_GET['node_name']);
-}
-elseif (!empty($_GET['node_id'])) {
-	$node = nodes::getNodeById($_GET['node_id'],(isset($_SESSION['user_id']))?$_SESSION['user_id']:'');
+} elseif (!empty($_GET['node_id'])) {
+	$node = nodes::getNodeById($_GET['node_id'],
+		(isset($_SESSION['user_id']))?$_SESSION['user_id']:'');
 }
 
 //XXX Paths are wrong (!)
@@ -135,7 +136,7 @@ function _checkPermissions()
 }
 
 // mail rss
-if ($template_id=='rss')
+if ($template_id=='rss') //XXX WHAT?
 {
 	$_feedType = "RSS0.91";
 	if (!is_numeric($_SESSION['user_id']))
@@ -172,6 +173,7 @@ if ($template_id=='rss')
 	   $rss->description = "";
 	   $rss->link = "https://". SYSTEM_URL . "/id/24";
 
+		//XXX into function
 	   $query = "select date_format(mail.mail_timestamp,\"%e.%c. %k:%i:%s\") as cas,
    userfrom.user_action as locationfrom_action,
    userfrom.user_action_id as locationfrom_action_id,
@@ -202,7 +204,7 @@ if ($template_id=='rss')
 
 		$rss = new UniversalFeedCreator();
 		$rss->title = "Kyberia bookmarks";
-		$rss->link = "http://".SYSTEM_URL."/id/19";
+		$rss->link = "http://".SYSTEM_URL."/id/19"; //XXX https ?
 
 		require_once(SMARTY_PLUGIN_DIR.'/function.get_bookmarks.php');
 		smarty_function_get_bookmarks(array(), $smarty);
@@ -265,29 +267,37 @@ _checkPermissions();
 //sventest
 if (($permissions['r']) || ($event != 'register')) {
 
-//performing node_events (based on update/insert/delete db queries)
-if ($event) {
-	require(INCLUDE_DIR.'eventz.inc');
-}
+	//performing node_events (based on update/insert/delete db queries)
+	if ($event) {
+		require(INCLUDE_DIR.'eventz.inc');
+	}
 
-elseif ($transaction) {
-	require(INCLUDE_DIR.'transaction.inc');
-}
-//end of performing node events
+	elseif ($transaction) {
+		require(INCLUDE_DIR.'transaction.inc');
+	}
+	//end of performing node events
 
-//sventest
+	//sventest
 }
 
 
 if ($permissions['r']) {
 
-//these 4 lines are not the source of kyberia lagging problems. leave them. started on the 10.4. data gained will be used for scientific purposes
+// these 4 lines are not the source of kyberia lagging problems.
+// leave them. started on the 10.4. 
+// data gained will be used for scientific purposes
+
+// if (isset($_SESSION['user_id']) {
+//	log_levenshtein($_SESSION['user_id'],$node['node_id']);
+// }
+
 if ((isset($_SESSION['user_id'])) && ($_SESSION['user_id'])) {
 	$q="insert delayed into levenshtein set user_id='".$_SESSION['user_id']."',node_id='".$node['node_id']."'";
 	$db->update($q);
 }
 
 //if node is css
+//XXX into function
 if ($node['template_id']!='2019721'){
 
 	logger::log('enter',$node['node_id'],'ok',$node['node_user_subchild_count']);
@@ -299,12 +309,21 @@ if ($node['template_id']!='2019721'){
 		if (!$result) {
 			$q="insert into node_access set user_id='".$_SESSION['user_id']."',node_id='".$node['node_id']."',last_visit=NOW()";
 			$db->query($q);
-	}
-}//end of if node os css
+		}
+	}//end of if node os css
 }
 
+}
 
-	}
+//XXX into function
+// if (isset($_SESSION['user_id']) {
+//	if (isset($referer_id)) {
+//		update_nodes($_SESSION['user_id'],$node['node_id'],$referer_id);
+//	} else {
+//		update_nodes($_SESSION['user_id'],$node['node_id'],0);	
+//	}
+// }
+
 // DO NOT MESS WITH THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //creating neural network
 $db->update("update nodes set node_views=node_views+1 where node_id='".$node['node_id']."'");
@@ -324,6 +343,7 @@ elseif (!$permissions['r'] && $_GET['magic_word']) {
 	if ( preg_match("/(\d+)-(.+)/",$_GET['magic_word'],$mu)) {
 		$magic_uid=$mu['1'];
 		$magic_word=addslashes($mu['2']);
+		// XXX WTF column magic_word does not exists
 		$q="select login from users where user_id='$magic_uid' and magic_word='$magic_word'";
 		$set=$db->query($q);
 		if ($set->getNumRows()) {
@@ -355,6 +375,7 @@ if (isset($_SESSION['user_id'])&&($user_id=$_SESSION['user_id'])) {
         $smarty->assign('friends',$_SESSION['friends']); //req by freezy, done by darkaural
 	$smarty->assign('user_quota',$_SESSION['user_quota']);
 
+	// XXX into function
 	$newmail_q = sprintf('select u.user_mail_id
 				, u.user_k
 				, u.k_wallet
@@ -367,10 +388,10 @@ if (isset($_SESSION['user_id'])&&($user_id=$_SESSION['user_id'])) {
 				$user_id);
 	$newmailset = $db->query($newmail_q);
 
-//$newmailset=$db->query("select user_mail,user_mail_name,user_k,k_wallet from users where user_id='$user_id'");
 
 	$newmailset->next();
 	$new_mail=$newmailset->getString('user_mail');
+	// XXX into function
 	$newmailset2 = $db->query("select users.user_mail_id,mailsender.login
  from users left join users as mailsender on users.user_mail_id = mailsender.user_id where users.user_id = '$user_id'");
 	$newmailset2->next();
@@ -387,6 +408,7 @@ if (isset($_SESSION['user_id'])&&($user_id=$_SESSION['user_id'])) {
 	if ($node['node_name']=='mail') {
 
 		//clear new mail message
+		
 		if ($new_mail) $db->query("update users set user_mail=0 where user_id='$user_id'");
 
 		//set messages as delivered to recipient
@@ -434,6 +456,7 @@ else {
 }
 
 
+// XXX into function
 if (($node['template_id']!='2019721') && (isset($_SESSION['user_id']))){
 //setting user location
 $q="update users set last_action=NOW(),user_location_vector='".$node['node_vector']."',user_action='".addslashes($node['node_name'])."',user_action_id='".$node['node_id']."' where user_id='".$_SESSION['user_id']."'";
