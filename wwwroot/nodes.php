@@ -1,4 +1,5 @@
 <?php
+//echo($_SERVER['PATH_INFO']."\n<pre>"); var_dump(preg_split('/\//', $_SERVER['PATH_INFO'])); die(); //PATH_INFO Debug (usefull when messing with mod_rewrite)
 // output buffering forcing (mx)
 if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
 
@@ -20,19 +21,19 @@ error_reporting(1);
 if ($_SESSION['debugging']) {
 
     error_reporting(E_ALL);
-    echo "GET VARIABLES::<br/>";
+    echo 'GET VARIABLES::<br/>';
     print_r($_GET);
-    echo "POST VARIABLES::<br/>";
+    echo 'POST VARIABLES::<br/>';
     print_r($_POST);
-    echo "<b>SESSION VARIABLES::</b><br/>";
+    echo '<b>SESSION VARIABLES::</b><br/>';
     print_r($_SESSION);
 }
 
 
-//Path info (Experimental - thish should replace most of mod_rewrites in future...)
+//Path info (Experimental - this replaced most of mod_rewrites...)
 @$PATH_INFO=trim($_SERVER[PATH_INFO]);
 if($PATH_INFO != '') {
-	$PATH_CHUNKS = preg_split("/\//", $PATH_INFO);
+	$PATH_CHUNKS = preg_split('/\//', $PATH_INFO);
 	if(isset($PATH_CHUNKS[1])) switch($PATH_CHUNKS[1]) {
 		case 'k':
 			if(isset($PATH_CHUNKS[2]) && $PATH_CHUNKS[2] != '') $_GET['node_kid'] = $PATH_CHUNKS[2];
@@ -58,7 +59,7 @@ require('config/config.inc');
 require(INCLUDE_DIR.'senate.inc');
 
 if (isset($_SERVER['HTTP_REFERER'])) {
-	preg_match("/id\/([0-9]*)\//",$_SERVER['HTTP_REFERER'],$ref_match);
+	preg_match('/(k|id)\/([0-9]*)\//',$_SERVER['HTTP_REFERER'],$ref_match);
 	$referer_id=$ref_match[1];
 }
 
@@ -94,7 +95,7 @@ $smarty = new Smarty;
 $smarty->template_dir = TEMPLATE_DIR;
 //echo TEMPLATE_DIR.TEMPLATE_SET;
 //echo $smarty->template_dir;
-$smarty->compile_dir = SYSTEM_DATA."templates_c/";
+$smarty->compile_dir = SYSTEM_DATA.'templates_c/';
 $smarty->config_dir = SMARTY_DIR.'configs/'; //XXX neexistuje
 $smarty->cache_dir = SMARTY_DIR.'cache/';
 $smarty->plugins_dir = SMARTY_PLUGIN_DIR ;
