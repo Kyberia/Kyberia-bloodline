@@ -47,7 +47,8 @@
 
 - documentation/installation guide (see README)
 
-- Implement URL handling using PATH_INFO instead of mod_rewrite
+- Make PATH_INFO not changing contents of $_GET[] (it should affect some other variable instead - requires complex rewrite)
+- Switch completely to Base36 (Templates, Links, don't change $_GET[], queries should convert between base10 in db and base36 in kyberia automatically, etc...)
 
 - (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
   (We can use multiple hash algorithms (so we'll have backward DB compatibility):
