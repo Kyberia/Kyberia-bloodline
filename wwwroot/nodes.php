@@ -28,6 +28,10 @@ if ($_SESSION['debugging']) {
     print_r($_SESSION);
 }
 
+//Base36 http://en.wikipedia.org/wiki/Base_36 (Initial support only :-)
+if(isset($_GET['node_kid'])) $_GET['node_id'] = base_convert($_GET['node_kid'], 36, 10);
+if(isset($_GET['template_kid'])) $_GET['template_id'] = base_convert($_GET['template_kid'], 36, 10);
+
 //requiring main config file with path/database etc. constants
 require('config/config.inc');
 require(INCLUDE_DIR.'senate.inc');
