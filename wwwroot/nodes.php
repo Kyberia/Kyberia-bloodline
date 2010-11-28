@@ -33,7 +33,7 @@ if ($_SESSION['debugging']) {
 @$PATH_INFO=trim($_SERVER[PATH_INFO]);
 if($PATH_INFO != '') {
 	$PATH_CHUNKS = preg_split("/\//", $PATH_INFO);
-	switch($PATH_CHUNKS[1]) {
+	if(isset($PATH_CHUNKS[1])) switch($PATH_CHUNKS[1]) {
 		case 'k':
 			if(isset($PATH_CHUNKS[2]) && $PATH_CHUNKS[2] != '') $_GET['node_kid'] = $PATH_CHUNKS[2];
 			if(isset($PATH_CHUNKS[3]) && $PATH_CHUNKS[3] != '') $_GET['template_kid'] = $PATH_CHUNKS[3];
@@ -41,6 +41,10 @@ if($PATH_INFO != '') {
 		case 'id':
 			if(isset($PATH_CHUNKS[2]) && $PATH_CHUNKS[2] != '') $_GET['node_id'] = $PATH_CHUNKS[2];
 			if(isset($PATH_CHUNKS[3]) && $PATH_CHUNKS[3] != '') $_GET['template_id'] = $PATH_CHUNKS[3];
+			break;
+		default:
+			if($PATH_CHUNKS[1] != '') $_GET['node_name'] = $PATH_CHUNKS[1];
+			if(isset($PATH_CHUNKS[2]) && $PATH_CHUNKS[2] != '') $_GET['template_kid'] = $PATH_CHUNKS[2];
 			break;
 	}
 }
