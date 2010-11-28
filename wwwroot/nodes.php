@@ -49,6 +49,10 @@ if($PATH_INFO != '') {
 			break;
 	}
 }
+if(
+	(!isset($_GET['node_kid']) || trim($_GET['node_kid']) == '') &&
+	(!isset($_GET['node_id']) || trim($_GET['node_id']) == '')
+) $_GET['node_kid'] = 1;
 
 //Base36 http://en.wikipedia.org/wiki/Base_36 (Initial support only :-)
 if(isset($_GET['node_kid'])) $_GET['node_id'] = base_convert($_GET['node_kid'], 36, 10);
