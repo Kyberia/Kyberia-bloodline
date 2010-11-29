@@ -13,9 +13,9 @@
      }
    }
 
+require_once(INCLUDE_DIR.'base36.inc');
+
 class nodes {
-
-
 
 function addNode($params) {
         global $db,$node,$error,$error_messages;
@@ -194,8 +194,7 @@ where $table_name.node_id='$node_handle'";
                         return false;
                 }
                 else {
-                        $node=$result->getRecord();
-                        $node['node_kid']=base_convert($node['node_id'],10,36);
+                        $node=addBase36id($result->getRecord());
                         $node['node_vector']=trim($node['node_vector'],"z");
                         $ancestors=str_split($node['node_vector'],VECTOR_CHARS);
                         foreach ($ancestors as $ancestor) {
@@ -234,7 +233,7 @@ where $table_name.node_id='$node_handle'";
                 $result=$db->query($q);
 
                 while ($result->next()){
-                        $record[]=$result->getRecord();
+                        $record[]=addBase36id($result->getRecord());
                 }
                 return $record;
 
@@ -253,7 +252,7 @@ node_parent='$node_handle' order by node_created $orderby LIMIT $offset,$limit";
                 $result=$db->query($q);
 
                 while ($result->next()) {
-                        $array[]=$result->getRecord();
+                        $array[]=addBase36id($result->getRecord());
                 }
 
                 return $array;
@@ -270,7 +269,7 @@ node_parent='$node_handle' order by node_created $orderby LIMIT $offset,$limit";
                 $result=$db->query($q);
 
                 while ($result->next()) {
-                        $children_array[]=$result->getRecord();
+                        $children_array[]=addBase36id($result->getRecord());
                 }
 
                 return $children_array;
