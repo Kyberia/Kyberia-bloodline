@@ -29,8 +29,12 @@ if ($_SESSION['debugging']) {
 }
 
 //Smarty from DB
-$smarty_resource = 'kyberia:';
-//$smarty_resource = ''; //same as 'file:' (fallback)
+$smarty_resource = 'kyberia';
+//$smarty_resource = ''; //same as 'file' (fallback)
+/* I have moved old templates to DB using following lame script:
+ * for i in *.tpl; do j=$(echo "$i" | cut -d . -f 1); echo UPDATE nodes SET node_content = "'$(php -r "echo mysql_escape_string(file_get_contents('$i'));")'" WHERE node_id = "'$j'" COLLATE utf8_bin LIMIT '1;'; done | mysql --user=kyberia --password=PASSSSSSS kyberia
+ * In future we should have some mechanism for distributing templates because they are very important part of kyberia source...
+ */
 
 //Path info (Experimental - this replaced most of mod_rewrites...)
 @$PATH_INFO=trim($_SERVER[PATH_INFO]);
@@ -97,6 +101,7 @@ if (!empty($_GET['node_name'])) {
 require(SMARTY_DIR.'Smarty.class.php');
 $smarty = new Smarty;
 require(INCLUDE_DIR.'smarty/resource.kyberia.php');
+$smarty->default_resource_type=$smarty_resource;
 
 //$smarty->php_handling = SMARTY_PHP_REMOVE; //XXX
 $smarty->template_dir = TEMPLATE_DIR;
@@ -138,7 +143,7 @@ if (empty($node)) {
 	$nodes= nodes::getNodesByName($_GET['node_name']);
 	if ($nodes) {
 		$smarty->assign('nodes',$nodes);
-		$content=$smarty->display($smarty_resource.'404.tpl');
+		$content=$smarty->display('404.tpl');
 		die();
 	}
 	elseif ($_SESSION['user_id']) {
@@ -478,9 +483,9 @@ else {
 	//new templates by Dark matter
 	$smarty->template_dir=OWN_TEMPLATE_DIR;
 
-	$smarty->display($smarty_resource.'1549864.tpl');
-	$smarty->display($smarty_resource.'1549885.tpl');
-	$smarty->display($smarty_resource.'630526.tpl');
+	$smarty->display('1549864.tpl');
+	$smarty->display('1549885.tpl');
+	$smarty->display('630526.tpl');
 	die();
 
 	//redirect to mainpage
@@ -613,7 +618,7 @@ if ($node['external_link']=='header://svg' && !is_numeric($template_id)) {
 elseif (isset($_SESSION['header_id']) && ($_SESSION['header_id']==true)) {
 	$smarty->assign('header_id',$_SESSION['header_id']);
 	$smarty->template_dir=OWN_TEMPLATE_DIR;
-	$content=$smarty->fetch($smarty_resource.$_SESSION['header_id'].".tpl");
+	$content=$smarty->fetch($_SESSION['header_id'].".tpl");
 	$smarty->template_dir = TEMPLATE_DIR.TEMPLATE_SET;
 	//not registered user
 	if ($_SESSION['header_id']==2091520) {
@@ -626,16 +631,16 @@ elseif (isset($_SESSION['header_id']) && ($_SESSION['header_id']==true)) {
 $smarty->template_dir=OWN_TEMPLATE_DIR;
 
 if (is_numeric($template_id)) {
-	$content.=$smarty->fetch($smarty_resource.$template_id.".tpl");
+	$content.=$smarty->fetch($template_id.".tpl");
 }
 
 else {
 	$template_id=$node['template_id'];
-	$content.=$smarty->fetch($smarty_resource.$node['template_id'].".tpl");
+	$content.=$smarty->fetch($node['template_id'].".tpl");
 }
 
 if ($template_id=='2019721'){
-	$content=$smarty->fetch($smarty_resource.$template_id.".tpl");
+	$content=$smarty->fetch($template_id.".tpl");
 	echo $content;
 }else{
 	$time=SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
