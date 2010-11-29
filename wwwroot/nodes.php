@@ -94,6 +94,7 @@ if (!empty($_GET['node_name'])) {
 //loading smarty template engine and setting main parameters
 require(SMARTY_DIR.'Smarty.class.php');
 $smarty = new Smarty;
+require(INCLUDE_DIR.'smarty/resource.kyberia.php');
 
 //$smarty->php_handling = SMARTY_PHP_REMOVE; //XXX
 $smarty->template_dir = TEMPLATE_DIR;
