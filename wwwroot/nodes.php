@@ -14,6 +14,7 @@ session_start();
 
 error_reporting(1);
 //$_SESSION['debugging']=1;
+//unset($_SESSION['debugging']); //Well... we should make some event or JavaScript page to turning this on/off...
 //exit;
 
 
