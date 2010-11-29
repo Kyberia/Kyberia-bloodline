@@ -9,7 +9,6 @@ if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
 
 //starting timer for benchmarking purposes
 $timer_start=Time()+SubStr(MicroTime(),0,8);
-
 //setting PHPSESSID cookie and starting user session
 session_start();
 
@@ -29,6 +28,9 @@ if ($_SESSION['debugging']) {
     print_r($_SESSION);
 }
 
+//Smarty from DB
+$smarty_resource = 'kyberia:';
+$smarty_resource = ''; //same as 'file:' (fallback)
 
 //Path info (Experimental - this replaced most of mod_rewrites...)
 @$PATH_INFO=trim($_SERVER[PATH_INFO]);
@@ -136,7 +138,7 @@ if (empty($node)) {
 	$nodes= nodes::getNodesByName($_GET['node_name']);
 	if ($nodes) {
 		$smarty->assign('nodes',$nodes);
-		$content=$smarty->display("404.tpl");
+		$content=$smarty->display($smarty_resource.'404.tpl');
 		die();
 	}
 	elseif ($_SESSION['user_id']) {
@@ -476,9 +478,9 @@ else {
 	//new templates by Dark matter
 	$smarty->template_dir=OWN_TEMPLATE_DIR;
 
-	$smarty->display('1549864.tpl');
-	$smarty->display('1549885.tpl');
-	$smarty->display('630526.tpl');
+	$smarty->display($smarty_resource.'1549864.tpl');
+	$smarty->display($smarty_resource.'1549885.tpl');
+	$smarty->display($smarty_resource.'630526.tpl');
 	die();
 
 	//redirect to mainpage
@@ -611,7 +613,7 @@ if ($node['external_link']=='header://svg' && !is_numeric($template_id)) {
 elseif (isset($_SESSION['header_id']) && ($_SESSION['header_id']==true)) {
 	$smarty->assign('header_id',$_SESSION['header_id']);
 	$smarty->template_dir=OWN_TEMPLATE_DIR;
-	$content=$smarty->fetch($_SESSION['header_id'].".tpl");
+	$content=$smarty->fetch($smarty_resource.$_SESSION['header_id'].".tpl");
 	$smarty->template_dir = TEMPLATE_DIR.TEMPLATE_SET;
 	//not registered user
 	if ($_SESSION['header_id']==2091520) {
@@ -624,16 +626,16 @@ elseif (isset($_SESSION['header_id']) && ($_SESSION['header_id']==true)) {
 $smarty->template_dir=OWN_TEMPLATE_DIR;
 
 if (is_numeric($template_id)) {
-	$content.=$smarty->fetch($template_id.".tpl");
+	$content.=$smarty->fetch($smarty_resource.$template_id.".tpl");
 }
 
 else {
 	$template_id=$node['template_id'];
-	$content.=$smarty->fetch($node['template_id'].".tpl");
+	$content.=$smarty->fetch($smarty_resource.$node['template_id'].".tpl");
 }
 
 if ($template_id=='2019721'){
-	$content=$smarty->fetch($template_id.".tpl");
+	$content=$smarty->fetch($smarty_resource.$template_id.".tpl");
 	echo $content;
 }else{
 	$time=SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);

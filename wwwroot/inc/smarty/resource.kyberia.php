@@ -3,7 +3,7 @@
 function db_get_template ($tpl_name, &$tpl_source, &$smarty_obj) {
 
         global $db,$error,$node, $error_messages;
-				$add_template_id = $tpl_name;
+				$add_template_id = preg_replace('/\.tpl$/', '', $tpl_name);
 
         if (!is_numeric($add_template_id)) {
             $error = $error_messages['NOT_NUMERIC'];
