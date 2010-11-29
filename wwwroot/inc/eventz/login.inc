@@ -21,6 +21,8 @@ function login() {
             $user_id = $set->getString('user_id');
             $user_name = $set->getString('login');
         break;
+        case "base36id":
+					$login = base_convert($login, 36, 10);
         case "id":
             // HA! if it is number, escape_string is not enough
 	    $login=intval($login);
