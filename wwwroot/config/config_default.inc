@@ -7,6 +7,7 @@ define('DB_HOST',		'localhost');
 define('DB_USER',		'kyberia');
 define('DB_PASS',		'levenshtein');
 define('DB_DATABASE',		'kyberia');
+date_default_timezone_set('Europe/Prague');
 
 define('SYSTEM_ROOT',		'/srv/kyberia/');
 define('SYSTEM_DATA',		SYSTEM_ROOT . '/wwwroot/data/');
