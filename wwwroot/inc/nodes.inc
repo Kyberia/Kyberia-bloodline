@@ -195,6 +195,7 @@ where $table_name.node_id='$node_handle'";
                 }
                 else {
                         $node=$result->getRecord();
+                        $node['node_kid']=base_convert($node['node_id'],10,36);
                         $node['node_vector']=trim($node['node_vector'],"z");
                         $ancestors=str_split($node['node_vector'],VECTOR_CHARS);
                         foreach ($ancestors as $ancestor) {
