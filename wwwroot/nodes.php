@@ -30,7 +30,7 @@ if ($_SESSION['debugging']) {
 
 //Smarty from DB
 $smarty_resource = 'kyberia:';
-$smarty_resource = ''; //same as 'file:' (fallback)
+//$smarty_resource = ''; //same as 'file:' (fallback)
 
 //Path info (Experimental - this replaced most of mod_rewrites...)
 @$PATH_INFO=trim($_SERVER[PATH_INFO]);
