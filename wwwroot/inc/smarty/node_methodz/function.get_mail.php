@@ -1,4 +1,5 @@
-<?
+<?php
+
 function smarty_function_get_mail($params, &$smarty) {
 	global $db, $node;
 
