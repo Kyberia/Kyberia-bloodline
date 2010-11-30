@@ -49,6 +49,15 @@ if($PATH_INFO != '') {
 		case 'id':
 			if(isset($PATH_CHUNKS[2]) && $PATH_CHUNKS[2] != '') $_GET['node_id'] = $PATH_CHUNKS[2];
 			if(isset($PATH_CHUNKS[3]) && $PATH_CHUNKS[3] != '') $_GET['template_id'] = $PATH_CHUNKS[3];
+
+			//Base36 fascism redirect
+			if(!count($_POST)) {
+				header('Location: /k/'.base_convert($_GET['node_id'], 10, 36).
+					(isset($_GET['template_id'])?'/'.base_convert($_GET['template_id'], 10, 36):'')
+				);
+				die("Base36 fascism...\n"); //If you want to be a fascist you have to die imediatelly...
+			}
+
 			break;
 		default:
 			if($PATH_CHUNKS[1] != '') $_GET['node_name'] = $PATH_CHUNKS[1];
