@@ -1,11 +1,10 @@
 - User mail is not working
- (mail seems to be stored in db,
-  error is probably somewhere in template
-  1549888.tpl, 1549887.tpl or 25.tpl )
+ (seems to be fixed, but we still can't delete the mails...)
   Anyway move whole mail handling out of nodes.php (?)
 
 - Registration process is not working
   (rewrite sending of reg. mails) (TEST)
+  (during registration we should generate GnuPG keypair to user_gpg_prv and user_gpg_pub fields in table users)
 
 - SQL injections (many fixed, but some should be still there)
 
@@ -56,4 +55,3 @@
 		{SHA1}f67c52c4a27cf05c99e4f3f946d6500f045a4735
 		5b077a0ab90992d9763c5b120b22c9d7
   ) Harvie
-
