@@ -15,6 +15,14 @@ define('CONFIG_DIR',		SYSTEM_ROOT . 'config/');
 define('AJAX_DIR',		SYSTEM_ROOT . 'wwwroot/ajax/');
 define('INCLUDE_DIR',		SYSTEM_ROOT . 'wwwroot/inc/');
 
+/*
+//Uncomment this to enable Basic HTTP Auth:
+$realm = 'kyberia'; //This is used by browser to identify protected area and saving passwords (one_site+one_realm==one_user+one_password)
+$users = array( //You can specify multiple users in this array
+  'kyberia' => 'passw'
+);
+*/
+
 define('SMARTY_DIR',		SYSTEM_ROOT . 'wwwroot/smarty/libs/');
 define('SMARTY_PLUGIN_DIR',	SYSTEM_ROOT . 'wwwroot/inc/smarty/node_methodz/');
 define('TEMPLATE_DIR',		SYSTEM_DATA . 'templates/');

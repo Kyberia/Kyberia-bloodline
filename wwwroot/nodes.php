@@ -1,4 +1,6 @@
 <?php
+require_once('config/config.inc'); //requiring main config file with path/database etc. constants
+if(isset($realm) && isset($users)) require_once(INCLUDE_DIR.'http_auth.php'); //Ask for auth if enabled...
 //echo($_SERVER['PATH_INFO']."\n<pre>"); var_dump(preg_split('/\//', $_SERVER['PATH_INFO'])); die(); //PATH_INFO Debug (usefull when messing with mod_rewrite)
 // output buffering forcing (mx)
 if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
@@ -74,8 +76,6 @@ if(
 if(isset($_GET['node_kid'])) $_GET['node_id'] = base_convert($_GET['node_kid'], 36, 10);
 if(isset($_GET['template_kid'])) $_GET['template_id'] = base_convert($_GET['template_kid'], 36, 10);
 
-//requiring main config file with path/database etc. constants
-require('config/config.inc');
 require(INCLUDE_DIR.'senate.inc');
 
 if (isset($_SERVER['HTTP_REFERER'])) {
