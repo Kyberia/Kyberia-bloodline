@@ -50,8 +50,5 @@
 - Switch completely to Base36 (Templates, Links, don't change $_GET[], queries should convert between base10 in db and base36 in kyberia automatically, etc...)
 
 - (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
-  (We can use multiple hash algorithms (so we'll have backward DB compatibility):
-		{SHA256}0654209dbde29a5c17e4f04ab63a91d303d2e7c791c7b5777581a7fa6550054e
-		{SHA1}f67c52c4a27cf05c99e4f3f946d6500f045a4735
-		5b077a0ab90992d9763c5b120b22c9d7
-  ) Harvie
+  (We really need this... I've cracked Hromi's password in few seconds (even when it was relatively secure))
+  (I've implemented this partially. We can now login using various hash algorithms, it's backward compatible, but we still need to edit registration/password changing to use SHA1 when updating passwords in DB)
