@@ -20,6 +20,7 @@ $q="delete from users where user_id=$noda";
 echo $q;
     $db->update($q);
 echo "<br>";
+// XXX hard coded, fix
 $q="delete from nodes where node_vector like '020914480$noda%'";
 echo $q;
     $db->update($q);

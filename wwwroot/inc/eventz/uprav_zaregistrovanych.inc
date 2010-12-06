@@ -3,15 +3,10 @@ function uprav_zaregistrovanych() {
 global $db,$error;
 // 2110364 >> debug user
 
+// XXX hardcoded, rewrite
 $q="select users.login as persona,users.email as email,k,node_id,node_creator,login from nodes
 left join users on nodes.node_creator=users.user_id where node_name!='request for access' and node_parent=2091448 and
 k>=3";
-
-/*
-$q="select users.login as persona,users.email as email,k,node_id,node_creator,login from nodes
-left join users on nodes.node_creator=users.user_id where node_name!='request for access' and node_parent=2091448 and
-k>=3 and user_id=2110364";
-*/
 
 $set=$db->query($q);
 while ($set->next()) {

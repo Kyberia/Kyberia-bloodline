@@ -1,6 +1,9 @@
 <?
 function spamuj_ubik() {
 global $db,$node,$error;
+
+/* XXX TODO Rewrite (insecure)
+
 $sprava="Ahoj! tak s radostou ta mozem poinformovat o par zmenach v systeme<br>";
 
 // oznamovanie niektorych ficur z newlistu via ubik vsem userom
@@ -31,6 +34,7 @@ $pocitadlo=$pocitadlo+1;
 
 
 echo "sprava $sprava <br> bola odoslana $pocitadlo userom";
+*/
 return false;
 
 }?>

@@ -27,6 +27,7 @@ return false;
 
 else {
 //  ouch!! this is gonna be dirty!!!!! will be revised later:-)
+// XXX hardcoded, rewrite
 $q="update nodes set node_parent=2091448, node_vector='00876611020914480$userid' where node_id='$userid'";
 $db->update($q);
 $q="update nodes set node_children_count=node_children_count+1 where node_id=2091448";
