@@ -1,4 +1,4 @@
-<?
+<?php
 function destroy_synapse() {
 global $error_messages,$db,$node,$error;
 

@@ -1,4 +1,4 @@
-<?
+<?php
 function get_templates() {
 $sql = "select * from `nodes` where `external_link` LIKE 'template://%'";
 $q = mysql_query($sql);

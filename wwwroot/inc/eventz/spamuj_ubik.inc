@@ -1,4 +1,4 @@
-<?
+<?php
 function spamuj_ubik() {
 global $db,$node,$error;
 

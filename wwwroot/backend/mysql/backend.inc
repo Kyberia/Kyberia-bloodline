@@ -1,4 +1,4 @@
-<?
+<?php
 
 global $node,$db,$error;
 // All mysql code should go here

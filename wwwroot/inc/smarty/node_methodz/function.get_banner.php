@@ -1,4 +1,4 @@
-<?
+<?php
 	function smarty_function_get_banner(&$smarty) {
 		$banners_directory = $_SERVER['DOCUMENT_ROOT']."/banners/";
 

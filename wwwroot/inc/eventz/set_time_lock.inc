@@ -1,4 +1,4 @@
-<?
+<?php
 function set_time_lock(){
 global $db,$error;
 $user_id = $_SESSION['user_id'];

@@ -1,4 +1,4 @@
-<?
+<?php
 function smarty_function_get_nodes_by_external_link($params,&$smarty) {
 
 if ($params['orderby']=='desc') $orderby="desc"; else $orderby="asc";
