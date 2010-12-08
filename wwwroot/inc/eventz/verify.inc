@@ -1,4 +1,4 @@
-<?
+<?php
 function verify(){
 
 global $db;
