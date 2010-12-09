@@ -1,4 +1,4 @@
-<?
+<?php
 function destroy_synapse() {
 global $error_messages,$db,$node,$error;
 
@@ -28,12 +28,10 @@ $db->update($q);
 //echo $q;
 }
 }else{
-global $error;
-$error="Nemas pravomoci na vykonanie daneho skutku....viac ku tomu nemam co dodat:-)";
-return false;
+	global $error;
+	$error="Nemas pravomoci na vykonanie daneho skutku....";
+	return false;
 }
-
-
 
 }
 

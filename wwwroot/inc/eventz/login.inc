@@ -4,7 +4,14 @@ function login() {
     global $db,$error,$node_id;
     $login = mysql_real_escape_string($_POST['login']);
     $password = $_POST['password']; // Not SQLi but be carefull
-    $hash = md5($password);
+    $password_hash_algos=array('sha256','sha1','md5'); //List of supported algos can be obtained using: php -r 'print_r(hash_algos());'
+
+    $hash_query='(';
+    foreach($password_hash_algos as $algo) {
+      $hash_query.="password='".hash($algo, $password)."' OR ";
+    }
+    $hash_query.='false )';
+
     $login_type = $_POST['login_type'];
     $referer = $_SERVER['HTTP_REFERER'];
 
@@ -15,17 +22,19 @@ function login() {
 
     switch ($login_type) {
         case "name":
-            $q = "select * from users where login='$login' and password='$hash'";
+            $q = "select * from users where login='$login' and $hash_query";
             $set = $db->query($q);
             $set->next();
             $user_id = $set->getString('user_id');
             $user_name = $set->getString('login');
         break;
+        case "base36id":
+					$login = base_convert($login, 36, 10);
         case "id":
             // HA! if it is number, escape_string is not enough
 	    $login=intval($login);
 
-            $q="select * from users where user_id='$login' and password='$hash'";
+            $q="select * from users where user_id='$login' and $hash_query";
             $set=$db->query($q);
             $set->next();
             $user_id=$set->getString('user_id');

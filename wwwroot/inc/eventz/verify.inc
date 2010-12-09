@@ -1,5 +1,5 @@
-<?
-function verify() {
+<?php
+function verify(){
 
 global $db;
 $uvercode=mysql_real_escape_string($_POST['vc']);
@@ -20,13 +20,12 @@ $kset=$db->query("select hash from users where login='$login'");
 $kset->next();$vercode=$kset->getString('hash');
 
 if($uvercode!=$vercode) {
-global $error;
-$error="Wrong verification code or username";
-return false;
-}
-
-else {
+	global $error;
+	$error="Wrong verification code or username";
+	return false;
+} else {
 //  ouch!! this is gonna be dirty!!!!! will be revised later:-)
+// XXX hardcoded, rewrite
 $q="update nodes set node_parent=2091448, node_vector='00876611020914480$userid' where node_id='$userid'";
 $db->update($q);
 $q="update nodes set node_children_count=node_children_count+1 where node_id=2091448";
@@ -40,11 +39,9 @@ $db->update($q);
 
 
 // and now the happy news:-))
-
-
 echo "<center>Verification successfull.<br><h3>from now on your registration is in the hands of kyberians</h3></center>";
-
-die();
+	die();
 }
+
 }
 ?>

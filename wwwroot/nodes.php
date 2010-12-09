@@ -1,4 +1,7 @@
 <?php
+require_once('config/config.inc'); //requiring main config file with path/database etc. constants
+if(isset($realm) && isset($users)) require_once(INCLUDE_DIR.'http_auth.php'); //Ask for auth if enabled...
+//echo($_SERVER['PATH_INFO']."\n<pre>"); var_dump(preg_split('/\//', $_SERVER['PATH_INFO'])); die(); //PATH_INFO Debug (usefull when messing with mod_rewrite)
 // output buffering forcing (mx)
 if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
 
@@ -8,32 +11,77 @@ if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
 
 //starting timer for benchmarking purposes
 $timer_start=Time()+SubStr(MicroTime(),0,8);
-
 //setting PHPSESSID cookie and starting user session
 session_start();
 
 error_reporting(1);
 //$_SESSION['debugging']=1;
+//unset($_SESSION['debugging']); //Well... we should make some event or JavaScript page to turning this on/off...
 //exit;
 
 
 if ($_SESSION['debugging']) {
 
     error_reporting(E_ALL);
-    echo "GET VARIABLES::<br/>";
+    echo 'GET VARIABLES::<br/>';
     print_r($_GET);
-    echo "POST VARIABLES::<br/>";
+    echo 'POST VARIABLES::<br/>';
     print_r($_POST);
-    echo "<b>SESSION VARIABLES::</b><br/>";
+    echo '<b>SESSION VARIABLES::</b><br/>';
     print_r($_SESSION);
 }
 
-//requiring main config file with path/database etc. constants
-require('config/config.inc');
+//Smarty from DB
+$smarty_resource = 'kyberia';
+//$smarty_resource = ''; //same as 'file' (fallback)
+/* I have moved old templates to DB using following lame script:
+ * for i in *.tpl; do j=$(echo "$i" | cut -d . -f 1); echo UPDATE nodes SET node_content = "'$(php -r "echo mysql_escape_string(file_get_contents('$i'));")'" WHERE node_id = "'$j'" COLLATE utf8_bin LIMIT '1;'; done | mysql --user=kyberia --password=PASSSSSSS kyberia
+ * In future we should have some mechanism for distributing templates because they are very important part of kyberia source...
+ */
+
+//Path info (Experimental - this replaced most of mod_rewrites...)
+@$PATH_INFO=trim($_SERVER[PATH_INFO]);
+if($PATH_INFO != '') {
+	$PATH_CHUNKS = preg_split('/\//', $PATH_INFO);
+	if(isset($PATH_CHUNKS[1])) switch($PATH_CHUNKS[1]) {
+		case 'k':
+			if(isset($PATH_CHUNKS[2]) && $PATH_CHUNKS[2] != '') $_GET['node_kid'] = $PATH_CHUNKS[2];
+			if(isset($PATH_CHUNKS[3]) && $PATH_CHUNKS[3] != '') $_GET['template_kid'] = $PATH_CHUNKS[3];
+			break;
+		case 'id':
+			if(isset($PATH_CHUNKS[2]) && $PATH_CHUNKS[2] != '') $_GET['node_id'] = $PATH_CHUNKS[2];
+			if(isset($PATH_CHUNKS[3]) && $PATH_CHUNKS[3] != '') $_GET['template_id'] = $PATH_CHUNKS[3];
+
+			//Base36 fascism redirect
+			if(!count($_POST)) {
+				header('Location: /k/'.base_convert($_GET['node_id'], 10, 36).
+					(isset($_GET['template_id'])?'/'.base_convert($_GET['template_id'], 10, 36):'')
+				);
+				die("Base36 fascism...\n"); //If you want to be a fascist you have to die imediatelly...
+			}
+
+			break;
+		default:
+			if($PATH_CHUNKS[1] != '') $_GET['node_name'] = $PATH_CHUNKS[1];
+			if(isset($PATH_CHUNKS[2]) && $PATH_CHUNKS[2] != '') $_GET['template_kid'] = $PATH_CHUNKS[2];
+			break;
+	}
+}
+if(
+	(!isset($_GET['node_kid']) || trim($_GET['node_kid']) == '') &&
+	(!isset($_GET['node_id']) || trim($_GET['node_id']) == '')
+) $_GET['node_kid'] = 1;
+
+//Base36 http://en.wikipedia.org/wiki/Base_36 (Initial support only :-)
+if(isset($_GET['node_kid'])) $_GET['node_id'] = base_convert($_GET['node_kid'], 36, 10);
+if(isset($_GET['template_kid'])) $_GET['template_id'] = base_convert($_GET['template_kid'], 36, 10);
+
 require(INCLUDE_DIR.'senate.inc');
 
-preg_match("/id\/(.*)\//",$_SERVER['HTTP_REFERER'],$ref_match);
-$referer_id=$ref_match[1];
+if (isset($_SERVER['HTTP_REFERER'])) {
+	preg_match('/(k|id)\/([0-9]*)\//',$_SERVER['HTTP_REFERER'],$ref_match);
+	$referer_id=$ref_match[1];
+}
 
 //connecting to database and creating universal $db object
 require(INCLUDE_DIR.'log.inc');
@@ -46,27 +94,30 @@ $db = new CLASS_DATABASE();
 
 if (!empty($_GET['template_id'])) {
 	$template_id=$_GET['template_id'];
+} else {
+	$template_id=false;
 }
-else $template_id=false;
 
 //initializing node methods
 if (!empty($_GET['node_name'])) {
 	$node  = nodes::redirByName($_GET['node_name']);
-}
-elseif (!empty($_GET['node_id'])) {
-	$node = nodes::getNodeById($_GET['node_id'],$_SESSION['user_id']);
+} elseif (!empty($_GET['node_id'])) {
+	$node = nodes::getNodeById($_GET['node_id'],
+		(isset($_SESSION['user_id']))?$_SESSION['user_id']:'');
 }
 
 //XXX Paths are wrong (!)
 //loading smarty template engine and setting main parameters
 require(SMARTY_DIR.'Smarty.class.php');
 $smarty = new Smarty;
+require(INCLUDE_DIR.'smarty/resource.kyberia.php');
+$smarty->default_resource_type=$smarty_resource;
 
 //$smarty->php_handling = SMARTY_PHP_REMOVE; //XXX
 $smarty->template_dir = TEMPLATE_DIR;
 //echo TEMPLATE_DIR.TEMPLATE_SET;
 //echo $smarty->template_dir;
-$smarty->compile_dir = SYSTEM_DATA."templates_c/";
+$smarty->compile_dir = SYSTEM_DATA.'templates_c/';
 $smarty->config_dir = SMARTY_DIR.'configs/'; //XXX neexistuje
 $smarty->cache_dir = SMARTY_DIR.'cache/';
 $smarty->plugins_dir = SMARTY_PLUGIN_DIR ;
@@ -84,9 +135,11 @@ if ($_SESSION['debugging']) {
 	echo "</pre>";
 }
 
-if ($node['node_creator']==$_SESSION['user_id']) $node['node_permission']='owner';
+if ((isset($_SESSION['user_id']) && ($node['node_creator']==$_SESSION['user_id']))) {
+	$node['node_permission']='owner';
+}
 
-if ($_SESSION['cube_vector']) {
+if (isset($_SESSION['cube_vector']) && ($_SESSION['cube_vector'])) {
 	if (strpos($node['node_vector'],$_SESSION['cube_vector'])===false) {
 		echo "node::".$node['node_vector'];
 		echo "cube_Vector::".$_SESSION['cube_vector'];
@@ -100,7 +153,7 @@ if (empty($node)) {
 	$nodes= nodes::getNodesByName($_GET['node_name']);
 	if ($nodes) {
 		$smarty->assign('nodes',$nodes);
-		$content=$smarty->display("404.tpl");
+		$content=$smarty->display('404.tpl');
 		die();
 	}
 	elseif ($_SESSION['user_id']) {
@@ -109,14 +162,16 @@ if (empty($node)) {
 	}
 }
 
-//modifying node glass pearl
-if (is_array($children_types[$node['node_type']])) $smarty->assign('children_types',$children_types[$node['node_type']]);
+//modifying node glass pearl //XXX WTF
+if (is_array($children_types[$node['node_type']])) {
+	$smarty->assign('children_types',$children_types[$node['node_type']]);
+}
 $smarty->assign('types',$types);
 
 
 //$node['node_type']=$types[$node['node_type']];
-$node['node_content']=StripSlashes($node['node_content']);
-$node['node_name']=StripSlashes($node['node_name']);
+$node['node_content']= StripSlashes($node['node_content']);
+$node['node_name']= StripSlashes($node['node_name']);
 
 //checking permissions
 function _checkPermissions()
@@ -129,7 +184,7 @@ function _checkPermissions()
 }
 
 // mail rss
-if ($template_id=='rss')
+if ($template_id=='rss') //XXX WHAT?
 {
 	$_feedType = "RSS0.91";
 	if (!is_numeric($_SESSION['user_id']))
@@ -166,6 +221,7 @@ if ($template_id=='rss')
 	   $rss->description = "";
 	   $rss->link = "https://". SYSTEM_URL . "/id/24";
 
+		//XXX into function
 	   $query = "select date_format(mail.mail_timestamp,\"%e.%c. %k:%i:%s\") as cas,
    userfrom.user_action as locationfrom_action,
    userfrom.user_action_id as locationfrom_action_id,
@@ -196,7 +252,7 @@ if ($template_id=='rss')
 
 		$rss = new UniversalFeedCreator();
 		$rss->title = "Kyberia bookmarks";
-		$rss->link = "http://".SYSTEM_URL."/id/19";
+		$rss->link = "http://".SYSTEM_URL."/id/19"; //XXX https ?
 
 		require_once(SMARTY_PLUGIN_DIR.'/function.get_bookmarks.php');
 		smarty_function_get_bookmarks(array(), $smarty);
@@ -259,29 +315,37 @@ _checkPermissions();
 //sventest
 if (($permissions['r']) || ($event != 'register')) {
 
-//performing node_events (based on update/insert/delete db queries)
-if ($event) {
-	require(INCLUDE_DIR.'eventz.inc');
-}
+	//performing node_events (based on update/insert/delete db queries)
+	if ($event) {
+		require(INCLUDE_DIR.'eventz.inc');
+	}
 
-elseif ($transaction) {
-	require(INCLUDE_DIR.'transaction.inc');
-}
-//end of performing node events
+	elseif ($transaction) {
+		require(INCLUDE_DIR.'transaction.inc');
+	}
+	//end of performing node events
 
-//sventest
+	//sventest
 }
 
 
 if ($permissions['r']) {
 
-//these 4 lines are not the source of kyberia lagging problems. leave them. started on the 10.4. data gained will be used for scientific purposes
-if ($_SESSION['user_id']) {
+// these 4 lines are not the source of kyberia lagging problems.
+// leave them. started on the 10.4. 
+// data gained will be used for scientific purposes
+
+// if (isset($_SESSION['user_id']) {
+//	log_levenshtein($_SESSION['user_id'],$node['node_id']);
+// }
+
+if ((isset($_SESSION['user_id'])) && ($_SESSION['user_id'])) {
 	$q="insert delayed into levenshtein set user_id='".$_SESSION['user_id']."',node_id='".$node['node_id']."'";
 	$db->update($q);
 }
 
 //if node is css
+//XXX into function
 if ($node['template_id']!='2019721'){
 
 	logger::log('enter',$node['node_id'],'ok',$node['node_user_subchild_count']);
@@ -293,16 +357,25 @@ if ($node['template_id']!='2019721'){
 		if (!$result) {
 			$q="insert into node_access set user_id='".$_SESSION['user_id']."',node_id='".$node['node_id']."',last_visit=NOW()";
 			$db->query($q);
-	}
-}//end of if node os css
+		}
+	}//end of if node os css
 }
 
+}
 
-	}
+//XXX into function
+// if (isset($_SESSION['user_id']) {
+//	if (isset($referer_id)) {
+//		update_nodes($_SESSION['user_id'],$node['node_id'],$referer_id);
+//	} else {
+//		update_nodes($_SESSION['user_id'],$node['node_id'],0);	
+//	}
+// }
+
 // DO NOT MESS WITH THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //creating neural network
 $db->update("update nodes set node_views=node_views+1 where node_id='".$node['node_id']."'");
-if (is_numeric($referer_id)) {
+if (isset($referer_id) && is_numeric($referer_id)) {
 	$q="update neurons set synapse=synapse+1 where dst='".$node['node_id']."' and src='$referer_id'";
 	$result=$db->update($q);
 	if (!$result) {
@@ -318,6 +391,7 @@ elseif (!$permissions['r'] && $_GET['magic_word']) {
 	if ( preg_match("/(\d+)-(.+)/",$_GET['magic_word'],$mu)) {
 		$magic_uid=$mu['1'];
 		$magic_word=addslashes($mu['2']);
+		// XXX WTF column magic_word does not exists
 		$q="select login from users where user_id='$magic_uid' and magic_word='$magic_word'";
 		$set=$db->query($q);
 		if ($set->getNumRows()) {
@@ -337,7 +411,7 @@ else {
 
 
 //assigning user data to smarty if user logged in
-if ($user_id=$_SESSION['user_id']) {
+if (isset($_SESSION['user_id'])&&($user_id=$_SESSION['user_id'])) {
 	$smarty->assign('_POST',$_POST);
 	$smarty->assign('bookmarks',$_SESSION['bookmarks']);
 	$smarty->assign('ignore',$_SESSION['ignore']);
@@ -349,6 +423,7 @@ if ($user_id=$_SESSION['user_id']) {
         $smarty->assign('friends',$_SESSION['friends']); //req by freezy, done by darkaural
 	$smarty->assign('user_quota',$_SESSION['user_quota']);
 
+	// XXX into function
 	$newmail_q = sprintf('select u.user_mail_id
 				, u.user_k
 				, u.k_wallet
@@ -361,10 +436,10 @@ if ($user_id=$_SESSION['user_id']) {
 				$user_id);
 	$newmailset = $db->query($newmail_q);
 
-//$newmailset=$db->query("select user_mail,user_mail_name,user_k,k_wallet from users where user_id='$user_id'");
 
 	$newmailset->next();
 	$new_mail=$newmailset->getString('user_mail');
+	// XXX into function
 	$newmailset2 = $db->query("select users.user_mail_id,mailsender.login
  from users left join users as mailsender on users.user_mail_id = mailsender.user_id where users.user_id = '$user_id'");
 	$newmailset2->next();
@@ -381,6 +456,7 @@ if ($user_id=$_SESSION['user_id']) {
 	if ($node['node_name']=='mail') {
 
 		//clear new mail message
+		
 		if ($new_mail) $db->query("update users set user_mail=0 where user_id='$user_id'");
 
 		//set messages as delivered to recipient
@@ -428,7 +504,8 @@ else {
 }
 
 
-if ($node['template_id']!='2019721'){
+// XXX into function
+if (($node['template_id']!='2019721') && (isset($_SESSION['user_id']))){
 //setting user location
 $q="update users set last_action=NOW(),user_location_vector='".$node['node_vector']."',user_action='".addslashes($node['node_name'])."',user_action_id='".$node['node_id']."' where user_id='".$_SESSION['user_id']."'";
 $db->executequery($q);
@@ -504,18 +581,21 @@ if (!empty($_POST['template_event'])) {
         $children_count=$node['node_children_count'];
 	$descendant_count=$node['node_descendant_count'];
 
-        if (is_numeric($_POST['listing_amount'])) $listing_amount=$_POST['listing_amount'];
-        elseif (!empty($_SESSION['listing_amount'])) $listing_amount=$_SESSION['listing_amount'];
+        if (isset($_POST['listing_amount']) && is_numeric($_POST['listing_amount'])) { 
+		$listing_amount=mysql_real_escape_string($_POST['listing_amount']);
+	}elseif (!empty($_SESSION['listing_amount'])) $listing_amount=$_SESSION['listing_amount'];
         else $listing_amount=DEFAULT_LISTING_AMOUNT;
 	$smarty->assign('listing_amount',$listing_amount);
 
-	if ($_POST['listing_order']) $listing_order=$_POST['listing_order'];
-	elseif (!empty($_SESSION['listing_order'])) $listing_order=$_SESSION['listing_order'];
+	if (isset($_POST['listing_order']) && $_POST['listing_order']) {
+		$listing_order=mysql_real_escape_string($_POST['listing_order']);
+	} elseif (!empty($_SESSION['listing_order'])) $listing_order=$_SESSION['listing_order'];
 	else $listing_order=DEFAULT_LISTING_ORDER;
 	$smarty->assign('listing_order',$listing_order);
 
-	if (is_numeric($_POST['get_children_offset'])) $offset=$_POST['get_children_offset'];
-        else $offset=0;
+	if (isset ($_POST['get_children_offset']) && is_numeric($_POST['get_children_offset'])) {
+		$offset=$_POST['get_children_offset'];
+	} else { $offset=0; }
 
 
         //movement forward and backward
@@ -545,7 +625,7 @@ if ($node['external_link']=='header://svg' && !is_numeric($template_id)) {
 }
 
 //show own header
-elseif ($_SESSION['header_id']==true) {
+elseif (isset($_SESSION['header_id']) && ($_SESSION['header_id']==true)) {
 	$smarty->assign('header_id',$_SESSION['header_id']);
 	$smarty->template_dir=OWN_TEMPLATE_DIR;
 	$content=$smarty->fetch($_SESSION['header_id'].".tpl");

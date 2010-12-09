@@ -3,7 +3,7 @@
 	global $error,$node,$db;
 
 	$user_id = $_SESSION['user_id'];
-	$bookstyl = $_POST['bookstyl'];
+	$bookstyl = $_POST['bookstyl']; //XXX sqli
 
 	$set=$db->query("select * from nodes where node_parent=19 and external_link='session://bookstyl' and node_creator='$user_id'");
 	if($set->getNumRows() == 0) {

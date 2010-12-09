@@ -1,37 +1,27 @@
 - User mail is not working
+ (seems to be fixed, but we still can't delete the mails...)
+  Anyway move whole mail handling out of nodes.php (?)
 
 - Registration process is not working
-  (rewrite sending of reg. mails)
+  (rewrite sending of reg. mails) (TEST)
+  (during registration we should generate GnuPG keypair to user_gpg_prv and user_gpg_pub fields in table users)
 
 - SQL injections (many fixed, but some should be still there)
 
-- remove absolute paths from all source files (!) (over 50)
+- remove absolute paths from all source files (!)
+
+- User images (icons) seems to be broken somehow
 
 - remove hard-coded hostname from:
   ( registration mails )
   ( scripts in "scripts" directory (system paths))
+
 - Fix https vs http problem (url) 
 
 - Suspected security holes:
   ( cron/process-img.sh )
   ( ./inc/eventz/spamuj_ubik.inc )
   ( ./inc/eventz/upload_own_template.inc ) (is even needed?)
-
-- Remove eventz (and files) that are not used (verify this before removing)
-  ( ./inc/eventz/login_lockout_test.inc )
-  ( ./inc/eventz/add_test.inc )
-  ( ./inc/eventz/add_ubik_friend.inc )
-  ( ./inc/eventz/cron_test.inc )
-  ( ./inc/eventz/login_test.inc )
-  ( ./inc/eventz/mail_test.inc )
-  ( ./inc/eventz/test_button.inc )
-  ( ./inc/eventz/testing_cron.inc )
-  ( ./inc/eventz/testm.inc )
-  ( ./inc/eventz/send-old.inc )
-  ( ./inc/eventz/destroy_synapse2.inc )
-  ( ./inc/eventz/login2.inc )
-  ( ./inc/eventz/send2.inc )
-  ( ./inc/eventz/set_parent2.inc )
 
 - Remove/fix not working eventz
   ( ./inc/eventz/addClass.inc  )
@@ -47,18 +37,18 @@
 
 - keep fixing XSS
 
-- documentation/installation guide (see README)
+- Test & scale logarithmic threading
+
+- some templates are fixed only in .tpl, not in sql database
+  => synchronize .tpl vs SQL templates (permanently)
 
 - Clean code => fix uninitialized variables
 
-- Implement URL handling using PATH_INFO instead of mod_rewrite
+- documentation/installation guide (see README)
 
-- some templates are fixed only in .tpl, not in sql database
+- Make PATH_INFO not changing contents of $_GET[] (it should affect some other variable instead - requires complex rewrite)
+- Switch completely to Base36 (Templates, Links, don't change $_GET[], queries should convert between base10 in db and base36 in kyberia automatically, etc...)
 
 - (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
-  (We can use multiple hash algorithms (so we'll have backward DB compatibility):
-		{SHA256}0654209dbde29a5c17e4f04ab63a91d303d2e7c791c7b5777581a7fa6550054e
-		{SHA1}f67c52c4a27cf05c99e4f3f946d6500f045a4735
-		5b077a0ab90992d9763c5b120b22c9d7
-  ) Harvie
-
+  (We really need this... I've cracked Hromi's password in few seconds (even when it was relatively secure))
+  (I've implemented this partially. We can now login using various hash algorithms, it's backward compatible, but we still need to edit registration/password changing to use SHA1 when updating passwords in DB)

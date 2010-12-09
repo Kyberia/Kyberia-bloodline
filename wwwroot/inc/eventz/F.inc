@@ -7,6 +7,7 @@ $kset=$db->query("select user_k from users where user_id='$user_id'");
 $kset->next();
 $user_k=$kset->getString('user_k');
 
+// XXX hard-coded
 $senat_id = 876611;
 $K_id = 1961061;
 $comms = getCommanders($K_id);

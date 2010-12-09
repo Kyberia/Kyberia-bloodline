@@ -1,5 +1,7 @@
 <?php
 
+require_once(INCLUDE_DIR.'base36.inc');
+
         function smarty_function_get_children($params,&$smarty) {
 
                 global $db,$node;
@@ -36,7 +38,7 @@ rch'])."%' ";
                 $set=$db->query($q);
 
                 while ($set->next()) {
-                        $get_children_array[]=$set->getRecord();
+                        $get_children_array[]=addBase36id($set->getRecord());
                 }
 
                 $smarty->assign('get_children',$get_children_array);
