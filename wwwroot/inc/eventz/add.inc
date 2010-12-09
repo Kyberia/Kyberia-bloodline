@@ -103,10 +103,6 @@ function add() {
     $node_content=crypto::crypto($node_content,$key);
 
 
-    //setting generated crypto password for viewing
-    if ($node_system_access=='crypto') {
-    $_SESSION['crypto'][$id]=$key;
-    }
 
     }
 
@@ -115,7 +111,7 @@ function add() {
     $params['node_parent']=$node_parent;
     $params['node_system_access']=$node_system_access;
     $params['node_creator']=$_SESSION['user_id'];
-    $params['node_content']=$node_content;
+    $params['node_content']=mysql_escape_string($node_content);
     $params['external_link']=$external_link;
     nodes::addNode($params);
     return true;
