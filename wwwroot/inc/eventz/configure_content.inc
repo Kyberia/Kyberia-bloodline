@@ -34,9 +34,9 @@ function configure_content() {
             from nodes where node_id = '$node_id'";
     $db->query($qtiamat);
 
-    $qu = "update nodes set node_content = '".mysql_real_espace_string($node_content)."' where node_id = '$node_id'";
+    $qu = "update nodes set node_content = '".mysql_real_escape_string($node_content)."' where node_id = '$node_id'";
     $result = $db->update($qu);
-    $qu2 = "update node_content set node_content = '".mysql_real_espace_string($node_content)."' where node_id = '$node_id'";
+    $qu2 = "update node_content set node_content = '".mysql_real_escape_string($node_content)."' where node_id = '$node_id'";
     $result = $db->update($qu2);
 
     return true;
