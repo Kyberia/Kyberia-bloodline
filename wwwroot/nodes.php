@@ -53,6 +53,7 @@ if($PATH_INFO != '') {
 			if(isset($PATH_CHUNKS[3]) && $PATH_CHUNKS[3] != '') $_GET['template_id'] = $PATH_CHUNKS[3];
 
 			//Base36 fascism redirect
+			if($_GET['template_id'] == 'download') break; //Fix ugly download hack...
 			if(!count($_POST)) {
 				header('Location: /k/'.base_convert($_GET['node_id'], 10, 36).
 					(isset($_GET['template_id'])?'/'.base_convert($_GET['template_id'], 10, 36):'')
