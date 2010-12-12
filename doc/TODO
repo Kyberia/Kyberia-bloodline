@@ -1,10 +1,9 @@
-- User mail is not working
- (seems to be fixed, but we still can't delete the mails...)
+- User mail -> can't delete the mails...
   Anyway move whole mail handling out of nodes.php (?)
 
-- Registration process is not working
-  (rewrite sending of reg. mails) (TEST)
-  (during registration we should generate GnuPG keypair to user_gpg_prv and user_gpg_pub fields in table users)
+- Registration process -> Add welcome texts & move them to one file/node
+  (during registration we should generate GnuPG keypair 
+   to user_gpg_prv and user_gpg_pub fields in table users) (harvie)
 
 - SQL injections (many fixed, but some should be still there)
 
@@ -39,8 +38,7 @@
 
 - Test & scale logarithmic threading
 
-- some templates are fixed only in .tpl, not in sql database
-  => synchronize .tpl vs SQL templates (permanently)
+- Remove templates from git (they should be only in sql)
 
 - Clean code => fix uninitialized variables
 
@@ -50,5 +48,4 @@
 - Switch completely to Base36 (Templates, Links, don't change $_GET[], queries should convert between base10 in db and base36 in kyberia automatically, etc...)
 
 - (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
-  (We really need this... I've cracked Hromi's password in few seconds (even when it was relatively secure))
   (I've implemented this partially. We can now login using various hash algorithms, it's backward compatible, but we still need to edit registration/password changing to use SHA1 when updating passwords in DB)
