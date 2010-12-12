@@ -11,9 +11,10 @@
 * Examples: {$smarty.now|epochal_date}
 * -------------------------------------------------------------
 */
-function smarty_modifier_epochal_date($date) {
+function smarty_modifier_epochal_date($d) {
+   $date=smarty_make_timestamp($d);
    $year=date("Y",$date);
-   echo str_replace($year,$year-1970,date("d/m/Y",$date));
-   return $date;
+   return str_replace($year,$year-1970,date("d/m/Y",$date));
 }
+         
 ?>
