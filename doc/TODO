@@ -1,15 +1,19 @@
-- User mail -> can't delete the mails...
-  Anyway move whole mail handling out of nodes.php (?)
+- When adding node, content is escaped twice(?)
 
 - Registration process -> Add welcome texts & move them to one file/node
+  Temporary requests node does not exists.
+  Nodes are created with bad vector
   (during registration we should generate GnuPG keypair 
    to user_gpg_prv and user_gpg_pub fields in table users) (harvie)
+
+- User images (icons) seems to be broken
+
+- User mail -> can't delete the mails...
+  Anyway move whole mail handling out of nodes.php (?)
 
 - SQL injections (many fixed, but some should be still there)
 
 - remove absolute paths from all source files (!)
-
-- User images (icons) seems to be broken somehow
 
 - remove hard-coded hostname from:
   ( registration mails )
