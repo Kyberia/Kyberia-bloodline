@@ -70,10 +70,10 @@ function upload_data_file() {
 					    stristr($image_name,".jpeg") ){
 						
 						/// XXX UTILZ_DIR is not set. remove?
-						$cmd=UTILZ_DIR."/jpegtopnm  $image |".UTILZ_DIR."/pnmscale -width=$width | ".UTILZ_DIR."ppmquant 256 |".UTILZ_DIR."ppmtogif >".SYSTEM_ROOT."images/nodes/".substr($datanode_id,0,1)."/".substr($datanode_id,1,1)."/".$datanode_id.".gif";
+						$cmd=UTILZ_DIR."/jpegtopnm  $image |".UTILZ_DIR."/pnmscale -width=$width | ".UTILZ_DIR."ppmquant 256 |".UTILZ_DIR."ppmtogif >".SYSTEM_ROOT.SYSTEM_IMAGES.'/nodes/'.substr($datanode_id,0,1)."/".substr($datanode_id,1,1)."/".$datanode_id.".gif";
 					}
 					elseif (stristr($image_name,".gif")) {
-						$cmd=UTILZ_DIR."/gifsicle --resize ".$width."x_ $image > ".SYSTEM_ROOT."images/nodes/".substr($datanode_id,0,1)."/".substr($datanode_id,1,1)."/".$datanode_id.".gif";
+						$cmd=UTILZ_DIR."/gifsicle --resize ".$width."x_ $image > ".SYSTE_ROOT.SYSTEM_IMAGES.'/nodes/'.substr($datanode_id,0,1)."/".substr($datanode_id,1,1)."/".$datanode_id.".gif";
 					}
 					if ($cmd) {
 						shell_exec($cmd);

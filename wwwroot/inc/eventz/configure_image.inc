@@ -67,7 +67,7 @@
 
             $_required_dims    = ($node['node_id'] == $_SESSION['user_id'])?50:NODE_IMAGE_WIDTH;
             $_prepared_fname   = sprintf('%s/prepared/%03s_%s.gif.upload', $_PROCESS_IMG_PATH, $_required_dims, $node['node_id']);
-            $_nodeimg_fname    = sprintf('%s/images/nodes/%s/%s/%d.gif', $_WEBROOT_PATH, $node['node_id'][0], $node['node_id'][1], $node['node_id']);
+            $_nodeimg_fname    = sprintf('%s/'.SYSTEM_IMAGES.'/nodes/%s/%s/%d.gif', $_WEBROOT_PATH, $node['node_id'][0], $node['node_id'][1], $node['node_id']);
 
             if (!is_uploaded_file($_FILES['description_image']['tmp_name'])) {
                 $error = '#02: Invalid file upload';

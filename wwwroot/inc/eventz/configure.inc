@@ -13,10 +13,10 @@
 			else $width=123;
 
 			if (stristr($image_name,".jpg") || stristr($image_name,".jpeg") ){
-		                $cmd=UTILZ_DIR."/jpegtopnm  $image |".UTILZ_DIR."/pnmscale -width=$width | ".UTILZ_DIR."ppmquant 256 |".UTILZ_DIR."ppmtogif >".SYSTEM_ROOT."images/nodes/".substr($node['node_id'],0,1)."/".substr($node['node_id'],1,1)."/".$node['node_id'].".gif";
+		                $cmd=UTILZ_DIR."/jpegtopnm  $image |".UTILZ_DIR."/pnmscale -width=$width | ".UTILZ_DIR."ppmquant 256 |".UTILZ_DIR."ppmtogif >".SYSTEM_ROOT.SYSTEM_IMAGES.'/nodes/'.substr($node['node_id'],0,1)."/".substr($node['node_id'],1,1)."/".$node['node_id'].".gif";
 			}
 		        elseif (stristr($image_name,".gif")) {
-        		        $cmd=UTILZ_DIR."/gifsicle --resize ".$width."x_ $image > ".SYSTEM_ROOT."images/nodes/".substr($node['node_id'],0,1)."/".substr($node['node_id'],1,1)."/".$node['node_id'].".gif";
+				$cmd=UTILZ_DIR."/gifsicle --resize ".$width."x_ $image > ".SYSTEM_ROOT.SYSTEM_IMAGES.'/nodes/'.substr($node['node_id'],0,1)."/".substr($node['node_id'],1,1)."/".$node['node_id'].".gif";
 	        	}
 			if ($cmd) {
 				shell_exec($cmd);

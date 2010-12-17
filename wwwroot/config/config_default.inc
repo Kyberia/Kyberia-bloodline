@@ -11,6 +11,7 @@ date_default_timezone_set('Europe/Prague');
 
 define('SYSTEM_ROOT',		'/srv/kyberia/');
 define('SYSTEM_DATA',		SYSTEM_ROOT . '/wwwroot/_data/');
+define('SYSTEM_IMAGES',		'/_images/');
 define('CONFIG_DIR',		SYSTEM_ROOT . 'config/');
 define('AJAX_DIR',		SYSTEM_ROOT . 'wwwroot/ajax/');
 define('INCLUDE_DIR',		SYSTEM_ROOT . 'wwwroot/inc/');
