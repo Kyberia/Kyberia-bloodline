@@ -12,6 +12,15 @@
 - SQL injections (many fixed, but some should be still there)
 
 - remove absolute paths from all source files (!)
+- convert to some more inteligent path system... eg.:
+	define('SYSTEM_ROOT',		'/srv/kyberia/');
+	define('SYSTEM_WWWROOT',	SYSTEM_ROOT.'/wwwroot/');
+	define('SYSTEM_URL',		'/'); //or https://dev.kyberia.cz/
+	define('SYSTEM_DATA',		'_data/');
+	define('SYSTEM_IMAGES',		'_images/');
+  because right now we can't determine both: filesystem path and URL of the same directory. this SUX!
+- when we will be doing this we should make kyberia compatible with "./" PHP open base dir.
+  i think that it's really nice philosophy when PHP script is never accessing files that are not in the same directory (or it's subdirectory) as the script itself (especialy when it cannot do this - it can be good security improvement).
 
 - remove hard-coded hostname from:
   ( registration mails )
