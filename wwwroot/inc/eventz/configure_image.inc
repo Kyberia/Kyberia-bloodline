@@ -58,12 +58,12 @@
         if ($node['node_permission'] == 'owner') {
 
             if (!($_img_t = __cin_get_img_type($_FILES['description_image']))) {
-                $error = '#01: Invalid file format (JPEG, GIF & PNG are only allowed)';
+                $error = '#01: Invalid file format (only JPEG, GIF & PNG are allowed)';
                 return (false);
             }
-
+	// XXX hard coded
             $_WEBROOT_PATH     = realpath(dirname(__FILE__).'/../..');
-            $_PROCESS_IMG_PATH = $_WEBROOT_PATH.'/process-img';
+            $_PROCESS_IMG_PATH = $_WEBROOT_PATH.'/process-img'; 
 
             $_required_dims    = ($node['node_id'] == $_SESSION['user_id'])?50:NODE_IMAGE_WIDTH;
             $_prepared_fname   = sprintf('%s/prepared/%03s_%s.gif.upload', $_PROCESS_IMG_PATH, $_required_dims, $node['node_id']);
@@ -79,13 +79,13 @@
                 return (false);
             }
 
-            if (!move_uploaded_file($_FILES['description_image']['tmp_name'], $_prepared_fname)) {
-                $error = '#04: Error moving uploaded file!';
-                return (false);
-            }
+//            if (!move_uploaded_file($_FILES['description_image']['tmp_name'], $_prepared_fname)) {
+//                $error = '#04: Error moving uploaded file!';
+//                return (false);
+//            }
 
-            chmod($_prepared_fname, 0664);
-            rename($_prepared_fname, substr($_prepared_fname, 0, -7));
+//            chmod($_prepared_fname, 0664);
+//            rename($_prepared_fname, substr($_prepared_fname, 0, -7));
 
         }
 
