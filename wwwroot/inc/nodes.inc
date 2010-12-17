@@ -148,7 +148,7 @@ function processContent($node_content) {
                 }
 
                 $node_content = eregi_Replace("((( )|(\n)|(^))+)(http://|ftp://|https://)([[:alnum:]][^,[:space:]]*)","\\2<a target='_blank' href=\"\\6\\7\">\\6\\7</a>",$node_content);
-		$node_content = mysql_real_escape_string($node_content);
+		//$node_content = mysql_real_escape_string($node_content); once is enough
         }
 
         return $node_content;
