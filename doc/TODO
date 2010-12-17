@@ -54,3 +54,7 @@
 
 - Rename all files&directories that should not be rewrited to PATH_INFO to start with "_" (and if they should be also ignored by git they should start with "-")
   (Rename images to _images - and fix hardcoded stuff...)
+
+- Fix /(id|k)/*/download
+  (ERROR: Empty file to download.)
+  (I think this should be implemented as template (and smarty method for download). template can be ID down in base36 = 638807 in base10)
