@@ -6,7 +6,7 @@
   (during registration we should generate GnuPG keypair 
    to user_gpg_prv and user_gpg_pub fields in table users) (harvie)
 
-- User images (icons) seems to be broken
+- Fix uploading user images
 
 - User mail -> can't delete the mails...
   Anyway move whole mail handling out of nodes.php (?)
