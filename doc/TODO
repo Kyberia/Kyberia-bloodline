@@ -1,12 +1,10 @@
-- When adding node, content is escaped twice(?)
-
 - Registration process -> Add welcome texts & move them to one file/node
   Temporary requests node does not exists.
   Nodes are created with bad vector
   (during registration we should generate GnuPG keypair 
    to user_gpg_prv and user_gpg_pub fields in table users) (harvie)
 
-- Fix uploading user images
+- Uploading user images works, but resizing? 
 
 - User mail -> can't delete the mails...
   Anyway move whole mail handling out of nodes.php (?)
