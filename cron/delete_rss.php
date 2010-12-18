@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 require('../config/config.inc');
 //connecting to database and creating universal $db object

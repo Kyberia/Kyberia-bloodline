@@ -1,4 +1,5 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
+
 <?php
 /*
  * Script that register new users who gaind enough K (votes)

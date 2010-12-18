@@ -1,4 +1,5 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
+
 <?php
 /*
  * Script that XXX
