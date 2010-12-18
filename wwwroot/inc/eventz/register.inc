@@ -78,7 +78,7 @@ Ten musis zadat na adresu '.SYSTEM_URL.'/id/1976899/, kde
 vyplnis formular s tvojim nickom a verifkacnym kodom.
 Od tej chvile bude tvoja ziadost volne pristupna
 uz zaregistrovanym clenom, ktori o nej budu hlasovat.
-Pocet hlasov aby sa ziadosti vyhovelo je 5.
+Pocet hlasov aby sa ziadosti vyhovelo je x.
 Deadline na nazbieranie je 1 tyzden.
 Takze fakticky dufam ze si o sebe napisal(a) nieco inteligentne :)
 

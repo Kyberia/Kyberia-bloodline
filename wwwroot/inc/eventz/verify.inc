@@ -8,6 +8,7 @@ $login=mysql_real_escape_string($_POST['login']);
 $kset=$db->query("select user_id from users where login='$login'");
 $kset->next();$userid=$kset->getString('user_id');
 
+// XXX HARD CODED
 $set=$db->query("select * from nodes where node_id='$userid' and node_parent=1836516");
 if($set->getNumRows()!=1) {
          global $error;
@@ -26,7 +27,7 @@ if($uvercode!=$vercode) {
 } else {
 //  ouch!! this is gonna be dirty!!!!! will be revised later:-)
 // XXX hardcoded, rewrite
-$q="update nodes set node_parent=2091448, node_vector='00876611020914480$userid' where node_id='$userid'";
+$q="update nodes set node_parent=2091448, node_vector='0000010120914480$userid' where node_id='$userid'";
 $db->update($q);
 $q="update nodes set node_children_count=node_children_count+1 where node_id=2091448";
 $db->update($q);
