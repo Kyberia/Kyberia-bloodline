@@ -27,16 +27,6 @@
 
 		$array=array_merge($array1,$array2);
 
-		/*
-		if ($_SESSION['user_id']==548) {
-			print_r($array1);
-			echo "LALALA";
-			print_r($array2);
-			echo "AAAAAA";
-			print_r($array);
-		}
-		*/
-
 		if ($sort_by=='thread') {
 		        $i=0;
 	       		 for($i=0; $i<count($array); $i++){
@@ -54,8 +44,6 @@
 			array_multisort($sortarr,$order,$array);
 		}
 
-
-//		if ($_SESSION['user_id']==548) print_r($array);
 
 		$smarty->assign('merged',$array);
 

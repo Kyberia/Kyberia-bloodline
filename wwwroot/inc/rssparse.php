@@ -11,6 +11,7 @@ $rss->cache_dir = './cache';
 $rss->cache_time = 3600; // one hour
 
 // load some RSS file
+// XXX
 if ($rs = $rss->get('http://h-k.sk/scripts/google2rss.php?num=15&q=smallpox')) {
 
 print_r($rs);

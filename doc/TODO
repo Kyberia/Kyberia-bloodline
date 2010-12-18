@@ -1,9 +1,8 @@
-- Registration process -> Add welcome texts & move them to one file/node
-  Temporary requests node does not exists.
-  Nodes are created with bad vector
-  (during registration we should generate GnuPG keypair 
-   to user_gpg_prv and user_gpg_pub fields in table users) (harvie)
+- remove hard-coded constants (everywhere):
 
+- Registration process -> Add welcome texts & move them to one file/node
+  +(during registration we should generate GnuPG keypair 
+   to user_gpg_prv and user_gpg_pub fields in table users) (harvie)
 
 - User mail -> can't delete the mails...
   Anyway move whole mail handling out of nodes.php (?)
@@ -48,7 +47,7 @@
 
 - keep fixing XSS
 
-- Test & scale logarithmic threading
+- Fix defaukt template (big tables)
 
 - Remove templates from git (they should be only in sql)
 
