@@ -51,8 +51,9 @@ while ($set->next()) {
       $mail=$set->getString('email');
       mail($mail,"kyberia gate is opened","Vitaj v kyberii");
 
-      //VHODNE POSLAT ZACIATOCNIKOVI POSTU
-      ubik::ubikMail($params);
+      //VHODNE POSLAT ZACIATOCNIKOVI POSTU 
+      // XXX undefined params FIX
+//      ubik::ubikMail($params);
 }
 
 ?>
