@@ -40,7 +40,7 @@ function register() {
         return false;
     }
 
-    // registration clause  // XXX hard coded
+    // registration clause  // XXX hard coded, registration text
     $qr_rc = $db->query('select node_content from nodes where node_id = 791946');
     $qr_rc->next();
 
@@ -66,7 +66,7 @@ function register() {
     $db->query($q); // XXX rewrite
     $emailtext = sprintf(
 'Vitaj %s! Prave som sa s radostou dozvedel, ze si vyplnil(a)
-registracny formular na stranke kyberia.sk a chces sa stat
+registracny formular na stranke '.SYSTEM_URL.' a chces sa stat
 clenom tejto komunity.
 Budem sa snazit urobit tento pokec trosku dlhsi,
 lebo v povodnej kratkej forme ho pohlcuju spamfiltre, takze
@@ -74,7 +74,7 @@ ospravedln nasledujuce blabla a moj typicky atypicky zmysel
 pre cierny humor, kedze sluzi ku dobrej veci :)
 Pri registracii ti bol prideleny verifikacny kod.
 Ten kod znie "%s" [bez uvodzoviek].
-Ten musis zadat na adresu https://kyberia.sk/id/1976899/, kde 
+Ten musis zadat na adresu '.SYSTEM_URL.'/id/1976899/, kde 
 vyplnis formular s tvojim nickom a verifkacnym kodom.
 Od tej chvile bude tvoja ziadost volne pristupna
 uz zaregistrovanym clenom, ktori o nej budu hlasovat.

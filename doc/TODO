@@ -4,7 +4,6 @@
   (during registration we should generate GnuPG keypair 
    to user_gpg_prv and user_gpg_pub fields in table users) (harvie)
 
-- Uploading user images works, but resizing? 
 
 - User mail -> can't delete the mails...
   Anyway move whole mail handling out of nodes.php (?)
@@ -27,6 +26,8 @@
   ( scripts in "scripts" directory (system paths))
 
 - Fix https vs http problem (url) 
+
+- Uploading user images works, but resizing? 
 
 - Suspected security holes:
   ( cron/process-img.sh )
