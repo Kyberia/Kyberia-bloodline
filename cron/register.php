@@ -19,7 +19,7 @@ require(INCLUDE_DIR.'/database.inc');
 require(INCLUDE_DIR.'/nodes.inc');
 require(INCLUDE_DIR.'/permissions.inc');
 require(INCLUDE_DIR.'/ubik.inc');
-require(INCLUDE_DIR.'/senate.inc');
+//require(INCLUDE_DIR.'/senate.inc');
 
 //REGISTRATION_VOTES CONSTANT DEFINED IN INC/SENATE.INC
 define('REGISTER_TEXT','request for access');

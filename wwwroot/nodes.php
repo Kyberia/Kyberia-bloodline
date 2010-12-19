@@ -168,7 +168,7 @@ if (empty($node)) {
 //	$smarty->assign('children_types',$children_types[$node['node_type']]);
 //}
 
-smarty->assign('types',$types);
+//smarty->assign('types',$types);
 
 
 //$node['node_type']=$types[$node['node_type']];

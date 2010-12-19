@@ -8,8 +8,6 @@ define('DB_USER',		'kyberia');
 define('DB_PASS',		'levenshtein');
 define('DB_DATABASE',		'kyberia');
 
-date_default_timezone_set('Europe/Prague');
-
 define('SYSTEM_ROOT',		'/srv/kyberia/');
 define('SYSTEM_DATA',		SYSTEM_ROOT . '/wwwroot/_data/');
 define('SYSTEM_IMAGES',		'/_images/');
@@ -17,13 +15,7 @@ define('CONFIG_DIR',		SYSTEM_ROOT . 'config/');
 define('AJAX_DIR',		SYSTEM_ROOT . 'wwwroot/ajax/');
 define('INCLUDE_DIR',		SYSTEM_ROOT . 'wwwroot/inc/');
 
-/*
-//Uncomment this to enable Basic HTTP Auth:
-$realm = 'kyberia'; //This is used by browser to identify protected area and saving passwords (one_site+one_realm==one_user+one_password)
-$users = array( //You can specify multiple users in this array
-  'kyberia' => 'passw'
-);
-*/
+date_default_timezone_set(	'Europe/Prague');
 
 define('SMARTY_DIR',		SYSTEM_ROOT . 'wwwroot/smarty/libs/');
 define('SMARTY_PLUGIN_DIR',	SYSTEM_ROOT . 'wwwroot/inc/smarty/node_methodz/');
@@ -52,15 +44,14 @@ define('WARNING_ZONE',		1059888);
 define('MAX_CHILDREN',		42666);
 
 /*
-define('SLAVE_HOST',     '127.0.0.1');
-define('SLAVE_USER',     'kyberia');
-define('SLAVE_PASS',     'levenshtein');
-define('SLAVE_DATABASE', 'kyberia');
-
-define('SLAVE2_HOST',	'127.0.0.1');
-define('SLAVE2_USER',	'kyberia');
-define('SLAVE2_PASS',	'levenshtein');
-define('SLAVE2_DATABASE', 'kyberia');
+//Uncomment this to enable Basic HTTP Auth:
+$realm = 'kyberia'; //This is used by browser to identify protected area and saving passwords (one_site+one_realm==one_user+one_password)
+$users = array( //You can specify multiple users in this array
+  'kyberia' => 'passw'
+);
 */
 
+
+// Kyberia senate specific settings (special node numbers, ...
+require_once(INCLUDE_DIR.'senate.inc')
 ?>
