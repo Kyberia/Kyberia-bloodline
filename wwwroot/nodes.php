@@ -164,10 +164,11 @@ if (empty($node)) {
 }
 
 //modifying node glass pearl //XXX WTF
-if (is_array($children_types[$node['node_type']])) {
-	$smarty->assign('children_types',$children_types[$node['node_type']]);
-}
-$smarty->assign('types',$types);
+//if (is_array($children_types[$node['node_type']])) {
+//	$smarty->assign('children_types',$children_types[$node['node_type']]);
+//}
+
+smarty->assign('types',$types);
 
 
 //$node['node_type']=$types[$node['node_type']];

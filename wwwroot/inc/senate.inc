@@ -47,16 +47,10 @@ define('UNVERIFIED_REGISTRATIONS_NODE',1836516);
 // unfriend.inc
 // $q = "update nodes set external_link='', node_parent=123456, node_vector='001234560$node_id' whe
 
-// uprav_zaregistrovanych.inc
-//  node_parent=2091448 and k>=3
-
 // verify.inc
-// node_parent=1836516")
-// $q="update nodes set node_parent=2091448, 
 // node_vector='0000010120914480$userid' where node_id='$user
 
 // vycisti_registracky.inc
-// node_parent=2091448 and k<=4
 // $q="delete from nodes where node_vector like '020914480$noda%'";
 
 // resource.kyberia.php

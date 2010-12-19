@@ -3,7 +3,7 @@ function vycisti_registracky() {
 global $db,$error;
 
 $q="select users.login as persona,users.email as email,k,node_id,node_creator,login from nodes
-left join users on nodes.node_creator=users.user_id where node_name='request for access' and node_parent=2091448 and k<=4";
+left join users on nodes.node_creator=users.user_id where node_name='request for access' and node_parent=".REGISTRATION_REQUEST_NODE." and k<=".REGISTRATION_VOTES;
 
 $set=$db->query($q);
 while ($set->next()) {

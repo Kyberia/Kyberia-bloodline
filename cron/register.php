@@ -23,7 +23,6 @@ require(INCLUDE_DIR.'/senate.inc');
 
 //REGISTRATION_VOTES CONSTANT DEFINED IN INC/SENATE.INC
 define('REGISTER_TEXT','request for access');
-define('REGISTRATION_REQUEST_NODE',2091448);
 
 $_SESSION['user_id']=UBIK_ID;
 

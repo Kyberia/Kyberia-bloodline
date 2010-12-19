@@ -9,7 +9,7 @@ $kset=$db->query("select user_id from users where login='$login'");
 $kset->next();$userid=$kset->getString('user_id');
 
 // XXX HARD CODED
-$set=$db->query("select * from nodes where node_id='$userid' and node_parent=1836516");
+$set=$db->query("select * from nodes where node_id='$userid' and node_parent=".UNVERIFIED_REGISTRATIONS_NODE);
 if($set->getNumRows()!=1) {
          global $error;
          $error="User already verificated or invalid.";
@@ -27,15 +27,15 @@ if($uvercode!=$vercode) {
 } else {
 //  ouch!! this is gonna be dirty!!!!! will be revised later:-)
 // XXX hardcoded, rewrite
-$q="update nodes set node_parent=2091448, node_vector='0000010120914480$userid' where node_id='$userid'";
+$q="update nodes set node_parent=".REGISTRATION_REQUEST_NODE.", node_vector='0000010120914480$userid' where node_id='$userid'";
 $db->update($q);
-$q="update nodes set node_children_count=node_children_count+1 where node_id=2091448";
+$q="update nodes set node_children_count=node_children_count+1 where node_id=".REGISTRATION_REQUEST_NODE;
 $db->update($q);
 $q="update nodes set node_created=NOW() where node_id='$userid'";
 $db->update($q);
 $q="update nodes set node_system_access='public' where node_id='$userid'";
 $db->update($q);
-$q="update node_access set node_user_subchild_count=node_user_subchild_count+1 where node_id=2091448";
+$q="update node_access set node_user_subchild_count=node_user_subchild_count+1 where node_id=".REGISTRATION_REQUEST_NODE;
 $db->update($q);
 
 
