@@ -488,7 +488,10 @@ if ($node['node_system_access']=='crypto') {
 $smarty->assign('error',$error);
 $smarty->assign('permissions',$permissions);
 $smarty->assign('current_vector',$node['node_vector']);
-if ($permissions['r']) $smarty->assign('node',$node);
+if ($permissions['r']) {
+	$smarty->assign('node',$node);
+	$smarty->assign('node_json',json_encode($node));
+}
 else {
 
 	$smarty->assign('node',$node);
