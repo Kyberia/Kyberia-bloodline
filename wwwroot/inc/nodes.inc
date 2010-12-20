@@ -61,10 +61,13 @@ function addNode($params) {
         $template_id=$params['template_id'];
         if (!is_numeric($template_id)) $template_id=DEFAULT_TEMPLATE_ID;
 
+        if(!isset($params['node_system_access'])) $params['node_system_access'] = $node['node_system_access'];
+        if(!isset($params['node_external_access'])) $params['node_external_access'] = $node['node_external_access'];
+
         $q="insert into nodes set
 node_name='".$params['node_name']."',
-node_external_access='".$node['node_external_access']."',
-node_system_access='".$node['node_system_access']."',
+node_external_access='".$params['node_external_access']."',
+node_system_access='".$params['node_system_access']."',
 node_creator='".$params['node_creator']."',
 template_id='".$template_id."',
 external_link='".$external_link."',
