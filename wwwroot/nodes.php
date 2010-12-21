@@ -31,6 +31,9 @@ if ($_SESSION['debugging']) {
     print_r($_SESSION);
 }
 
+@ini_set('magic_quotes_gpc' , 'off');
+if(get_magic_quotes_gpc()) die("Error: magic_quotes_gpc needs to be disabled! F00K!\n");
+
 //Smarty from DB
 $smarty_resource = 'kyberia';
 //$smarty_resource = ''; //same as 'file' (fallback)
@@ -172,8 +175,10 @@ if (empty($node)) {
 
 
 //$node['node_type']=$types[$node['node_type']];
+/* This should NOT BE HANDLED HERE! This breaks things...
 $node['node_content']= StripSlashes($node['node_content']);
 $node['node_name']= StripSlashes($node['node_name']);
+*/
 
 //checking permissions
 function _checkPermissions()
