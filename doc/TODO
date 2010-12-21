@@ -67,3 +67,10 @@
 - Fix /(id|k)/*/download
   (ERROR: Empty file to download.)
   (I think this should be implemented as template (and smarty method for download). template can be ID down in base36 = 638807 in base10)
+
+- Cleanup DB
+  (Make script for deleting nodes in recycle bin)
+  (Some actions (like loging, etc...) may be implemented using SQL triggers)
+  (Mark all nodes that should become part of distribution of kyberia software)
+  (Delete unused tables)
+  (Replace duplicit tables with VIEWs)
