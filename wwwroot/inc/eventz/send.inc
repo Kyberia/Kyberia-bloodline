@@ -70,7 +70,7 @@ return false;
 
                 if ($mail_to_id) {
 
-                        $mail_text=nodes::processContent($mail_text);
+                        $mail_text=mysql_real_escape_string(nodes::processContent($mail_text));
 global $htmlparse;
 if ($htmlparse) {
 $error=$htmlparse;
