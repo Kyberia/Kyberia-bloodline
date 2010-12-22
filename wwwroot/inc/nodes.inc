@@ -297,7 +297,7 @@ node_parent='$node_handle' order by node_created $orderby LIMIT $offset,$limit";
 
 // Simple internal function to set node parrent
 
-function setParent() {
+function setParent($params) {
         global $db,$node,$error,$error_messages;
         $parent_id=$params['node_parent'];
         $node_id=$params['node_id'];
