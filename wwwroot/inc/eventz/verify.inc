@@ -24,10 +24,19 @@ if($uvercode!=$vercode) {
 	$error="Wrong verification code or username";
 	return false;
 } else {
+
 //  ouch!! this is gonna be dirty!!!!! will be revised later:-)
 // XXX hardcoded, rewrite
-$q="update nodes set node_parent=".REGISTRATION_REQUEST_NODE.", node_vector='00000101020914480$userid' where node_id='$userid'";
-$db->update($q);
+
+//$q="update nodes set node_parent=".REGISTRATION_REQUEST_NODE.", node_vector='00000101020914480$userid' where node_id='$userid'";
+//$db->update($q);
+
+
+	$params['node_parent']=REGISTRATION_REQUEST_NODE;
+	$params['node_id']=$userid;
+	nodes::setParent($params);
+
+
 $q="update nodes set node_children_count=node_children_count+1 where node_id=".REGISTRATION_REQUEST_NODE;
 $db->update($q);
 $q="update nodes set node_created=NOW() where node_id='$userid'";
