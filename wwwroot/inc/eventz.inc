@@ -1,4 +1,11 @@
 <?php
+if(preg_match('/36$/', $event) || preg_match('/36$/', $_POST['event'])) {
+  $event = preg_replace('/36$/', '', $event);
+  $_POST['event'] = preg_replace('/36$/', '', $_POST['event']);
+  $_POST['nodeshell_id'] = base_convert($_POST['nodeshell_id'], 36, 10); //put36
+  $_POST['new_parent'] = base_convert($_POST['new_parent'], 36, 10); //set_parent36
+}
+
 //do not make a permission check if an event was executed before
 if ($_SESSION['eventz'][$event]) {
 	include_once(INCLUDE_DIR."eventz/$event.inc");
