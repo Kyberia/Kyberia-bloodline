@@ -8,8 +8,7 @@ $login=mysql_real_escape_string($_POST['login']);
 $kset=$db->query("select user_id from users where login='$login'");
 $kset->next();$userid=$kset->getString('user_id');
 
-// XXX HARD CODED
-$set=$db->query("select * from nodes where node_id='$userid' and node_parent=".UNVERIFIED_REGISTRATIONS_NODE);
+$set=$db->query("select node_id from nodes where node_id='$userid' and node_parent=".UNVERIFIED_REGISTRATIONS_NODE);
 if($set->getNumRows()!=1) {
          global $error;
          $error="User already verificated or invalid.";

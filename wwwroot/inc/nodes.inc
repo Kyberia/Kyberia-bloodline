@@ -293,6 +293,26 @@ node_parent='$node_handle' order by node_created $orderby LIMIT $offset,$limit";
                 return $access_data;
 
         }
+
+
+// Simple internal function to set node parrent
+
+function setParrent() {
+        global $db,$node,$error,$error_messages;
+        $parent_id=$params['node_parent'];
+        $node_id=$params['node_id'];
+
+        if (!is_numeric($parent_id)) {
+                return false;
+        }
+	$q="select node_vector from nodes where node_id='$parent_id'";
+	$parent_vector=$db->query($q);
+
+	$new_vector=$parent_vector.str_pad($node_id,VECTOR_CHARS,"0",STR_PAD_LEFT);	
+	$q="update nodes set node_parent='$parent_id',node_vector='".$new_vector."
+		' where node_id='$node_id'";
+	$db->query($q);
+}
 }
 
 ?>
