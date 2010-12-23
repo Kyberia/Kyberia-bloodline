@@ -3,6 +3,7 @@ define('DAILY_K',30);
 define('REGISTRATION_VOTES',2); //too small so far
 
 // An attempt to remove hard-code constants from code
+define('REGISTRATION_TEXT_NODE',791946);
 define('REGISTRATION_REQUEST_NODE',2091448);
 define('UNVERIFIED_REGISTRATIONS_NODE',1836516);
 

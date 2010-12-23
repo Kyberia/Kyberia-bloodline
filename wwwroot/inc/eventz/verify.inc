@@ -28,13 +28,13 @@ if($uvercode!=$vercode) {
 //  ouch!! this is gonna be dirty!!!!! will be revised later:-)
 // XXX hardcoded, rewrite
 
-//$q="update nodes set node_parent=".REGISTRATION_REQUEST_NODE.", node_vector='00000101020914480$userid' where node_id='$userid'";
-//$db->update($q);
+$q="update nodes set node_parent=".REGISTRATION_REQUEST_NODE.", node_vector='000001010473807402091448$userid' where node_id='$userid'";
+$db->update($q);
 
 
-	$params['node_parent']=REGISTRATION_REQUEST_NODE;
-	$params['node_id']=$userid;
-	nodes::setParent($params);
+//	$params['node_parent']=REGISTRATION_REQUEST_NODE;
+//	$params['node_id']=$userid;
+//	nodes::setParent($params);
 
 
 $q="update nodes set node_children_count=node_children_count+1 where node_id=".REGISTRATION_REQUEST_NODE;

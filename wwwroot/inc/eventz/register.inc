@@ -41,7 +41,7 @@ function register() {
     }
 
     // registration clause  // XXX hard coded, registration text
-    $qr_rc = $db->query('select node_content from nodes where node_id = 791946');
+    $qr_rc = $db->query('select node_content from nodes where node_id = '.REGISTRATION_TEXT_NODE);
     $qr_rc->next();
 
     $params['node_content'] = sprintf('<i>%s</i><br />%s<br />
@@ -50,7 +50,7 @@ function register() {
                                       $content,
                                       $email);
     // XXX hard-coded
-    $params['node_parent']  = 1836516; // registrations_noverified forum
+    $params['node_parent']  = UNVERIFIED_REGISTRATIONS_NODE; // registrations_noverified forum
     $params['node_name'] = 'request for access';
     $params['flag'] = 'registration';
     $user_id = nodes::addNode($params);
