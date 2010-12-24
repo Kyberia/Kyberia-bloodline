@@ -69,7 +69,8 @@ if($child['synapse_creator']!='') {
 		require_once(INCLUDE_DIR.'transports.inc');
 		transport_load($child['transport']);
 		global $transports;
-		$child['node_content']=$child['node_id'].'@'.$child['transport'].':<br />'.$transports[$child['transport']]['get_node_content']($child['node_id']);
+		$child['node_content']=$child['transport'].':'.$child['node_id'].'@default:\n<br />'.$transports[$child['transport']]['get_node_content']($child['node_id']);
+		$child['node_name']=$child['transport'].':'.$child['node_id'];
 	}
 }
 
