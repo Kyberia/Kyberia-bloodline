@@ -27,6 +27,7 @@ define('TMP',			SYSTEM_DATA . 'tmp/');
 define('FILE_DIR',		SYSTEM_DATA . 'files/');
 define('CLASS_DIR',		INCLUDE_DIR . 'class/');
 define('EVENT_DIR',		INCLUDE_DIR . 'eventz/');
+define('TRANSPORT_DIR',		INCLUDE_DIR . 'transports/');
 define('SYSTEM_URL',		'kyberia.cz:8023');
 
 define('SYSTEM_SMTP',		'molly.kyberia.cz');
