@@ -63,7 +63,7 @@ else $security = "";
 
 	while ($result->next()) {
 		$child = $result->getRecord();
-		if($child['external_link']=='transport') $child = array_merge($child, transport_translate($child['node_content']));
+		transport_process_node($child);
 		if($child['synapse_creator']!='') $child['node_status']='linked';
 
 		$get_children_array[]=$child;

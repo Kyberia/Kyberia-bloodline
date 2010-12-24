@@ -204,6 +204,7 @@ where $table_name.node_id='$node_handle'";
                           $node['ancestors'][]=array("name"=>"","link"=>ltrim($ancestor,"0"));
                         }
                 }
+		transport_process_node($node);
                 return $node;
 
         }

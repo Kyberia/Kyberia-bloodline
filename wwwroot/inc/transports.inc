@@ -20,3 +20,7 @@ function transport_translate($transport_handle) {
 
 	return $node;
 }
+
+function transport_process_node(&$node) {
+  if($node['external_link']=='transport') $node = array_merge($node, transport_translate($node['node_content']));
+}
