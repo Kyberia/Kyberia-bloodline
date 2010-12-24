@@ -4,6 +4,10 @@ function transport_load($transport) {
 	require_once(TRANSPORT_DIR.$transport.'.inc');
 }
 
+function transport_link($url) {
+	return "<a href='$url'>$url</a>";
+}
+
 function transport_translate($transport_handle) {
 	$transport = preg_split('/[:@]/',trim($transport_handle));
 	transport_load($transport[0]);
@@ -16,7 +20,7 @@ function transport_translate($transport_handle) {
 	$node['node_status']='linked';
 	$node['node_name']="$transport:$id@$domain";
 	$node['url']=$transports[$transport]['get_node_url']($id);
-	$node['node_content']=$node['url'].'<br />'.$transports[$transport]['get_node_content']($id);
+	$node['node_content']='Source: '.transport_link($node['url']).';<hr />'.$transports[$transport]['get_node_content']($id);
 
 	return $node;
 }
