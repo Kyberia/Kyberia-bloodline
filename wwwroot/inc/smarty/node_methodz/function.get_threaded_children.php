@@ -50,11 +50,11 @@ else $security = "";
 		}
 
 		if ($params['link']=='yes') $q.="(";
-		$q.="select nodes.node_id,node_name,node_external_access,external_link,node_parent,node_system_access,node_children_count,node_creator,node_created,lastchild_created,k,node_views,node_descendant_count,lastdescendant_created,template_id,node_updated,length(node_vector) as depth,users.login,node_vector, node_content,'' as synapse_creator from nodes left join users on users.user_id=nodes.node_creator where $sql_time node_vector like '".$node['node_vector']."%' $sql_type  and node_id != '".$node['node_id']."' $security order by $orderby LIMIT $offset,$limit";
+		$q.="select nodes.node_id,node_name,node_external_access,external_link,node_parent,node_system_access,node_children_count,node_creator,node_created,lastchild_created,k,node_views,node_descendant_count,lastdescendant_created,template_id,node_updated,length(node_vector) as depth,users.login,node_vector, node_content,'' as synapse_creator,'' as transport from nodes left join users on users.user_id=nodes.node_creator where $sql_time node_vector like '".$node['node_vector']."%' $sql_type  and node_id != '".$node['node_id']."' $security order by $orderby LIMIT $offset,$limit";
 
 		if ($params['link']=='yes') {
 			$q.=" ) UNION (select nodes.node_id,node_name,node_external_access,external_link,node_parent,node_system_access,node_children_count,node_creator,node_created,lastchild_created,k,node_views,node_descendant_count,lastdescendant_created,template_id,node_updated,length(dst_vector) as depth,
-			users.login,dst_vector as node_vector,node_content,synapse_creator from neurons left join nodes on neurons.src=nodes.node_id  left join users on users.user_id=nodes.node_creator where  $sql_time dst_vector like '".$node['node_vector']."%' $sql_synapse $sql_type  and node_id != '".$node['node_id']."' order by $orderby LIMIT $offset,$limit)";
+			users.login,dst_vector as node_vector,node_content,synapse_creator,transport from neurons left join nodes on neurons.src=nodes.node_id  left join users on users.user_id=nodes.node_creator where  $sql_time dst_vector like '".$node['node_vector']."%' $sql_synapse $sql_type  and node_id != '".$node['node_id']."' order by $orderby LIMIT $offset,$limit)";
 		}
 
 		if ($params['link']=='yes') $q.=" order by $orderby LIMIT $limit";
@@ -63,7 +63,11 @@ else $security = "";
 
 		while ($result->next()) {
 $child = $result->getRecord();
-if ($child['synapse_creator']!='') $child['node_status']='linked';
+if($child['synapse_creator']!='') {
+       $child['node_status']='linked';
+       if($child['transport']!='') $child['node_content']=$child['node_id'].'@'.$child['transport'];
+}
+
 $get_children_array[]=$child;
 		}
 		global $time_1, $time_2;
