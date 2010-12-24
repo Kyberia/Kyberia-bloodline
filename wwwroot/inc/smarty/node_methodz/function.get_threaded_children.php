@@ -65,7 +65,12 @@ else $security = "";
 $child = $result->getRecord();
 if($child['synapse_creator']!='') {
        $child['node_status']='linked';
-       if($child['transport']!='') $child['node_content']=$child['node_id'].'@'.$child['transport'];
+	if($child['transport']!='') {
+		require_once(INCLUDE_DIR.'transports.inc');
+		transport_load($child['transport']);
+		global $transports;
+		$child['node_content']=$child['node_id'].'@'.$child['transport'].':<br />'.$transports[$child['transport']]['get_node_content']($child['node_id']);
+	}
 }
 
 $get_children_array[]=$child;
