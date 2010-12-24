@@ -61,38 +61,20 @@ else $security = "";
 
 		$result=$db->query($q);
 
-		while ($result->next()) {
-$child = $result->getRecord();
-if($child['external_link']=='transport') {
-	$child['node_status']='linked';
-	/*$transport = preg_split('/[:@]/',trim($child['node_content']));
-	require_once(INCLUDE_DIR.'transports.inc');
-	transport_load($transport[0]);
-	global $transports;
-	$child['node_name']=$transport[0].':'.$transport[1].'@defaulthost';
-	$child['node_content']=$transport[0].':'.$transport[1].'@defaulthost:<br />'.$transports[$transport[0]]['get_node_content']($transport[1]);*/
-	$child = array_merge($child, transport_translate($child['node_content']));
-}
+	while ($result->next()) {
+		$child = $result->getRecord();
+		if($child['external_link']=='transport') $child = array_merge($child, transport_translate($child['node_content']));
+		if($child['synapse_creator']!='') $child['node_status']='linked';
 
-if($child['synapse_creator']!='') {
-       $child['node_status']='linked';
-/*	if($child['transport']!='') {
-		require_once(INCLUDE_DIR.'transports.inc');
-		transport_load($child['transport']);
-		global $transports;
-		$child['node_content']=$child['transport'].':'.$child['node_id'].'@default:\n<br />'.$transports[$child['transport']]['get_node_content']($child['node_id']);
-		$child['node_name']=$child['transport'].':'.$child['node_id'];
-	} */
-}
-
-$get_children_array[]=$child;
-		}
-		global $time_1, $time_2;
-		$time_2=$result->getString('node_created');
-		$time_1=$get_children_array[0]['node_created'];
-
-		$smarty->assign('get_threaded_children',$get_children_array);
-
+		$get_children_array[]=$child;
 	}
+
+	global $time_1, $time_2;
+	$time_2=$result->getString('node_created');
+	$time_1=$get_children_array[0]['node_created'];
+
+	$smarty->assign('get_threaded_children',$get_children_array);
+
+}
 ?>
 
