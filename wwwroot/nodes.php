@@ -88,11 +88,12 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 }
 
 //connecting to database and creating universal $db object
-require(INCLUDE_DIR.'log.inc');
-require(INCLUDE_DIR.'ubik.inc');
-require(INCLUDE_DIR.'nodes.inc');
-require(INCLUDE_DIR.'error_messages.inc');
-require(INCLUDE_DIR.'database.inc');
+require_once(INCLUDE_DIR.'log.inc');
+require_once(INCLUDE_DIR.'ubik.inc');
+require_once(INCLUDE_DIR.'nodes.inc');
+require_once(INCLUDE_DIR.'error_messages.inc');
+require_once(INCLUDE_DIR.'database.inc');
+require_once(INCLUDE_DIR.'transports.inc');
 
 $db = new CLASS_DATABASE();
 

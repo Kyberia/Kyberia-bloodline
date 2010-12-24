@@ -65,12 +65,13 @@ else $security = "";
 $child = $result->getRecord();
 if($child['external_link']=='transport') {
 	$child['node_status']='linked';
-	$transport = preg_split('/[:@]/',trim($child['node_content']));
+	/*$transport = preg_split('/[:@]/',trim($child['node_content']));
 	require_once(INCLUDE_DIR.'transports.inc');
 	transport_load($transport[0]);
 	global $transports;
 	$child['node_name']=$transport[0].':'.$transport[1].'@defaulthost';
-	$child['node_content']=$transport[0].':'.$transport[1].'@defaulthost:<br />'.$transports[$transport[0]]['get_node_content']($transport[1]);
+	$child['node_content']=$transport[0].':'.$transport[1].'@defaulthost:<br />'.$transports[$transport[0]]['get_node_content']($transport[1]);*/
+	$child = array_merge($child, transport_translate($child['node_content']));
 }
 
 if($child['synapse_creator']!='') {
