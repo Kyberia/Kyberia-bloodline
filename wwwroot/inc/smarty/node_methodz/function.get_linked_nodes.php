@@ -36,6 +36,7 @@
 		$result=$db->query($q);
 		while ($result->next()) {
 			$array=$result->getRecord();
+			transport_process_node($array);
 			$array['node_status']="linked";
 			$array['node_created']=$array['synapse_created'];
 			$get_linked_nodes[]=$array;
