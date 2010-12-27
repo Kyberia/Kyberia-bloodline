@@ -2,7 +2,7 @@
 // Default kyberia configuration file.
 // This runs kyberia on localhost with single database.
 
-define('DB_TYPE',		'mysql');	// mysql of psql so far.
+define('DB_TYPE',		'mysql');	// mysql of pgsql so far.
 define('DB_HOST',		'localhost');
 define('DB_USER',		'kyberia');
 define('DB_PASS',		'levenshtein');
@@ -14,6 +14,7 @@ define('SYSTEM_IMAGES',		'/_images/');
 define('CONFIG_DIR',		SYSTEM_ROOT . 'config/');
 define('AJAX_DIR',		SYSTEM_ROOT . 'wwwroot/ajax/');
 define('INCLUDE_DIR',		SYSTEM_ROOT . 'wwwroot/inc/');
+define('BACKEND_DIR',		SYSTEM_ROOT . 'wwwroot/backend/');
 
 date_default_timezone_set(	'Europe/Prague');
 
