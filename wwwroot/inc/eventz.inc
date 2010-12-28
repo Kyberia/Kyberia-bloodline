@@ -6,6 +6,12 @@ if(preg_match('/36$/', $event) || preg_match('/36$/', $_POST['event'])) {
   $_POST['new_parent'] = base_convert($_POST['new_parent'], 36, 10); //set_parent36
 }
 
+if($event=='delete' || $_POST['event']=='delete') { //XXX TODO FIXME UglyFuckingHack - should go to delete.inc (but something is broken)
+  $event='set_parent';
+  $_POST['event']=$event;
+  $_POST['new_parent']=123456; //XXX TODO FIXME Hardcoded
+}
+
 //do not make a permission check if an event was executed before
 if ($_SESSION['eventz'][$event]) {
 	include_once(INCLUDE_DIR."eventz/$event.inc");
