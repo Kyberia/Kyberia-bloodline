@@ -80,7 +80,7 @@ if(
 if(isset($_GET['node_kid'])) $_GET['node_id'] = base_convert($_GET['node_kid'], 36, 10);
 if(isset($_GET['template_kid'])) $_GET['template_id'] = base_convert($_GET['template_kid'], 36, 10);
 
-require(INCLUDE_DIR.'senate.inc');
+require_once(INCLUDE_DIR.'senate.inc');
 
 if (isset($_SERVER['HTTP_REFERER'])) {
 	preg_match('/(k|id)\/([0-9]*)\//',$_SERVER['HTTP_REFERER'],$ref_match);
