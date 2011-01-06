@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+    <!--                                           -->
+    <!-- Any title is fine                         -->
+    <!--                                           -->
+    <title>Web Application Starter Project</title>
+    
+    <!--                                           -->
+    <!-- This script loads your compiled module.   -->
+    <!-- If you add any GWT meta tags, they must   -->
+    <!-- be added before this line.                -->
+    <!--                                           -->
+    <script type="text/javascript" language="javascript">
+    	var spamCall = function(callback)
+    	{
+    		callback(true);
+    	}
+    </script>
+    <script type="text/javascript" language="javascript" src="ijab_config.js"></script>
+    <script type="text/javascript" language="javascript" src="ijab_i18n_en.js"></script>
+    <script type="text/javascript" language="javascript" src="ijab/ijab.nocache.js"></script>
+    <style>
+    	*					{ margin: 0; padding: 0; }
+body				{ font-family: Georgia, serif; background: url(images/login-page-bg.jpg) top center no-repeat #c4c4c4; color: #3a3a3a;  }
+
+.clear				{ clear: both; }
+
+form				{ width: 406px; margin: 170px auto 0; }
+
+legend				{ display: none; }
+
+fieldset			{ border: 0; }
+
+label				{ width: 115px; text-align: right; float: left; margin: 0 10px 0 0; padding: 9px 0 0 0; font-size: 16px; }
+
+input				{ width: 220px; display: block; padding: 4px; margin: 0 0 10px 0; font-size: 18px;
+					  color: #3a3a3a; font-family: Georgia, serif;}
+input[type=checkbox]{ width: 20px; margin: 0; display: inline-block; }
+					  
+.button				{ background: url(images/button-bg.png) repeat-x top center; border: 1px solid #999;
+					  -moz-border-radius: 5px; padding: 5px; color: black; font-weight: bold;
+					  -webkit-border-radius: 5px; font-size: 13px;  width: 70px; }
+.button:hover		{ background: white; color: black; }
+    </style>
+    
+    <script type="text/javascript">
+    	var loginiJab = function()
+    	{
+    	var userName = document.getElementById("login").value;
+    	var password = document.getElementById("password").value;
+    	if(userName == ""||password=="")
+    	{
+    		alert("username or password is empty!");
+    	};
+    	var handler = 
+		{
+			onBeforeLogin:function()
+			{
+				alert("On Before login");
+			},
+			onEndLogin:function()
+			{
+				alert("On end login");
+			},
+			onError:function(message)
+			{
+				iJab.login('test','test');
+			},
+			onLogout:function()
+			{
+				alert("On logout");
+			},
+			onResume:function()
+			{
+				alert("On resume");
+			},
+			onSuspend:function()
+			{
+				alert("On suspend")
+			},
+			onAvatarClicked:function(x,y,username,jid)
+			{
+				alert("onAvatarClicked posX:"+x+" posY:"+y+" username:"+username+" jid:"+jid)
+			},
+			onAvatarMouseOver:function(x,y,username,jid)
+			{
+				alert("onAvatarMouseOver posX:"+x+" posY:"+y+" username:"+username+" jid:"+jid)
+			},
+			 onStatusTextUpdated:function(text)
+			 {
+			 	alert(" onStatusTextUpdated:+"+text);
+			 }
+		};
+    	iJab.loginWithStatus(userName,password,"STATUS_INVISIBLE");
+    	}
+    </script>
+  </head>
+
+  <!--                                           -->
+  <!-- The body can have arbitrary html, or      -->
+  <!-- you can leave the body empty if you want  -->
+  <!-- to create a completely dynamic UI.        -->
+  <!--                                           -->
+  <body>
+
+    <!-- OPTIONAL: include this if you want history support -->
+    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
+    <form id="login-form">
+		<fieldset>
+		
+			<legend>Log in</legend>
+			
+			<label for="login">User</label>
+			<input type="text" id="login" name="login"/>
+			<div class="clear"></div>
+			
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password"/>
+			<div class="clear"></div>
+			
+			<br />
+			
+			<input type="button" style="margin: -20px 0 0 287px;" class="button" name="commit" value="Log in" onClick="loginiJab();"/>
+			<input type="button" style="margin: -29px 0 0 200px;" class="button" name="commit" value="Log out" onClick="iJab.logout();"/>	
+		</fieldset>
+	</form>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <input type="button" value="talkToTest-abc1" onclick="iJab.talkTo('abc1@anzsoft.com');" />
+    <input type="button" value="talkToTest-abc2" onclick="iJab.talkTo('abc2@anzsoft.com');" />
+    <input type="button" value="talkToTest-abc3" onclick="iJab.talkTo('abc3@anzsoft.com');" />
+    <input type="button" value="talkToTest-abc4" onclick="iJab.talkTo('abc4@anzsoft.com');" />
+    <input type="button" value="talkToTest-abc5" onclick="iJab.talkTo('abc5@anzsoft.com');" />
+    <div align="left" style="margin-left:200px;margin-right:200px;">
+    <p><a href="http://www.ijab.im">iJab</a> is an Ajax-based web based instant messaging program for XMPP/Jabber. It is free software and users can run their own instant messaging without limitations or software cost, complimenting the XMPP philosophy of a distributed network. iJab is interpreted purely by the client webbrowser. It runs solely in a browser and does not require downloading or installation of additional software. iJab also developed iJabBar, a Facebook styled web chat client.</p>
+    </div>
+  </body>
+</html>

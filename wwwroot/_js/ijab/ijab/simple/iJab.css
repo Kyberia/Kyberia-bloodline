@@ -1,0 +1,154 @@
+.clearfix:after {
+	line-height: 0;
+	display: block;
+	height: 0px;
+	visibility: hidden;
+	clear: both;
+	font-size: 0px;
+	content: ".";
+}
+
+.clearfix {
+	display: block;
+}
+
+.ie6 .clearfix {
+	ZOOM: 1
+}
+
+.ie7 .clearfix {
+	ZOOM: 1
+}
+
+.ie8 .clearfix {
+	ZOOM: 1
+}
+
+div.ijab_mainbar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 25px;
+}
+
+@media screen {
+	body>div.ijab_mainbar {
+		position: fixed;
+	}
+}
+
+div.ijab_mainbar_wrap {
+	margin-left: 15px;
+	margin-right: 15px;
+	overflow: visible !important;
+	position: relative;
+}
+
+div.ijab_mainbar_body {
+	background: transparent url(images/bgrepeat.gif) repeat-x scroll left
+		top;
+	border-left: 1px solid #B5B5B5;
+	border-right: 1px solid #B5B5B5;
+	display: block;
+	height: 25px;
+	padding: 0;
+}
+
+div.ijab_mainbar_shortcutbar {
+	float: left;
+	position: relative;
+}
+
+div.ijab_mainbar_body_r {
+	float: right;
+}
+
+div.ijab_mainbar_chatpanelbar {
+	float: left;
+}
+
+div.ijab_mainbar_appsbar {
+	float: left;
+	position: relative;
+}
+
+.ijab_window_tab_wrap {
+	float: left;
+}
+
+.ijab_widget {
+	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+	font-size: 1.2em !important;
+}
+
+.ijab_shortcutitem {
+	
+}
+
+.ijab_shortcutitem_hover {
+	background-color:#FFFFFF;
+}
+
+.ijab_shortcut .ijab_window_tab {
+	border-left-width: 0;
+	border-right-width: 1px;
+}
+
+.ijab_window_tab {
+	border-width: 0 0 0 1px;
+	cursor: pointer;
+	display: block;
+	float: left;
+	height: 25px;
+	padding-left: 1px;
+	position: relative;
+	text-decoration: none;
+	z-index: 6;
+	margin-top:1px;
+}
+
+.ijab_window_tab_tip {
+	left:0.8em;
+	background-position:left bottom;
+	background: transparent url(images/tip.gif) no-repeat scroll left bottom;
+	bottom: 27px;
+	display: none;
+	padding-bottom: 4px;
+	position: absolute;
+	z-index: 20;
+	left: 0px;
+	right: auto;
+	font-size:12px;
+}
+
+.ijab_window_tab_tip strong
+{
+	background:#282828 none repeat scroll 0 0;
+	color:#FFFFFF;
+	display:block;
+	font-weight:normal;
+	padding:3px 8px;
+	text-align:center;
+	white-space:nowrap;
+}
+
+.ijab_window_tab .ijab_icon {
+	display:inline;
+	float:left;
+	margin:4px 6px 6px 6px;
+}
+
+a .ijab_icon
+{
+	cursor:pointer;
+}
+
+.ijab_icon {
+	background-repeat:no-repeat;
+	display:block;
+	height:16px;
+	overflow:hidden;
+	text-indent:-99999px;
+	width:16px;
+}

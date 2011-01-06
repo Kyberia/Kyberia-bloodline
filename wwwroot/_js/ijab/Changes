@@ -1,0 +1,41 @@
+iJab V1.0 beta-3-2 Changes:
+1. Fixed some bugs with Tigase server
+2. Fixed 'refuse to set unsafe hearder' error under Webkit based browers
+3. maybe fixed resume connection bug
+
+iJab V1.0 beta-3-1 Changes:
+1. Fixed some style bugs, long text wrap problem, transport menu layout and etc.
+2. Fixed onAvatarClick even open chat window bug
+3. Fixed some tooltip inconsitency bug
+4. Fixed can't open MUC window bug while no room there
+5. Fixed freezing bug(maybe)
+6. Some other improvements.
+
+iJab V1.0 beta-3 Changes:
+
+1. Support roster management
+2. Support vcard-search
+3. Support MUC
+4. Support register transport such as MSN, AOL transports
+5. Support config iJab not to load roster
+6. Support config to load roster delayed
+7. Support Black-List(XEP-0016)
+8. Support server-side chat history(XEP-136)
+
+iJab V1.0 beta-2 Changes:
+
+1. Add I18N support
+2. Add 'host' config in iJab's config, you could use third-party http-bind server
+3. iJab's bar could be collapsed or uncollapsed
+4. Add login window, you could enable it or not
+5. Fixed bug with openfire
+6. Add many options in iJab's config:
+        enable_talkto_stranger:true,   // Use could talk to user not in his roster or not, default true
+        expand_bar_default:false,      // Expand bar or not while initializing, defualt false
+        enable_login_dialog:true,      // Enable opening login dialog while clicking Chat block when log off, default true
+        hide_online_group:false,       // Hide online group or not, default false
+        disable_option_setting:false,  // Hide option block or not, default false
+        disable_msg_browser_prompt:false, // Disalbe browser title notification while receiving message, default false
+        disable_toolbox:false,            // Hide Tools box or not, default false
+7. Change user_cookie_field to username_cookie_field
+8. Change password_cookie_field to token_cookie_field
