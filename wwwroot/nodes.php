@@ -426,6 +426,7 @@ if (isset($_SESSION['user_id'])&&($user_id=$_SESSION['user_id'])) {
 	$smarty->assign('bookstyl',$_SESSION['bookstyl']);
 	$smarty->assign('fook',$_SESSION['fook']);
 	$smarty->assign('user_id',$_SESSION['user_id']);
+	$smarty->assign('user_name',$_SESSION['user_name']);
 	if (!empty($_SESSION['cube_vector'])) 
 		$smarty->assign('cube_vector',$_SESSION['cube_vector']);
         $smarty->assign('friends',$_SESSION['friends']); //req by freezy, done by darkaural
