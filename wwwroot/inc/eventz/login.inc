@@ -20,27 +20,22 @@ function login() {
         return false;
     }
 
-    switch ($login_type) {
-        case "name":
-            $q = "select * from users where login='$login' and $hash_query";
-            $set = $db->query($q);
-            $set->next();
-            $user_id = $set->getString('user_id');
-            $user_name = $set->getString('login');
-        break;
-        case "base36id":
-					$login = base_convert($login, 36, 10);
-        case "id":
-            // HA! if it is number, escape_string is not enough
-	    $login=intval($login);
+	switch ($login_type) {
+		case "name":
+			$q = "select * from users where login='$login' and $hash_query";
+			break;
+		case "base36id":
+			$login = base_convert($login, 36, 10);
+		case "id":
+			$login=intval($login); //HA! if it is number, escape_string is not enough
+			$q="select * from users where user_id='$login' and $hash_query";
+			break;
+	}
 
-            $q="select * from users where user_id='$login' and $hash_query";
-            $set=$db->query($q);
-            $set->next();
-            $user_id=$set->getString('user_id');
-            $user_name=$set->getString('login');
-        break;
-    }
+	$set = $db->query($q);
+	$set->next();
+	$user_id = $set->getString('user_id');
+	$user_name = $set->getString('login');
 
     if (!$set) { //XXX test
         $error="Zadal si nespravne uzivatelske meno [alebo id] alebo heslo. Rob so sebou nieco";
