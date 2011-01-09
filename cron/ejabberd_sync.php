@@ -5,7 +5,7 @@
  * Call as needed
  */
 
-//$echo='echo '; //Test only...
+$echo='echo '; //Test only...
 $jabber_domain=escapeshellarg('kyberia.cz');
 
 // Use relative address of config file
@@ -38,3 +38,7 @@ while($set->next()) {
 	system($echo."ejabberdctl set-password $user $jabber_domain $pass"); //needs mod_ctlextra installed in ejabberd
 }
 
+/* ejabberdctl debug:
+ * mnesia:dirty_read(passwd, {"harvie", "kyberia.cz"}).
+ * mnesia:dirty_write({passwd, {"harvie", "kyberia.cz"}, "HESLOO"}).
+ */
