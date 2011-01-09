@@ -36,7 +36,7 @@ function login() {
 	$set->next();
 	$user_id = $set->getString('user_id');
 	$user_name = $set->getString('login');
-	$xmpp = $set->getString('xmpp');
+	$xmpp = strtolower($set->getString('xmpp'));
 
     if (!$set) { //XXX test
         $error="Zadal si nespravne uzivatelske meno [alebo id] alebo heslo. Rob so sebou nieco";
@@ -117,8 +117,10 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
 
         $_SESSION['user_id']=$user_id;
         $_SESSION['user_name']=addslashes($user_name);
-	setcookie('jabber_login', strtolower($xmpp), time()+60*60*24*10, '/'); //10days on whole domain - should have persistent username in future...
-	setcookie('jabber_password', hash('md5', 'jabber:'.$_POST['password']), time()+60*60*24*10, '/'); //10days on whole domain
+	setcookie('jabber_login', $xmpp, time()+60*60*24*10, '/'); //10days on whole domain - should have persistent username in future...
+	$xmpp_pass=hash('md5', 'jabber:'.$_POST['password']);
+	setcookie('jabber_password', $xmpp_pass, time()+60*60*24*10, '/'); //10days on whole domain
+	system('sudo /usr/sbin/ejabberdctl register '.escapeshellarg($xmpp).' '.escapeshellarg('kyberia.cz').' '.escapeshellarg($xmpp_pass)); //gpasswd -a kyberia jabber #Adding user kyberia to group jabber //XXX TODO Hardcoded kyberia.cz jabber domain (NOT dev.kyberia.cz!!!!!)
         if (!empty($cube_vector)) $_SESSION['cube_vector']=$cube_vector;
         if (empty($_SESSION['template_set'])) $_SESSION['template_set']=$set->getString('template_set');
         if (is_numeric($_POST['screen_width'])) $_SESSION['browser']['screen_width']=$_POST['screen_width'];
