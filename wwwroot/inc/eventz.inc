@@ -21,11 +21,14 @@ if ($_SESSION['eventz'][$event]) {
 elseif (is_file(INCLUDE_DIR."eventz/$event.inc")) {
 	$event_id=nodes::getNodeIdByName($event,"event://$event");
 	$event_node=nodes::getNodeById($event_id,$_SESSION['user_id']);
-	if (($event_node['node_system_access']=='public')
-	|| ($event_node['node_creator']==$_SESSION['user_id'])
-	|| ($event_node['node_permission']=='op')
-	|| ($event_node['node_permission']=='execute')
-	|| ($event_node['node_permission']=='master') ) {
+	if (
+		($event_node['node_system_access']=='public')
+		|| ($event_node['node_creator']==$_SESSION['user_id'])
+		|| ($event_node['node_permission']=='op')
+		|| ($event_node['node_permission']=='execute')
+		|| ($event_node['node_permission']=='master')
+		|| ($event=='display')
+	) {
 		include_once(INCLUDE_DIR."eventz/$event.inc");
 		$status=$event();
 		$_SESSION['eventz'][$event]=true;
