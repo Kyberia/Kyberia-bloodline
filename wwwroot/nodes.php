@@ -1,8 +1,16 @@
 <?php
-require_once('config/config.inc'); //requiring main config file with path/database etc. constants
-if(isset($realm) && isset($users)) require_once(INCLUDE_DIR.'http_auth.php'); //Ask for auth if enabled...
-//echo($_SERVER['PATH_INFO']."\n<pre>"); var_dump(preg_split('/\//', $_SERVER['PATH_INFO'])); die(); //PATH_INFO Debug (usefull when messing with mod_rewrite)
-// output buffering forcing (mx)
+
+//requiring main config file with path/database etc. constants
+require_once('config/config.inc'); 
+
+//Ask for auth if enabled...
+//if(isset($realm) && isset($users)) require_once(INCLUDE_DIR.'http_auth.php'); 
+
+//PATH_INFO Debug (usefull when messing with mod_rewrite)
+//echo($_SERVER['PATH_INFO']."\n<pre>"); 
+//var_dump(preg_split('/\//', $_SERVER['PATH_INFO'])); die();
+//output buffering forcing (mx)
+
 if (!empty($_POST['FORCE_OB']) && $_POST['FORCE_OB'] == 'true') ob_start();
 
 //header("Location: http://web.archive.org/web/20020925021139/http://kyberia.sk");
@@ -16,7 +24,9 @@ session_start();
 
 error_reporting(1);
 //$_SESSION['debugging']=1;
-//unset($_SESSION['debugging']); //Well... we should make some event or JavaScript page to turning this on/off...
+//unset($_SESSION['debugging']); 
+//Well... we should make some event 
+//or JavaScript page to turning this on/off...
 //exit;
 
 
@@ -32,14 +42,21 @@ if ($_SESSION['debugging']) {
 }
 
 @ini_set('magic_quotes_gpc' , 'off');
-if(get_magic_quotes_gpc()) die("Error: magic_quotes_gpc needs to be disabled! F00K!\n");
+if(get_magic_quotes_gpc()) {
+	die("Error: magic_quotes_gpc needs to be disabled! F00K!\n");
+}
 
 //Smarty from DB
 $smarty_resource = 'kyberia';
 //$smarty_resource = ''; //same as 'file' (fallback)
 /* I have moved old templates to DB using following lame script:
- * for i in *.tpl; do j=$(echo "$i" | cut -d . -f 1); echo UPDATE nodes SET node_content = "'$(php -r "echo mysql_escape_string(file_get_contents('$i'));")'" WHERE node_id = "'$j'" COLLATE utf8_bin LIMIT '1;'; done | mysql --user=kyberia --password=PASSSSSSS kyberia
- * In future we should have some mechanism for distributing templates because they are very important part of kyberia source...
+ * for i in *.tpl; do j=$(echo "$i" | cut -d . -f 1); 
+   echo UPDATE nodes SET node_content = "'$(php -r 
+   "echo mysql_escape_string(file_get_contents('$i'));")'" WHERE 
+   node_id = "'$j'" COLLATE utf8_bin LIMIT '1;';
+   done | mysql --user=kyberia --password=PASSSSSSS kyberia
+ * In future we should have some mechanism for distributing templates 
+ * because they are very important part of kyberia source...
  */
 
 //Path info (Experimental - this replaced most of mod_rewrites...)
@@ -61,7 +78,9 @@ if($PATH_INFO != '') {
 				header('Location: /k/'.base_convert($_GET['node_id'], 10, 36).
 					(isset($_GET['template_id'])?'/'.base_convert($_GET['template_id'], 10, 36):'')
 				);
-				die("Base36 fascism...\n"); //If you want to be a fascist you have to die imediatelly...
+				die("Base36 fascism...\n"); 
+				// If you want to be a fascist 
+				// you have to die imediatelly...
 			}
 
 			break;
