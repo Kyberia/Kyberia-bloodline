@@ -36,6 +36,7 @@ function login() {
 	$set->next();
 	$user_id = $set->getString('user_id');
 	$user_name = $set->getString('login');
+	$xmpp = $set->getString('xmpp');
 
     if (!$set) { //XXX test
         $error="Zadal si nespravne uzivatelske meno [alebo id] alebo heslo. Rob so sebou nieco";
@@ -116,7 +117,7 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
 
         $_SESSION['user_id']=$user_id;
         $_SESSION['user_name']=addslashes($user_name);
-	setcookie('jabber_login', strtolower($user_name), time()+60*60*24*10, '/'); //10days on whole domain - should have persistent username in future...
+	setcookie('jabber_login', strtolower($xmpp), time()+60*60*24*10, '/'); //10days on whole domain - should have persistent username in future...
 	setcookie('jabber_password', hash('md5', 'jabber:'.$_POST['password']), time()+60*60*24*10, '/'); //10days on whole domain
         if (!empty($cube_vector)) $_SESSION['cube_vector']=$cube_vector;
         if (empty($_SESSION['template_set'])) $_SESSION['template_set']=$set->getString('template_set');
