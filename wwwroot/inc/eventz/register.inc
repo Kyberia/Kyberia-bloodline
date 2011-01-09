@@ -5,6 +5,7 @@ function register() {
     $content = mysql_real_escape_string(strip_tags(trim($_POST['reg_content'])));
     $email   = mysql_real_escape_string(strip_tags(trim($_POST['reg_email'])));
     $login   = mysql_real_escape_string(strip_tags(trim($_POST['reg_login'])));
+    $xmpp    = mysql_real_escape_string(strtolower(strip_tags(trim($_POST['reg_login']))));
     $pass    = mysql_real_escape_string($_POST['reg_pass']);
     $pass2   = mysql_real_escape_string($_POST['reg_pass2']);
     
@@ -34,9 +35,9 @@ function register() {
     }
 
     $set = $db->query(sprintf('select login from users where 
-				login = "%s" or email = "%s"', $login, $email));
+				login = "%s" or email = "%s" or xmpp = "%s"', $login, $email, $xmpp));
     if ($set->getNumRows() > 0) {
-        $error = sprintf('No-no, user with this email is already registered');
+        $error = sprintf('No-no, user with this nick/email is already registered');
         return false;
     }
 
@@ -61,8 +62,8 @@ function register() {
     $vercode = substr( md5( uniqid( rand() ) ), rand(0, 7), 23);
     $q = sprintf('insert into users set password = "%s", user_id = %d,
                   header_id = 2091520, login = "%s", email = "%s",
-                  hash = "%s"',
-                 $pass, $user_id, $login, $email, $vercode);
+                  hash = "%s", xmpp="%s"',
+                 $pass, $user_id, $login, $email, $vercode, $xmpp);
     $db->query($q); // XXX rewrite
     $emailtext = sprintf(
 'Vitaj %s! Prave som sa s radostou dozvedel, ze si vyplnil(a)
