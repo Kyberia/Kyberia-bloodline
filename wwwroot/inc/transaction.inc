@@ -1,4 +1,5 @@
 <?php
+/* //IMHO Completely broken. ~harvie
 $hoe_name=Addslashes("transaction_".$transaction."_hoe");
 
 $db->query("select * from nodes where node_name='$hoe_name'
@@ -12,6 +13,4 @@ if ($status>1) {
 elseif ($status) {
 	Header("Location: /id/".$node['node_id']."/");
 }
-
-
-?>
+*/

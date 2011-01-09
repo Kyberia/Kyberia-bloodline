@@ -328,9 +328,11 @@ if (($permissions['r']) || ($event != 'register')) {
 		require(INCLUDE_DIR.'eventz.inc');
 	}
 
+	/* broken
 	elseif ($transaction) {
 		require(INCLUDE_DIR.'transaction.inc');
 	}
+	*/
 	//end of performing node events
 
 	//sventest
