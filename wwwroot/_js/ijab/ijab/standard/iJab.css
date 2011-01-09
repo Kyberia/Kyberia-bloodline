@@ -521,6 +521,7 @@ a .ijab-icon,a .ui-icon {
     height: 3em;
     padding: .3em 0 .2em;
     font-size:13px !important;
+    color: black;
 }
 
 .ijab-chat .ijab-chat-notice {
