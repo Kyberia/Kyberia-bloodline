@@ -6,7 +6,7 @@ function configure_external_access() {
 
 	if (($node['node_permission']=='owner') || ($node['node_permission']=='master')) {
 
-		if ($_POST['node_external_access'] =='yes'))
+		if ($_POST['node_external_access'] =='yes')
 			{ $node_external_access = 'yes'; }
 		else
 			{ $node_external_access = 'no'; }
