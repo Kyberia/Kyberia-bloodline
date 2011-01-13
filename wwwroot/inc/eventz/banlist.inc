@@ -8,7 +8,8 @@ if ($node['node_permission']!=('owner' || 'master' || 'op')) {
 $error=$error_messages['EVENT_PERMISSION_ERROR'];
 return false;
 }
-		$bans=explode(";",$_POST['bans']); // XXX sqli?
+		$bans = explode(";",$_POST['bans']); // XXX sqli?
+		$bans = array_map('mysql_real_escape_string', $bans); 
 
 		$db->query("update node_access set node_permission='' where node_id=$node_id and node_permission='ban'");
 		foreach ($bans as $ban) {
