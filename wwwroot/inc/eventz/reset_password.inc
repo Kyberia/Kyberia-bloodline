@@ -1,11 +1,11 @@
 <?php
 function reset_password() {
     global $db,$error;
-    $login = $_POST['login'];
-    $login_type = $_POST['login_type'];
-    $vercode = $_POST['vercode'];
-    $password1 = $_POST['new_password1'];
-    $password2 = $_POST['new_password2'];
+    $login = mysql_real_escape_string($_POST['login']);
+    $login_type = mysql_real_escape_string($_POST['login_type']);
+    $vercode = mysql_real_escape_string($_POST['vercode']);
+    $password1 = mysql_real_escape_string($_POST['new_password1']);
+    $password2 = mysql_real_escape_string($_POST['new_password2']);
 
     if ($login == '') {
         $error="Please enter name or id";
@@ -44,12 +44,13 @@ function reset_password() {
         return false;
     }
 
+    // XXX fix
     $password = md5($password1);
     $q="update users set password='$password' where user_id='$user_id'";
     $db->query($q);
 
-    require(INCLUDE_DIR.'ldap.inc');
-    LDAPuser::change_pass_forced($user_id,$password1);
+//    require(INCLUDE_DIR.'ldap.inc');
+//    LDAPuser::change_pass_forced($user_id,$password1);
 
     $error="Password changed. Now you can login with your new password.";
     return false;
