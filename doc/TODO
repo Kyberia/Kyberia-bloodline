@@ -7,7 +7,7 @@
 - User mail -> can't delete the mails...
   Anyway move whole mail handling out of nodes.php (?)
 
-- SQL injections (many fixed, but some should be still there)
+- SQL injections (many fixed, but some are still there)
 
 - remove absolute paths from all source files (!)
 - convert to some more inteligent path system... eg.:

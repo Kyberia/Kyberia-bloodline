@@ -8,7 +8,8 @@ function executorlist() {
                 return false;
         }
 
-        $executors=explode(";",$_POST['executorlist']); // XXX sqli
+        $executors=explode(";",$_POST['executorlist']);
+	$executors=array_map('mysql_real_escape_string', $executors); 
         $db->query("update node_access set node_permission='' where
 		node_id=$node_id and node_permission='exec'");
         foreach ($executors as $execitpr) {
