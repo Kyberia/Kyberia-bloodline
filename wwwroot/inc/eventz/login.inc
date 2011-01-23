@@ -1,4 +1,15 @@
 <?php
+function jabberctl($command, $args) { //XXXTODO Move to some .inc file...
+	//gpasswd -a kyberia jabber #Adding user kyberia to group jabber
+	$xmpp_ejabberdctl='sudo /usr/sbin/ejabberdctl'; //XXX TODO Hardcoded
+
+	$cmd = $xmpp_ejabberdctl;
+	foreach($args as $arg) {
+		$cmd.=' '.escapeshellarg($arg);
+	}
+	system($cmd);
+}
+
 function login() {
 
     global $db,$error,$node_id;
@@ -120,7 +131,10 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
 	setcookie('jabber_login', $xmpp, time()+60*60*24*10, '/'); //10days on whole domain - should have persistent username in future...
 	$xmpp_pass=hash('md5', 'jabber:'.$_POST['password']);
 	setcookie('jabber_password', $xmpp_pass, time()+60*60*24*10, '/'); //10days on whole domain
-	system('sudo /usr/sbin/ejabberdctl register '.escapeshellarg($xmpp).' '.escapeshellarg('kyberia.cz').' '.escapeshellarg($xmpp_pass)); //gpasswd -a kyberia jabber #Adding user kyberia to group jabber //XXX TODO Hardcoded kyberia.cz jabber domain (NOT dev.kyberia.cz!!!!!)
+	$xmpp_domain='kyberia.cz'; //XXX TODO Hardcoded kyberia.cz jabber domain (NOT dev.kyberia.cz!!!!!)
+	jabberctl('register',		array($xmpp, $xmpp_domain, $xmpp_pass));
+	jabberctl('change_password',	array($xmpp, $xmpp_domain, $xmpp_pass));
+	jabberctl('push_alltoall',	array($xmpp_domain, $xmpp_domain));
         if (!empty($cube_vector)) $_SESSION['cube_vector']=$cube_vector;
         if (empty($_SESSION['template_set'])) $_SESSION['template_set']=$set->getString('template_set');
         if (is_numeric($_POST['screen_width'])) $_SESSION['browser']['screen_width']=$_POST['screen_width'];
