@@ -1,15 +1,10 @@
 <?php
 function display() {
-	/*global $node,$db,$error,$referer_id;
+	global $node,$db,$error,$referer_id,$smarty,$permissions;
 	if (!$referer_id) $referer_id=1;
 
 	$node_id=$node['node_id'];
-	$user_id=$_SESSION['user_id'];*/
-
-	return false;
-}
-
-//XXX TODO: CELY TOHLE JE HACK A JE POTREBA TO NARVAT DO FUNKCE display() nahore...////
+	$user_id=$_SESSION['user_id'];
 
 if ($permissions['r']) {
 
@@ -345,3 +340,5 @@ if ($template_id=='2019721'){
 }
 //end of displaying
 
+	return false;
+}
