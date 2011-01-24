@@ -59,29 +59,7 @@ if (isset($referer_id) && is_numeric($referer_id)) {
 		$q="insert into neurons set synapse_creator='".$_SESSION['user_id']."',dst='".$node['node_id']."',src='$referer_id',synapse=1";
 		$db->query($q);
 		}
-}
-
-
-elseif (!$permissions['r'] && $_GET['magic_word']) {
-	$magic_word_big=$_GET['magic_word'];
-
-	if ( preg_match("/(\d+)-(.+)/",$_GET['magic_word'],$mu)) {
-		$magic_uid=$mu['1'];
-		$magic_word=addslashes($mu['2']);
-		// XXX WTF column magic_word does not exists
-		$q="select login from users where user_id='$magic_uid' and magic_word='$magic_word'";
-		$set=$db->query($q);
-		if ($set->getNumRows()) {
-			$permissions['r']=true;
-		}
-	}
-}
-
-
-
-
-
-else {
+} else {
 	logger::log('enter',$node['node_id'],'failed');
 }
 
