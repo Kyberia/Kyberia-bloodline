@@ -5,6 +5,8 @@ class logger {
 
 		global $db,$node;
 		$user_id = isSet($_SESSION['user_id'])?$_SESSION['user_id']:"";
+		error_log('LOG: user: '.$user_id.', action: '.$action.
+				', node_id: '.$node_id.', result: '.$result);
 //		$db->query("insert delayed into logs set event='$action',node_id='$node_id',user_id='$user_id',result='$result',parameter1='$parameter1',parameter2='$parameter2'");
 
 	}
