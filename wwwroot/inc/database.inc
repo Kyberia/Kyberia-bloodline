@@ -63,24 +63,43 @@ function closeMysql() {
 
 function query($sql) {
 
-		$this->_linkId = false;
-		$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
-		$this->Master = true;
+	$this->_linkId = false;
+	$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
+	$this->Master = true;
 
-		$this->_queryId = mysql_query($sql,$this->_linkId);
+	// Simple IDS, against automats
+	// When possible attack is detected, 
+	// query & session information is stored into log
+	// Looking for following string in SQL query:
+	// - "user()" (get cur. user)
+	// - "@@version" (get mysql version)
+	// - "AND 1=1" (blind sqli) (too many false positives?)
+	// - "information_schema" (for listing of tables, columns...)
 
-		if (isset($_SESSION['debugging'])) {
-			echo $sql;
-			global $timer_start;
-			echo "<BR>".SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
-		}
+	// - "/*" (comment) (too many false positives?)
+	// - "--" (comment) (too many false positives?)
 
-		if ($this->_queryId == false) {
-	      		$this->exception("query failed ::$sql::");
-		}
-
-		return new result($this->_queryId, $sql);
+	if (preg_match('/user\(\)/',$sql) || preg_match('/@@version/',$sql)
+	|| preg_match('/information_schema/',$sql)|| preg_match('/AND 1=1/',$sql)
+	) {
+		logger::log('SQL ALARM',$sql);
+		
 	}
+
+	$this->_queryId = mysql_query($sql,$this->_linkId);
+
+	if (isset($_SESSION['debugging'])) {
+		echo $sql;
+		global $timer_start;
+		echo "<BR>".SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
+	}
+
+	if ($this->_queryId == false) {
+      		$this->exception("query failed ::$sql::");
+	}
+
+	return new result($this->_queryId, $sql);
+}
 
 
 function executequery($sql) {
