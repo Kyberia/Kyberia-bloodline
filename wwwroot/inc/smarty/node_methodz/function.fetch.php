@@ -6,7 +6,7 @@
  */
 
 
-/**
+/** a
  * Smarty {fetch} plugin
  *
  * Type:     function<br>

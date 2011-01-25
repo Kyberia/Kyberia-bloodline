@@ -29,7 +29,7 @@
 - Uploading user images works, but resizing? 
 
 - Suspected security holes:
-  ( cron/process-img.sh )
+  ( ./inc/smarty/node_methodz/function.fetch.php) (read local files?)
   ( ./inc/eventz/spamuj_ubik.inc )
   ( ./inc/eventz/upload_own_template.inc ) (is even needed?)
 

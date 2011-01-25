@@ -105,7 +105,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 }
 
 //connecting to database and creating universal $db object
-require_once(INCLUDE_DIR.'senate.inc');
+//require_once(INCLUDE_DIR.'senate.inc'); // in config already
 require_once(INCLUDE_DIR.'log.inc');
 require_once(INCLUDE_DIR.'ubik.inc');
 require_once(INCLUDE_DIR.'nodes.inc');
