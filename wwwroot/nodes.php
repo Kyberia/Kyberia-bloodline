@@ -61,7 +61,7 @@ if (!empty($_GET['template_id'])) {
 }
 
 error_reporting(1);
-$_SESSION['debugging']=0;
+//$_SESSION['debugging']=0;
 //unset($_SESSION['debugging']); 
 //Well... we should make some event 
 //or JavaScript page to turning this on/off...
