@@ -15,6 +15,8 @@ require_once(INCLUDE_DIR.'base36.inc');
      }
    }
 
+
+
 function processContent_hack($node_content) {
         global $node;
         include_once(INCLUDE_DIR.'htmlparse.inc');
