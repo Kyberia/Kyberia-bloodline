@@ -29,7 +29,7 @@ elseif (is_file(INCLUDE_DIR."eventz/$event.inc")) {
 		|| ($event_node['node_permission']=='master')
 		|| ($event=='display')
 	) {
-		include_once(INCLUDE_DIR."eventz/$event.inc");
+		require_once(INCLUDE_DIR."eventz/$event.inc");
 		$status=$event();
 		$_SESSION['eventz'][$event]=true;
 
@@ -46,14 +46,18 @@ else {
 	$status=false;
 }
 
+if (!$status) {
+	require_once(INCLUDE_DIR."eventz/display.inc");
+	display();	
+}
 
-if ($status>1) {
+elseif ($status>1) {
 	Header("Location: /id/".$status."/");
 }
 
 elseif ($status) {
 	Header("Location: /id/".$node['node_id']."/");
-}
+} 
 
 
 ?>
