@@ -42,13 +42,13 @@ $db = new CLASS_DATABASE();
 if (preg_match('/id\/([0-9]+)(?:\/([0-9]+)\/?)?/',$_SERVER['PATH_INFO'],$match)) {
 //	print_r($match);
 	$_GET['node_id']=$match[1];
-	if ($match[2]) {
+	if (!empty($match[2])) {
 		$_GET['template_id']=$match[2];
 	}
-} elseif (preg_match('/k\/([a-z0-9]+)(?:\/([0-9]+))?/',$_SERVER['PATH_INFO'],$match)) {
+} elseif (preg_match('/k\/([a-z0-9]{1,7})(?:\/([a-z0-9]{1,7}))?/',$_SERVER['PATH_INFO'],$match)) {
 	$_GET['node_id']=base_convert($match[1], 36, 10);
-	if ($match[2]) {
-		$_GET['template_id']=$match[2];	
+	if (!empty($match[2])) {
+		$_GET['template_id']=base_convert($match[2],36,10);	
 	}
 } elseif (preg_match('/name\/(.*?)\/?$/',$_SERVER['PATH_INFO'],$match)) {
 	$_GET['node_id']  = nodes::getNodeIdByName($match[1]);
