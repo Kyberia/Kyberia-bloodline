@@ -88,7 +88,7 @@ function query($sql) {
 
 	$this->_queryId = mysql_query($sql,$this->_linkId);
 
-	if (isset($_SESSION['debugging'])) {
+	if ($_SESSION['debugging']) {
 		echo $sql;
 		global $timer_start;
 		echo "<BR>".SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
