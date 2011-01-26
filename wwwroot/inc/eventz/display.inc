@@ -1,6 +1,6 @@
 <?php
 function display() {
-	global $node,$db,$error,$referer_id,$smarty,$permissions;
+	global $node,$db,$error,$referer_id,$smarty,$permissions,$template_id;
 	if (!$referer_id) $referer_id=1;
 
 	$node_id=$node['node_id'];
@@ -48,21 +48,6 @@ if ($node['template_id']!='2019721'){
 //		update_nodes($_SESSION['user_id'],$node['node_id'],0);	
 //	}
 // }
-
-// DO NOT MESS WITH THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//creating neural network
-$db->update("update nodes set node_views=node_views+1 where node_id='".$node['node_id']."'");
-if (isset($referer_id) && is_numeric($referer_id)) {
-	$q="update neurons set synapse=synapse+1 where dst='".$node['node_id']."' and src='$referer_id'";
-	$result=$db->update($q);
-	if (!$result) {
-		$q="insert into neurons set synapse_creator='".$_SESSION['user_id']."',dst='".$node['node_id']."',src='$referer_id',synapse=1";
-		$db->query($q);
-		}
-} else {
-	logger::log('enter',$node['node_id'],'failed');
-}
-
 
 
 //assigning user data to smarty if user logged in
@@ -147,7 +132,6 @@ if ($permissions['r']) {
 	$smarty->assign('node_json',json_encode($node));
 }
 else {
-
 	$smarty->assign('node',$node);
 	//new templates by Dark matter
 	$smarty->template_dir=OWN_TEMPLATE_DIR;
@@ -318,5 +302,5 @@ if ($template_id=='2019721'){
 }
 //end of displaying
 
-	return false;
+	return true;
 }
