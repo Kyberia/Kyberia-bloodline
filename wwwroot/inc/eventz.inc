@@ -55,7 +55,7 @@ elseif ($status>1) {
 	Header("Location: /id/".$status."/");
 }
 
-elseif ($status) {
+elseif ($status && $event!='display') {
 	Header("Location: /id/".$node['node_id']."/");
 } 
 
