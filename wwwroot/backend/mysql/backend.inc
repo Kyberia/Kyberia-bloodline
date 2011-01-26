@@ -149,15 +149,17 @@ node_vector='".$params['node_vector']."'";
                 }
         }
 
+	function getNodeIdByName($name, $external_link=false) {
+	    global $db;
 
-        function getNodeIdByName($name,$external_link=false) {
-                global $db;
-                $q="select node_id from nodes where node_name='$name'";
-                if ($external_link) $q.=" and external_link='$external_link'";
-                $set=$db->query($q);
-                $set->next();
-                return $set->getString('node_id');
-        }
+	    $qh = sprintf('select node_id from nodes where node_name = "%s"', mysql_real_escape_string($name));
+    		if ($external_link)
+      			$qh .= sprintf(' and external_link="%s"', mysql_real_escape_string($external_link));
+
+	    $set = $db->query($qh);
+	    $set->next();
+	    return $set->getString('node_id');
+  	}
 
         function getNodeById($node_handle,$user_id, $table_name="nodes") {
                 global $db, $error;
