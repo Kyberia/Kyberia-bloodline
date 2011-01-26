@@ -1,4 +1,5 @@
 <?php
+session_start();
 if ($_SESSION['debugging']) {
   $_SESSION['debugging']=false;
   echo "debugging turned off; refresh to turn it on";
