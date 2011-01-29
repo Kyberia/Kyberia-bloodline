@@ -45,6 +45,13 @@ if (preg_match('/id\/([0-9]+)(?:\/([0-9]+)\/?)?/',$_SERVER['PATH_INFO'],$match))
 	if (!empty($match[2])) {
 		$_GET['template_id']=$match[2];
 	}
+	//Base36 fascism redirect
+	if($_GET['template_id'] != 'download' && !count($_POST)) { //Fix ugly download hack...
+		header('Location: /k/'.base_convert($_GET['node_id'], 10, 36).
+			(isset($_GET['template_id'])?'/'.base_convert($_GET['template_id'], 10, 36):'')
+		);
+		die("Die!!! All Fascists Are Bastards...\n");
+	}
 } elseif (preg_match('/k\/([a-z0-9]{1,7})(?:\/([a-z0-9]{1,7}))?/',$_SERVER['PATH_INFO'],$match)) {
 	$_GET['node_id']=base_convert($match[1], 36, 10);
 	if (!empty($match[2])) {
