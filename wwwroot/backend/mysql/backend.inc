@@ -35,6 +35,35 @@ function update_nodes($user_id,$node_id,$referer_id) {
 }
 
 
+function putNode($what,$where,$checkpermissions=true) {
+	global $db,$error,$error_messages;
+	$user_id = $_SESSION['user_id'];
+	if (!$user_id) {
+		$user_id=UBIK_ID;
+	}
+	if (!is_numeric($what) || !is_numeric($where)) {
+		$error=$error_messages['NUMERIC_NOT_NUMERIC'];
+	}
+
+	$nodeshell = nodes::getNodeById($where,$user_id);
+	$nodeshell_vector = $nodeshell['node_vector'];
+	
+	if ($checkpermissions) {
+		$nodeshell_permissions = permissions::checkPermissions($nodeshell);
+		if (!$nodeshell_permissions['w']) {
+			$error = $error_messages['WRITE_PERMISSION_ERROR'];
+			return false;
+    		}
+	}
+
+	$dst_vector = $nodeshell_vector.str_pad($chosen,VECTOR_CHARS,0,STR_PAD_LEFT);
+	$q = "update neurons set synapse_created=NOW(),link='hard',synapse=synapse+1, dst_vector='$dst_vector' where src='$what' and dst='$where'";
+	$result=$db->update($q);
+
+	if (!$result) $db->query("insert into neurons set synapse_creator='$user_id',synapse_created=NOW(), src='$what',dst='$where',dst_vector='$dst_vector',link='hard',synapse=1");
+	$db->query("update nodes set lastdescendant_created=NOW(),node_children_count=node_children_count+1 where node_id='$where'");
+}
+
 function addNode($params) {
         global $db,$node,$error,$error_messages;
         $parent_id=$params['node_parent'];
