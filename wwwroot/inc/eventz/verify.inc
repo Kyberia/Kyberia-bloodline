@@ -5,8 +5,10 @@ global $db;
 $uvercode=mysql_real_escape_string($_POST['vc']);
 $login=mysql_real_escape_string($_POST['login']);
 
-$kset=$db->query("select user_id from users where login='$login'");
-$kset->next();$userid=$kset->getString('user_id');
+$kset=$db->query("select user_id,guild_id from users where login='$login'");
+$kset->next();
+$userid=$kset->getString('user_id');
+$guild_id=$kset->getString('guild_id');
 
 $set=$db->query("select node_id from nodes where node_id='$userid' and node_parent=".UNVERIFIED_REGISTRATIONS_NODE);
 if($set->getNumRows()!=1) {
@@ -46,11 +48,14 @@ $db->update($q);
 $q="update node_access set node_user_subchild_count=node_user_subchild_count+1 where node_id=".REGISTRATION_REQUEST_NODE;
 $db->update($q);
 
+nodes::putNode($userid,$guild_id,false);
 
 // and now the happy news:-))
 echo "<center>Verification successfull.<br><h3>from now on your registration is in the hands of kyberians</h3></center>";
 	die();
 }
+
+
 
 }
 ?>
