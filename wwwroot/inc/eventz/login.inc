@@ -53,7 +53,7 @@ function login() {
         $error="Zadal si nespravne uzivatelske meno [alebo id] alebo heslo. Rob so sebou nieco";
         return false;
     }
-    elseif ($set->getString('header_id') == 2091520) {
+    elseif ($set->getString('hash')) {
         $error='Tvoja registracia este nebola schvalena.';
         return false;
     }
