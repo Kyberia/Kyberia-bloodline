@@ -46,7 +46,7 @@ if (preg_match('/id\/([0-9]+)(?:\/([0-9]+)\/?)?/',$_SERVER['PATH_INFO'],$match))
 		$_GET['template_id']=$match[2];
 	}
 	//Base36 fascism redirect
-	if($_GET['template_id'] != 'download' && !count($_POST)) { //Fix ugly download hack...
+	if(!count($_POST) && !(isset($_GET['template_id']) && $_GET['template_id'] == 'download')) { //Fix ugly download hack...
 		header('Location: /k/'.base_convert($_GET['node_id'], 10, 36).
 			(isset($_GET['template_id'])?'/'.base_convert($_GET['template_id'], 10, 36):'')
 		);
