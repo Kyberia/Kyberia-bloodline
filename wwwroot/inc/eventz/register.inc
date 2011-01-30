@@ -2,6 +2,7 @@
 function register() {
     global $db, $error;
 
+    $guild_id = mysql_real_escape_string(strip_tags(trim($_POST['guild_id'])));
     $content = mysql_real_escape_string(strip_tags(trim($_POST['reg_content'])));
     $email   = mysql_real_escape_string(strip_tags(trim($_POST['reg_email'])));
     $login   = mysql_real_escape_string(strip_tags(trim($_POST['reg_login'])));
@@ -55,6 +56,11 @@ function register() {
     $params['node_name'] = 'request for access';
     $params['flag'] = 'registration';
     $user_id = nodes::addNode($params);
+
+	
+	//puttin in the guild node is realized only after email verification
+	//nodes::putNode($user_id,$guild_id);
+
     $q = sprintf('update nodes set node_system_access = "private" where node_id = %d', $user_id);
     $db->update($q);
 
@@ -62,8 +68,8 @@ function register() {
     $vercode = substr( md5( uniqid( rand() ) ), rand(0, 7), 23);
     $q = sprintf('insert into users set password = "%s", user_id = %d,
                   header_id = 2091520, login = "%s", email = "%s",
-                  hash = "%s", xmpp="%s"',
-                 $pass, $user_id, $login, $email, $vercode, $xmpp);
+                  hash = "%s", xmpp="%s, guild_id="%s""',
+                 $pass, $user_id, $login, $email, $vercode, $xmpp, $guild_id);
     $db->query($q); // XXX rewrite
     $emailtext = sprintf(
 'Vitaj %s! Prave som sa s radostou dozvedel, ze si vyplnil(a)
