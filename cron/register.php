@@ -38,7 +38,7 @@ $q="select users.login as persona,users.email as email,
 $set=$db->query($q);
 
 while ($set->next()) {
-      $q="update users set header_id=0 where user_id=".$set->getString('node_id');
+      $q="update users set header_id=0,hash='' where user_id=".$set->getString('node_id');
       $db->update($q);
       $login=$set->getString('login');
       echo $login." registered\n";
