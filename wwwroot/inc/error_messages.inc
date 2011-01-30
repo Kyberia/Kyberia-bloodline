@@ -16,4 +16,5 @@ $error_messages['EVENT_NOT_PERMITTED']='su veci na ktore prosto nemas pravo';
 $error_messages['NOT_NUMERIC']='POST parameter is not numeric';
 $error_messages['MAX_CHILDREN']='nieje mozne pridat dalsiu nodu kedze bol prekroceny pocet MAX_CHILDREN definovany v paragrafe 42 vyhlasky 23/2005, hlava 666';
 $error_messages['UNDELETE_IMPOSSIBLE']='nemozes vratit do zivota to co nieje tvoje';
+$error_messages['NUMERIC_NOT_NUMERIC']='tazko, ej verureku tazko sa mi funguje v svete kde anilen ciselna hodnota nieje ciselnou hodnotou';
 ?>
