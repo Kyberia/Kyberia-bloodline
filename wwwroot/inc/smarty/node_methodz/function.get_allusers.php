@@ -3,7 +3,9 @@
 		global $db,$node;
 		$q="select user_id, login from  users where hash='' order by login ";
 		$set=$db->query($q);
-		$users[]=$set->getRecord();
-		$smarty->assign('get_allusers',$users);
+		while ($set->next()) {
+			$users[]=$set->getRecord();
+			$smarty->assign('get_allusers',$users);
+		}
 	}
 ?>
