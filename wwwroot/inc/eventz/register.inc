@@ -64,14 +64,14 @@ function register() {
     $q = sprintf('update nodes set node_system_access = "private" where node_id = %d', $user_id);
     $db->update($q);
 
-    $pass = md5($pass);
-    $vercode = substr( md5( uniqid( rand() ) ), rand(0, 7), 23);
-    $q = sprintf('insert into users set password = "%s", user_id = %d,
-                  header_id = 2091520, login = "%s", email = "%s",
-                  hash = "%s", xmpp="%s, guild_id="%s""',
-                 $pass, $user_id, $login, $email, $vercode, $xmpp, $guild_id);
-    $db->query($q); // XXX rewrite
-    $emailtext = sprintf(
+	$pass = md5($pass);
+	$vercode = substr( md5( uniqid( rand() ) ), rand(0, 7), 23);
+	$q = sprintf('insert into users set password = "%s", user_id = %d,
+		header_id = 2091520, login = "%s", email = "%s",
+		hash = "%s", xmpp="%s", guild_id="%s"',
+		$pass, $user_id, $login, $email, $vercode, $xmpp, $guild_id);
+	$db->query($q); // XXX rewrite
+	$emailtext = sprintf(
 'Vitaj %s! Prave som sa s radostou dozvedel, ze si vyplnil(a)
 registracny formular na stranke '.SYSTEM_URL.' a chces sa stat
 clenom tejto komunity.
