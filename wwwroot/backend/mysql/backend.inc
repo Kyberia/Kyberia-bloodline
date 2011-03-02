@@ -320,8 +320,7 @@ function setParent($node_id,$parent_id) {
         $parent_vector=$set->getString('node_vector');
         $new_vector=$parent_vector.str_pad($node_id,VECTOR_CHARS,"0",STR_PAD_LEFT);
 
-	$q="update nodes set node_parent='$parent_id',node_vector='".$new_vector."
-		' where node_id='$node_id'";
+	$q="update nodes set node_parent='$parent_id',node_vector='$new_vector' where node_id='$node_id'";
 	$db->query($q);
 }
 
