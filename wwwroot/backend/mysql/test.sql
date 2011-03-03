@@ -3,7 +3,7 @@ drop function if exists k_get_node_weigth;
 delimiter //
 create function k_get_node_weigth (node INT, user INT) returns DOUBLE
 BEGIN
-	declare vector,node2,len,n_owner,offset int;
+	declare vector,node2,len,n_owner,offset int; /* vector type*/
 	declare final,n_weight,o_weight,s_weight double;
 
 	select node_vector into vector from nodes where node_id = node;
@@ -42,4 +42,27 @@ begin
 
 --	select * from tmp_table order by k_weight desc;
 end//
+
+create function get_fix_vector (node INT) returns varchar(80)
+BEGIN
+	declare np,mynode int;
+
+	set mynode=node;
+	REPEAT
+		select node_parent into np from nodes where node_id = mynode;
+		/* XXX padding */
+		vector=concat(node_parent,vector);
+		set mynode=node_parent;
+	UNTIL node_parent != NULL and node_parent > 0
+	END REPEAT;
+	
+	return vector;
+
+END//
+
+create procedure fix_all_vectors ()
+begin
+	
+end//
 delimiter ;
+
