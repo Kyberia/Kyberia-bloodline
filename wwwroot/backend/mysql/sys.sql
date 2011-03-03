@@ -2,7 +2,7 @@ drop procedure if exists fix_all_vectors;
 drop function if exists get_fix_vector;
 delimiter //
 /* compute correct vector for node */
-create function get_fix_vector (node INT) returns varchar(80)
+create function get_fix_vector (node INT) returns varchar(230)
 BEGIN
 	declare np,mynode,safe int;
 	declare vector varchar(80);
@@ -19,7 +19,7 @@ BEGIN
 	END REPEAT;
 
 	if safe = 0 then 
-		return 'loooped';
+		return '';
 	end if;
 	return vector;
 

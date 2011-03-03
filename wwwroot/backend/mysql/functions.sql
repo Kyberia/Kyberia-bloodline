@@ -3,8 +3,9 @@ drop function if exists k_get_node_weigth;
 delimiter //
 create function k_get_node_weigth (node INT, user INT) returns DOUBLE
 BEGIN
-	declare vector,node2,len,n_owner,offset int; /* vector type*/
+	declare node2,len,n_owner,offset int;
 	declare final,n_weight,o_weight,s_weight double;
+	declare vector varchar(240);
 
 	select node_vector into vector from nodes where node_id = node;
 	set final = 1;
@@ -33,36 +34,11 @@ BEGIN
 	END WHILE;
 	RETURN final;
 END//
-create procedure k_neurons ()
-begin
---	select k_get_node_weigth(node_id,904) from nodes where k>0
---                and node_created>now()-interval 20 day;
-	select k,node_id,node_name,k_get_node_weigth(node_id,904) from nodes where k>0
-                and node_created>now()-interval 20 day;
-
---	select * from tmp_table order by k_weight desc;
-end//
-
-create function get_fix_vector (node INT) returns varchar(80)
+create procedure k_neurons ( IN user_id INT, IN day_int INT)
 BEGIN
-	declare np,mynode int;
-
-	set mynode=node;
-	REPEAT
-		select node_parent into np from nodes where node_id = mynode;
-		/* XXX padding */
-		vector=concat(node_parent,vector);
-		set mynode=node_parent;
-	UNTIL node_parent != NULL and node_parent > 0
-	END REPEAT;
-	
-	return vector;
+	if day_int = NULL or day_int = 0 then set day_int=20; end if;
+	select k,node_id,node_name,(k_get_node_weigth(node_id,user_id)*k) as weight_k from nodes where k>0
+                and node_created>now()-interval day_int day order by weight_k desc; 
 
 END//
-
-create procedure fix_all_vectors ()
-begin
-	
-end//
 delimiter ;
-
