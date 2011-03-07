@@ -39,26 +39,36 @@ require_once(INCLUDE_DIR.'transports.inc');
 
 $db = new CLASS_DATABASE();
 
-if (preg_match('/id\/([0-9]+)(?:\/([0-9]+)\/?)?/',$_SERVER['PATH_INFO'],$match)) {
-//	print_r($match);
-	$_GET['node_id']=$match[1];
-	if (!empty($match[2])) {
-		$_GET['template_id']=$match[2];
-	}
-	//Base36 fascism redirect
-	if(!count($_POST) && !(isset($_GET['template_id']) && $_GET['template_id'] == 'download')) { //Fix ugly download hack...
-		header('Location: /k/'.base_convert($_GET['node_id'], 10, 36).
-			(isset($_GET['template_id'])?'/'.base_convert($_GET['template_id'], 10, 36):'')
-		);
-		die("Die!!! All Fascists Are Bastards...\n");
-	}
-} elseif (preg_match('/k\/([a-z0-9]{1,7})(?:\/([a-z0-9]{1,7}))?/',$_SERVER['PATH_INFO'],$match)) {
-	$_GET['node_id']=base_convert($match[1], 36, 10);
-	if (!empty($match[2])) {
-		$_GET['template_id']=base_convert($match[2],36,10);	
-	}
-} elseif (preg_match('/name\/(.*?)\/?$/',$_SERVER['PATH_INFO'],$match)) {
-	$_GET['node_id']  = nodes::getNodeIdByName($match[1]);
+switch(true) {
+	case preg_match('/id\/([0-9]+)(?:\/([0-9]+)\/?)?/',$_SERVER['PATH_INFO'],$match):
+		//	print_r($match);
+		$_GET['node_id']=$match[1];
+		if (!empty($match[2])) {
+			$_GET['template_id']=$match[2];
+		}
+		//Base36 fascism redirect
+		if(!count($_POST) && !(isset($_GET['template_id']) && $_GET['template_id'] == 'download')) { //Fix ugly download hack...
+			header('Location: /k/'.base_convert($_GET['node_id'], 10, 36).
+				(isset($_GET['template_id'])?'/'.base_convert($_GET['template_id'], 10, 36):'')
+			);
+			die("Die!!! All Fascists Are Bastards...\n");
+		}
+		break;
+	case preg_match('/k\/([a-z0-9]{1,7})(?:\/([a-z0-9]{1,7}))?/',$_SERVER['PATH_INFO'],$match):
+		$_GET['node_id']=base_convert($match[1], 36, 10);
+		if (!empty($match[2])) {
+			$_GET['template_id']=base_convert($match[2],36,10);
+		}
+		break;
+	case preg_match('/name\/(.*?)\/?$/',$_SERVER['PATH_INFO'],$match):
+		$_GET['node_id']  = nodes::getNodeIdByName($match[1]);
+		break;
+	case preg_match('/\/(.+)\/?$/',$_SERVER['PATH_INFO'],$match):
+		$_GET['node_id']  = nodes::getNodeIdByName($match[1]);
+		break;
+	default:
+		$_GET['node_id']=1;
+		break;
 }
 
 if (!empty($_GET['template_id'])) {
