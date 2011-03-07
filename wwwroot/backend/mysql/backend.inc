@@ -178,7 +178,7 @@ function getUserByLogin($login) {
 	}
 }
 
-function getNodeIdByName($name, $external_link=false) {
+static function getNodeIdByName($name, $external_link=false) {
 	global $db;
 
 	$qh = sprintf('select node_id from nodes where node_name = "%s"', mysql_real_escape_string($name));
