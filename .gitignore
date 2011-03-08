@@ -4,6 +4,7 @@
 
 .htaccess
 .htpasswd
+robots.txt
 
 *.exe
 *.EXE
