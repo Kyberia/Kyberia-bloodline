@@ -37,7 +37,7 @@ END//
 create procedure k_neurons ( IN user_id INT, IN day_int INT)
 BEGIN
 	if day_int = NULL or day_int = 0 then set day_int=20; end if;
-	select k,node_id,node_name,(k_get_node_weigth(node_id,user_id)*k) as weight_k from nodes where k>0
+	select *,(k_get_node_weigth(node_id,user_id)*k) as weight_k from nodes where k>0
                 and node_created>now()-interval day_int day order by weight_k desc; 
 
 END//

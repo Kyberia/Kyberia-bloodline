@@ -334,7 +334,7 @@ function get_k_neurons($user_id,$interval) {
 
 	$q="call k_neurons('$user_id','$interval')";
 	$set=$db->query($q);
-	$set->next();
+//	$set->next();
 	return $set;
 }
 
