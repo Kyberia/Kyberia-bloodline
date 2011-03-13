@@ -329,7 +329,7 @@ function setParent($node_id,$parent_id) {
 // XXX TODO
 // 
 
-function get_k_neurons($user_id,$interval) {
+function getKNeurons($user_id,$interval) {
 	global $db,$node,$error,$error_messages;
 
 	$q="call k_neurons('$user_id','$interval')";
