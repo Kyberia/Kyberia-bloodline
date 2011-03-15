@@ -34,11 +34,23 @@ BEGIN
 	END WHILE;
 	RETURN final;
 END//
+
+/* Procedure itself with additional informations (parent name and owner name)*/
 create procedure k_neurons ( IN user_id INT, IN day_int INT)
 BEGIN
 	if day_int = NULL or day_int = 0 then set day_int=20; end if;
-	select *,(k_get_node_weigth(node_id,user_id)*k) as weight_k,'test1' as creator,'test2' as parent from nodes where k>0
-                and node_created>now()-interval day_int day order by weight_k desc; 
-
+	select  nodes.node_id,
+		nodes.node_name,
+		nodes.node_creator,
+		nodes.node_content,
+		nodes.node_parent,(k_get_node_weigth(nodes.node_id,user_id)*nodes.k) as weight_k,
+		users.login as creator_name,
+		parent.node_name as parent_name 
+	from nodes 
+		left join users on users.user_id=nodes.node_creator 
+		left join nodes as parent on nodes.node_parent=parent.node_id 
+	where nodes.k>0 and nodes.node_created>now()-interval day_int day 
+	order by weight_k desc;
+	
 END//
 delimiter ;
