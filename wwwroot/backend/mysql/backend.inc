@@ -49,7 +49,7 @@ function putNode($what,$where,$checkpermissions=true) {
 	$nodeshell_vector = $nodeshell['node_vector'];
 	
 	if ($checkpermissions) {
-		$nodeshell_permissions = permissions::checkPermissions($nodeshell);
+		$nodeshell_permissions = permissions::checkPerms($nodeshell);
 		if (!$nodeshell_permissions['w']) {
 			$error = $error_messages['WRITE_PERMISSION_ERROR'];
 			return false;
@@ -72,7 +72,7 @@ function addNode($params) {
                 $parent_id=$node['node_id'];
         }
 
-        $parent_permissions=permissions::checkPermissions($parent_id);
+        $parent_permissions=permissions::checkPerms($parent_id);
         if (!$parent_permissions['w']) {
                 $error=$error_messages['WRITE_PERMISSION_ERROR'];
                 logger::log('add','error','WRITE_PERMISSION_ERROR');
