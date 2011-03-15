@@ -165,34 +165,34 @@ node_vector='".$params['node_vector']."'";
 }
 
 
-        function getUserByLogin($login) {
-                global $error, $error_messages;
-                $q2="select user_id from users where login='".$login."'";
-                $userset=$db->query($q2);
-                $userset->next();
-                $id=$userset->getString('user_id');
-                if (is_numeric($id)) return $id;
-                else {
-                        $error = $error_messages['USER_NOT_FOUND'];
-                        return false;
-                }
-        }
+function getUserByLogin($login) {
+	global $error, $error_messages;
+	$q2="select user_id from users where login='".$login."'";
+	$userset=$db->query($q2);
+	$userset->next();
+	$id=$userset->getString('user_id');
+	if (is_numeric($id)) return $id;
+	else {
+		$error = $error_messages['USER_NOT_FOUND'];
+		return false;
+	}
+}
 
-	function getNodeIdByName($name, $external_link=false) {
-	    global $db;
+static function getNodeIdByName($name, $external_link=false) {
+	global $db;
 
-	    $qh = sprintf('select node_id from nodes where node_name = "%s"', mysql_real_escape_string($name));
-    		if ($external_link)
-      			$qh .= sprintf(' and external_link="%s"', mysql_real_escape_string($external_link));
+	$qh = sprintf('select node_id from nodes where node_name = "%s"', mysql_real_escape_string($name));
+    	if ($external_link)
+		$qh .= sprintf(' and external_link="%s"', mysql_real_escape_string($external_link));
 
-	    $set = $db->query($qh);
-	    $set->next();
-	    return $set->getString('node_id');
-  	}
+	$set = $db->query($qh);
+	$set->next();
+	return $set->getString('node_id');
+}
 
-        function getNodeById($node_handle,$user_id, $table_name="nodes") {
-                global $db, $error;
-                $q="select length(concat($table_name.node_vector)) as
+function getNodeById($node_handle,$user_id, $table_name="nodes") {
+	global $db, $error;
+	$q="select length(concat($table_name.node_vector)) as
 vector_depth,$table_name.*,$table_name.node_creator as
 node_owner_id,creator.node_name as owner,node_access.*,$table_name.node_id as
 node_id,node_parent.node_name as node_parent_name
@@ -201,128 +201,144 @@ left join $table_name as node_parent on $table_name.node_parent=node_parent.node
 left join node_access on (node_access.node_id='$node_handle' and node_access.user_id='$user_id')
 where $table_name.node_id='$node_handle'";
 
-                $result=$db->query($q);
-                if (!$result->next()) {
-                        return false;
-                }
-                else {
-                        $node=addBase36id($result->getRecord());
-                        $node['node_vector']=trim($node['node_vector'],"z");
-                        $ancestors=str_split($node['node_vector'],VECTOR_CHARS);
-                        foreach ($ancestors as $ancestor) {
-                          $node['ancestors'][]=array("name"=>"","link"=>ltrim($ancestor,"0"));
-                        }
-                }
-		transport_process_node($node);
-                return $node;
+	$result=$db->query($q);
+	if (!$result->next()) {
+		return false;
+	}
+	else {
+		$node=addBase36id($result->getRecord());
+		$node['node_vector']=trim($node['node_vector'],"z");
+		$ancestors=str_split($node['node_vector'],VECTOR_CHARS);
+		foreach ($ancestors as $ancestor) {
+			$node['ancestors'][]=array("name"=>"","link"=>ltrim($ancestor,"0"));
+		}
+	}
+	transport_process_node($node);
+	return $node;
 
-        }
-
-
-        function redirByName($node_handle) {
-                global $db, $error;
-                $user_id=$_SESSION['user_id'];
-                $set=$db->query("select node_id from nodes where node_name='$node_handle' and node_creator='$user_id'");
-                if ($set->next()) {
-                        $node_id=$set->getString('node_id');
-                        if (!empty($node_id)) {
-                                return nodes::getNodeById($node_id,$_SESSION['user_id']);
-                        }
-
-                }
-                $set=$db->query("select node_id from nodes where node_name='$node_handle' ");
-                $set->next();
-                $node_id=$set->getString('node_id');
-                if (!empty($node_id)) {
-                        return nodes::getNodeById($node_id,$_SESSION['user_id']);
-                }
-
-        }
-
-        function getNodesByName($node_handle) {
-                global $db, $error;
-                $q="select nodes.* from nodes where node_name='$node_handle%'";
-
-                $result=$db->query($q);
-
-                while ($result->next()){
-                        $record[]=addBase36id($result->getRecord());
-                }
-                return $record;
-
-        }
+}
 
 
+function redirByName($node_handle) {
+	global $db, $error;
+	$user_id=$_SESSION['user_id'];
+	$set=$db->query("select node_id from nodes where node_name='$node_handle' and node_creator='$user_id'");
+	if ($set->next()) {
+		$node_id=$set->getString('node_id');
+		if (!empty($node_id)) {
+			return nodes::getNodeById($node_id,$_SESSION['user_id']);
+		}
 
-        function getChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUNT) {
-                global $db, $error, $node;
-                $node_handle=$node['node_id'];
+	}
+	$set=$db->query("select node_id from nodes where node_name='$node_handle' ");
+	$set->next();
+	$node_id=$set->getString('node_id');
+	if (!empty($node_id)) {
+		return nodes::getNodeById($node_id,$_SESSION['user_id']);
+	}
 
-                $q="select users.*,nodes.* from nodes
+}
+
+function getNodesByName($node_handle) {
+	global $db, $error;
+	$q="select nodes.* from nodes where node_name='$node_handle%'";
+
+	$result=$db->query($q);
+
+	while ($result->next()){
+		$record[]=addBase36id($result->getRecord());
+	}
+	return $record;
+
+}
+
+
+
+function getChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUNT) {
+	global $db, $error, $node;
+	$node_handle=$node['node_id'];
+
+	$q="select users.*,nodes.* from nodes
 left join users on users.user_id=nodes.node_creator where
 node_parent='$node_handle' order by node_created $orderby LIMIT $offset,$limit";
-                echo $q;
-                $result=$db->query($q);
+	echo $q;
+	$result=$db->query($q);
 
-                while ($result->next()) {
-                        $array[]=addBase36id($result->getRecord());
-                }
+	while ($result->next()) {
+		$array[]=addBase36id($result->getRecord());
+	}
 
-                return $array;
+	return $array;
 
-        }
-
-
-        function getThreadedChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUNT) {
-                global $db, $error, $node;
-                $node_handle=$node['node_id'];
-
-                $q="select length(node_vector) as depth,users.login,nodes.* from nodes left join users on users.user_id=nodes.node_creator where  node_vector like '".$node['node_vector'].";".$node['node_id']."%' and node_type=3 order by concat(node_vector,';',nodes.node_id,';z') desc,depth LIMIT $offset,$limit";
-
-                $result=$db->query($q);
-
-                while ($result->next()) {
-                        $children_array[]=addBase36id($result->getRecord());
-                }
-
-                return $children_array;
-
-        }
+}
 
 
+function getThreadedChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUNT) {
+	global $db, $error, $node;
+	$node_handle=$node['node_id'];
 
-        function getNodeAccessData() {
-                global $node,$db;
-                $q="select users.login,node_access.* from node_access left join users on users.user_id=node_access.user_id where node_id='".$node['node_id']."' and node_permission!=''";
-                $result=$db->query($q);
+	$q="select length(node_vector) as depth,users.login,nodes.* from nodes left join users on users.user_id=nodes.node_creator where  node_vector like '".$node['node_vector'].";".$node['node_id']."%' and node_type=3 order by concat(node_vector,';',nodes.node_id,';z') desc,depth LIMIT $offset,$limit";
 
-                while ($result->next()) {
-                        $access_data[]=$result->getRecord();
-                }
+	$result=$db->query($q);
 
-                return $access_data;
+	while ($result->next()) {
+		$children_array[]=addBase36id($result->getRecord());
+	}
 
-        }
+	return $children_array;
+
+}
+
+
+
+function getNodeAccessData() {
+	global $node,$db;
+	$q="select users.login,node_access.* from node_access left join users on users.user_id=node_access.user_id where node_id='".$node['node_id']."' and node_permission!=''";
+	$result=$db->query($q);
+
+	while ($result->next()) {
+		$access_data[]=$result->getRecord();
+	}
+
+	return $access_data;
+
+}
 
 
 // Simple internal function to set node parrent
 
-function setParent($params) {
-        global $db,$node,$error,$error_messages;
-        $parent_id=$params['node_parent'];
-        $node_id=$params['node_id'];
+function setParent($node_id,$parent_id) {
+	global $db,$node,$error,$error_messages;
 
-        if (!is_numeric($parent_id)) {
-                return false;
-        }
+	if (!is_numeric($parent_id)) {
+		return false;
+	}
+
 	$q="select node_vector from nodes where node_id='$parent_id'";
-	$parent_vector=$db->query($q);
+	$set=$db->query($q);
+	$set->next();
+	$parent_vector=$set->getString('node_vector');
+	$new_vector=$parent_vector.str_pad($node_id,VECTOR_CHARS,"0",STR_PAD_LEFT);
 
-	$new_vector=$parent_vector.str_pad($node_id,VECTOR_CHARS,"0",STR_PAD_LEFT);	
-	$q="update nodes set node_parent='$parent_id',node_vector='".$new_vector."
-		' where node_id='$node_id'";
+	$q="update nodes set node_parent='$parent_id',node_vector='$new_vector' where node_id='$node_id'";
 	$db->query($q);
+
+	return 0;
+}
+
+// Get nodes sorted by weight_k specific to user
+
+function getKNeurons($user_id,$interval) {
+	global $db,$node,$error,$error_messages;
+
+	$q="call k_neurons('$user_id','$interval')";
+	$set=$db->query($q);
+
+	while ($set->next()) {
+		$k_array[]=$set->getRecord();
+	}
+
+	return $k_array;
 }
 
 }
-

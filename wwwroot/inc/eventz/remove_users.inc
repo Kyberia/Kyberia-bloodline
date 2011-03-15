@@ -5,6 +5,8 @@ function remove_users() {
 $user_id=$_SESSION['user_id'];
 $user_name=$_SESSION['user_name'];
 
+// XXX rewrite
+
 require(INCLUDE_DIR."phpmailer.inc");
 $mail = new PHPMailer();
 $mail->IsSMTP();                                // send via SMTP
@@ -28,15 +30,6 @@ $mail->Subject  =  "kyberia.cz neuspesna registracia";
 		$login=$set->getString('login');
 
 		$application_id=$set->getString('node_creator');
-/*
-		$application=$db->query("select * from nodes where node_id='$application_id'");
-		$application->next();
-		$application_vector=$application->getString('node_vector').";".$application_id;
-		$application_parent=$application->getString('node_parent');
-		$db->query("insert into nodes set node_created=NOW(),node_name='$login refused',node_vector='$application_vector',node_creator='$user_id',node_type='4',node_parent='$application_parent'");
-		$id=$db->getLastInsertId();
-		$db->query("insert into node_content set node_id='$id',node_content='user $login was refused by by $user_name'");
-*/
 
 		$params['node_creator']=$user_id;
 		$params['node_parent']=$application_id;

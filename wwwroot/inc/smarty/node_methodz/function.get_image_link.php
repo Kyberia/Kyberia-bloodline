@@ -2,6 +2,8 @@
 function smarty_function_get_image_link($params,&$smarty) {
 	global $db;
 	$id = $params['id'];
+	
+	if (!is_numeric($id)) { $id=0;}
 	$img = './'.SYSTEM_IMAGES.'/nodes/'.substr($id,0,1)."/".substr($id,1,1)."/$id.gif";
 
 	if (file_exists($img)) {

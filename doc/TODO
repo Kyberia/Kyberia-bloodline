@@ -58,9 +58,6 @@
 - Make PATH_INFO not changing contents of $_GET[] (it should affect some other variable instead - requires complex rewrite)
 - Switch completely to Base36 (Templates, Links, don't change $_GET[], queries should convert between base10 in db and base36 in kyberia automatically, etc...)
 
-- (IMHO we should use SHA1 or stronger algorithm instead of MD5 for storing passwords)
-  (I've implemented this partially. We can now login using various hash algorithms, it's backward compatible, but we still need to edit registration/password changing to use SHA1 when updating passwords in DB)
-
 - Rename all files&directories that should not be rewrited to PATH_INFO to start with "_" (and if they should be also ignored by git they should start with "-")
   (Rename images to _images - and fix hardcoded stuff...)
 
@@ -74,3 +71,7 @@
   (Mark all nodes that should become part of distribution of kyberia software)
   (Delete unused tables)
   (Replace duplicit tables with VIEWs)
+
+- Image uploading not working (?)
+
+- put "setParent" everywhere
