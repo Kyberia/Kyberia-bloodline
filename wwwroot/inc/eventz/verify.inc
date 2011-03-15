@@ -47,7 +47,6 @@ $q="update nodes set node_system_access='public' where node_id='$userid'";
 $db->update($q);
 $q="update node_access set node_user_subchild_count=node_user_subchild_count+1 where node_id=".REGISTRATION_REQUEST_NODE;
 $db->update($q);
-
 nodes::putNode($userid,$guild_id,false);
 
 // and now the happy news:-))
