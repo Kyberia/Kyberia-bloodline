@@ -4,7 +4,7 @@
 		global $node;
 
 		$parent=$params['parent'];
-		$permissions=permissions::checkPermissions($parent);
+		$permissions=permissions::checkPerms($parent);
 		if (!$permissions['r']) {
 			$error=$error_messages['READ_PERMISSION_ERROR'];
 			return false;
