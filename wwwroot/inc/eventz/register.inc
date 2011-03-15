@@ -54,6 +54,7 @@ function register() {
     // XXX hard-coded
     $params['node_parent']  = UNVERIFIED_REGISTRATIONS_NODE; // registrations_noverified forum
     $params['node_name'] = 'request for access';
+	$params['node_creator']=UBIK_ID;
     $params['flag'] = 'registration';
     $user_id = nodes::addNode($params);
 
@@ -61,7 +62,7 @@ function register() {
 	//puttin in the guild node is realized only after email verification
 	//nodes::putNode($user_id,$guild_id);
 
-    $q = sprintf('update nodes set node_system_access = "private" where node_id = %d', $user_id);
+    $q = sprintf('update nodes set node_system_access = "private",node_creator=%d where node_id = %d', $user_id,$user_id);
     $db->update($q);
 
 	$pass = md5($pass);
