@@ -137,14 +137,12 @@ if (isset($_SESSION['cube_vector']) && ($_SESSION['cube_vector'])) {
 @include_once(INCLUDE_DIR.'mail_rss.inc'); //haluz...
 
 //checking permissions
-function _checkPermissions()
-{
-	global $permissions, $node;
-	require(INCLUDE_DIR.'permissions.inc');
-	$permissions=permissions::checkPermissions($node);
-	$permissions['h']=permissions::isHierarch($node);
+include_once(BACKEND_DIR.'/'.DB_TYPE.'/permissions.inc');
+$permissions=permissions::checkPerms($node);
+if ($_SESSION['debugging']) {
+	print_r($permissions);
 }
-_checkPermissions();
+
 
 
 // DO NOT MESS WITH THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
