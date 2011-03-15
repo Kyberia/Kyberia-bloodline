@@ -18,11 +18,9 @@ function smarty_function_get_k_neurons($params,&$smarty) {
 	} else {$vector="00";}
 
 		
-	$set=nodes::getKNeurons($params['user_id'],20); // XXX offset
+	// XXX offset + id $params['user_id']
+	$k_array=nodes::getKNeurons(904,20);
 
-	while ($set->next()) {
-		$k_array[]=$set->getRecord();
-	}
 
 	$smarty->assign('get_k_neurons',$k_array);
 }

@@ -326,19 +326,19 @@ function setParent($node_id,$parent_id) {
 	return 0;
 }
 
-// XXX TODO
-// 
+// Get nodes sorted by weight_k specific to user
 
 function getKNeurons($user_id,$interval) {
 	global $db,$node,$error,$error_messages;
 
 	$q="call k_neurons('$user_id','$interval')";
 	$set=$db->query($q);
-//	$set->next();
-	return $set;
+
+	while ($set->next()) {
+		$k_array[]=$set->getRecord();
+	}
+
+	return $k_array;
 }
 
-
-
 }
-
