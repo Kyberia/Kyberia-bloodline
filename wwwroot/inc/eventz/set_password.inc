@@ -17,19 +17,14 @@ function set_password() {
 	}
 
 	//old password check
-
-        $q="select * from users where login='$login'";
-        $set=$db->query($q);
-        $set->next();
-        if ($set->getString('password')!=md5($old_password)) {
-                $error="bad password";
+	require_once(INCLUDE_DIR."eventz/login.inc");
+	if(!login_check($user_id, $old_password)) {
+		$error="bad password";
 		return false;
 	}
 
-
 	//changing in MySQL
-	$password=md5($new_password1);
+	$password=sha1($new_password1);
 	$db->query("update users set password='$password' where user_id='$user_id'");
+	login_check($user_id, $new_password1); //znova se zalogujeme po zmene hesla (kvuli jabberu)
 }
-
-?>

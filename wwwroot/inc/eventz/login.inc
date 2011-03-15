@@ -10,11 +10,10 @@ function jabberctl($command, $args) { //XXXTODO Move to some .inc file...
 	system($cmd);
 }
 
-function login() {
+function login_check($login, $password, $login_type='id') {
 
     global $db,$error,$node_id;
-    $login = mysql_real_escape_string($_POST['login']);
-    $password = $_POST['password']; // Not SQLi but be carefull
+		$login = mysql_real_escape_string($login); //Not SQLi in $password but be carefull
     $password_hash_algos=array('sha256','sha1','md5'); //List of supported algos can be obtained using: php -r 'print_r(hash_algos());'
 
     $hash_query='(';
@@ -23,7 +22,6 @@ function login() {
     }
     $hash_query.='false )';
 
-    $login_type = $_POST['login_type'];
     $referer = $_SERVER['HTTP_REFERER'];
 
     if (!session_id()) {
@@ -146,4 +144,10 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
 //    header("Location: $referer");
     return true;
 }
-?>
+
+function login() {
+	$login = $_POST['login'];
+	$password = $_POST['password'];
+	$login_type = $_POST['login_type'];
+	return login_check($login, $password, $login_type);
+}
