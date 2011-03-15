@@ -5,7 +5,7 @@ function smarty_function_get_k_neurons($params,&$smarty) {
 	global $db,$node;
 	if (isset($params['offset']) && (is_numeric($params['offset']))) {
 		$offset=$params['offset'];
-	} else {$offset=0;} 
+	} else {$offset=20;} 
 	if (isset($params['listing_amount']) && (is_numeric($params['listing_amount']))) {
 		$listing_amount=$params['listing_amount'];
 	} else {$listing_amount=DEFAULT_LISTING_AMOUNT;}
@@ -18,8 +18,8 @@ function smarty_function_get_k_neurons($params,&$smarty) {
 	} else {$vector="00";}
 
 		
-	// XXX offset + id $params['user_id']
-	$k_array=nodes::getKNeurons(904,20);
+	// XXX other parameters
+	$k_array=nodes::getKNeurons($_SESSION['user_id'],$offset);
 
 
 	$smarty->assign('get_k_neurons',$k_array);
