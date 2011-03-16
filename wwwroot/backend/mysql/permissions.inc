@@ -37,6 +37,7 @@ function checkPerms($node) {
     $nv_arr = str_split($node_vector, VECTOR_CHARS);
     $nv_arr = array_map('intval', $nv_arr);
     $node_list = implode(', ', $nv_arr);
+	$node_list.=",$node_id";
 
     $q_np = sprintf('select n.node_id, n.node_creator, length(n.node_vector) as nv_length
                           , n.node_system_access, n.node_external_access, na.node_permission
@@ -45,7 +46,7 @@ function checkPerms($node) {
                                              and na.user_id = %d
                      where n.node_id in(%s)
                      order by nv_length desc', $user_id, $node_list);
-	print $q_np;
+
     $qr_np = $db->query($q_np);
 
     while ($qr_np->next()) {
@@ -55,7 +56,7 @@ function checkPerms($node) {
             $perms['node_permission']      = $qr_np->getString('node_permission');
             $perms['node_system_access']   = $qr_np->getString('node_system_access');
             $perms['node_external_access'] = $qr_np->getString('node_external_access');
-	print_r($perms);
+
             // r/w prava podla system accessu
             if ($perms['node_system_access'] == 'public') {
                 $perms['r'] = 1;
