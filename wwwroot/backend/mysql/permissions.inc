@@ -3,11 +3,26 @@
 class permissions {
 
 //trillion lights to Hierarchy!
+//$node input parameter can be a numeric node_id of a node-to-be-checked or a hash containing node_id,node_vector
 function checkPerms($node) {
     // new permissions checking
     global $db;
-	$node_id=$node['node_id'];
-	$node_vector=$node['node_vector'];
+	
+	if (is_array($node)) {
+		$node_id=$node['node_id'];
+		$node_vector=$node['node_vector'];
+	}
+
+	elseif (is_numeric($node)) {
+		$node_id=$node;
+	}
+
+	if (!$node_vector) {
+		$set=$db->query("select node_vector from  nodes where node_id='$node_id'");
+		$set->next();
+		$node_vector=$set->getString('node_vector');
+	}
+
     $user_id = $_SESSION['user_id'];
 
     $perms['r'] = 0;
@@ -30,6 +45,7 @@ function checkPerms($node) {
                                              and na.user_id = %d
                      where n.node_id in(%s)
                      order by nv_length desc', $user_id, $node_list);
+	print $q_np;
     $qr_np = $db->query($q_np);
 
     while ($qr_np->next()) {
@@ -39,7 +55,7 @@ function checkPerms($node) {
             $perms['node_permission']      = $qr_np->getString('node_permission');
             $perms['node_system_access']   = $qr_np->getString('node_system_access');
             $perms['node_external_access'] = $qr_np->getString('node_external_access');
-
+	print_r($perms);
             // r/w prava podla system accessu
             if ($perms['node_system_access'] == 'public') {
                 $perms['r'] = 1;
