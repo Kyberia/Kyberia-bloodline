@@ -68,14 +68,18 @@ function addNode($params) {
         global $db,$node,$error,$error_messages;
         $parent_id=$params['node_parent'];
 
+        if ($params['flag']=='registration') $params['node_creator']=UBIK_ID;
+
         if (!is_numeric($parent_id)) {
                 $parent_id=$node['node_id'];
         }
 
         $parent_permissions=permissions::checkPerms($parent_id);
+	print_r($parent_permissions);
         if (!$parent_permissions['w']) {
                 $error=$error_messages['WRITE_PERMISSION_ERROR'];
                 logger::log('add','error','WRITE_PERMISSION_ERROR');
+                die("trralalala1");
                 return false;
         }
 
@@ -84,11 +88,8 @@ function addNode($params) {
         $kset->next();
         $user_k=$kset->getString('user_k');
 
-        if ($params['flag']=='registration') $params['node_creator']=UBIK_ID;
-
         if (!$user_k && $params['node_creator']!=UBIK_ID) {
                 $error=$error_messages['K_SPENT'];
-                return false;
         }
 
 
