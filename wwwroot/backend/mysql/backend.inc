@@ -75,11 +75,10 @@ function addNode($params) {
         }
 
         $parent_permissions=permissions::checkPerms($parent_id);
-	print_r($parent_permissions);
+
         if (!$parent_permissions['w']) {
                 $error=$error_messages['WRITE_PERMISSION_ERROR'];
                 logger::log('add','error','WRITE_PERMISSION_ERROR');
-                die("trralalala1");
                 return false;
         }
 
