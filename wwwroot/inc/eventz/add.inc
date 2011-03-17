@@ -1,12 +1,15 @@
 <?php
 //funkcie na pridanie Re: alebo Re[x]: do nazvu (by Maniax)
-function title_reply_callback($_matches) {return ($_matches[1].($_matches[2] + 1).$_matches[3]);}
+function title_reply_callback($_matches) {
+	return ($_matches[1].($_matches[2] + 1).$_matches[3]);
+}
+
 function title_reply($_in) {
-if (preg_match('/^Re[:\[]/', $_in)) {
-if (preg_match('/^Re\[/', $_in))
-return (preg_replace_callback('/^(Re\[)(\d*)(\].*)$/', 'title_reply_callback', $_in));
-else return (preg_replace('/^(Re)(:.*)$/', '\1[2]\2', $_in));
-} else return ('Re: '.$_in);
+	if (preg_match('/^Re[:\[]/', $_in)) {
+		if (preg_match('/^Re\[/', $_in))
+			return (preg_replace_callback('/^(Re\[)(\d*)(\].*)$/', 'title_reply_callback', $_in));
+		else return (preg_replace('/^(Re)(:.*)$/', '\1[2]\2', $_in));
+	} else return ('Re: '.$_in);
 }
 
 //Pridanie prispevku
@@ -115,5 +118,6 @@ function add() {
     $params['external_link']=$external_link;
     nodes::addNode($params);
     return true;
-    }
-    ?>
+}
+
+?>

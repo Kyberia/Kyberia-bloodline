@@ -341,4 +341,22 @@ function getKNeurons($user_id,$interval) {
 	return $k_array;
 }
 
+// Set synapse weight,
+
+// XXX TODO
+
+function setSynapseWeight($synapse_weightl) {
+	global $db,$node,$error,$error_messages;
+
+	// XXX security fix
+//	$q="update neurons set synapse_weight='$synapse_weight' where dst = '$dst' and src = '$src'";
+//	$q="insert into neurons values('$synapse_weight','$dst','$src',NULL,'synapse',XXX,now(),XXX,$src)";
+
+//	$set=$db->query($q);
+
+	return true;
+}
+
+
+
 }
