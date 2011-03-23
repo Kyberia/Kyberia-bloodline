@@ -345,7 +345,7 @@ function getKNeurons($user_id,$interval) {
 
 // XXX TODO
 
-function setSynapseWeight($synapse_weightl) {
+function setSynapse($src,$dst,$weight) {
 	global $db,$node,$error,$error_messages;
 
 	// XXX security fix
