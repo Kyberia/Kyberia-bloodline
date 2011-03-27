@@ -348,12 +348,15 @@ function getKNeurons($user_id,$interval) {
 
 // XXX TODO
 
-function setSynapse($src,$dst,$weight) {
+function setSynapse($params){
 	global $db,$node,$error,$error_messages;
 
-	if ((!is_numeric($src)) or (!is_numeric($dst)) or (!is_numeric($weight))) {
+	if ((!is_numeric($params['src'])) or (!is_numeric($params['dst'])) or (!is_numeric($params['weight']))) {
 		return false;
 	}
+	$src=$params['src'];
+	$dst=$params['dst'];
+	$weight=$params['weight'];
 
 	// if already exists
 	$q="select src from neurons where dst ='$dst' and src = '$src'";
