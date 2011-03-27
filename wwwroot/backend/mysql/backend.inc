@@ -341,19 +341,24 @@ function getKNeurons($user_id,$interval) {
 	return $k_array;
 }
 
-// Set synapse weight,
+// setSynapse
 
-// Secure
-// Returns true on sucess, otherwise false
-
-// XXX TODO
+// Set synapse weight. 
+// If synapse does not exists, create a new one.
+// Secure.
+// Returns true on sucess, otherwise false.
 
 function setSynapse($params){
 	global $db,$node,$error,$error_messages;
 
-	if ((!is_numeric($params['src'])) or (!is_numeric($params['dst'])) or (!is_numeric($params['weight']))) {
+	// security check
+	if ((!is_numeric($params['src'])) 
+		or (!is_numeric($params['dst']))
+		or (!is_numeric($params['weight']))) {
+
 		return false;
 	}
+
 	$src=$params['src'];
 	$dst=$params['dst'];
 	$weight=$params['weight'];
@@ -361,15 +366,15 @@ function setSynapse($params){
 	// if already exists
 	$q="select src from neurons where dst ='$dst' and src = '$src'";
 	$set=$db->query($q);
-
 	$set->next();
 	$isrc=$set->getString('src');
-	if ( $set ) {
+
+	if ( $isrc ) {
 		$q="update neurons set synapse_weight='$synapse_weight' 
 			where dst = '$dst' and src = '$src'";
 	} else { 
 		// FIXME no vector set
-		$q="insert into neurons values('$synapse_weight','$dst','$src',0,'synapse',
+		$q="insert into neurons values('$weight','$dst','$src',0,'synapse',
 						CURRENT_TIMESTAMP(),now(),NULL,$src)";
 	}
 	$set=$db->query($q);
