@@ -364,13 +364,13 @@ function setSynapse($params){
 	$weight=$params['weight'];
 
 	// if already exists
-	$q="select src from neurons where dst ='$dst' and src = '$src'";
+	$q="select count(src) from neurons where dst ='$dst' and src = '$src'";
 	$set=$db->query($q);
 	$set->next();
-	$isrc=$set->getString('src');
+	$isrc=$set->getString('count(src)');
 
-	if ( $isrc ) {
-		$q="update neurons set synapse_weight='$synapse_weight' 
+	if ( $isrc > 0 ) {
+		$q="update neurons set synapse_weight='$weight' 
 			where dst = '$dst' and src = '$src'";
 	} else { 
 		// FIXME no vector set
