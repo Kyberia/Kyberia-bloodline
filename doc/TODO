@@ -18,7 +18,7 @@
 	define('SYSTEM_IMAGES',		'_images/');
   because right now we can't determine both: filesystem path and URL of the same directory. this SUX!
 - when we will be doing this we should make kyberia compatible with "./" PHP open base dir.
-  i think that it's really nice philosophy when PHP script is never accessing files that are not in the same directory (or it's subdirectory) as the script itself (especialy when it cannot do this - it can be good security improvement).
+  i think that it's really nice philosophy when PHP script is never accessing files that are not in the same directory (or it's subdirectory) as the script itself (especially when it cannot do this - it can be good security improvement).
 
 - remove hard-coded hostname from:
   ( registration mails )
@@ -58,7 +58,7 @@
 - Make PATH_INFO not changing contents of $_GET[] (it should affect some other variable instead - requires complex rewrite)
 - Switch completely to Base36 (Templates, Links, don't change $_GET[], queries should convert between base10 in db and base36 in kyberia automatically, etc...)
 
-- Rename all files&directories that should not be rewrited to PATH_INFO to start with "_" (and if they should be also ignored by git they should start with "-")
+- Rename all files&directories that should not be rewritten to PATH_INFO to start with "_" (and if they should be also ignored by git they should start with "-")
   (Rename images to _images - and fix hardcoded stuff...)
 
 - Fix /(id|k)/*/download
@@ -75,3 +75,6 @@
 - Image uploading not working (?)
 
 - put "setParent" everywhere
+
+- set_synapse_weigth not working sometimes (synapse from 904 to 332 for example)
+  Also weight is always shown as "1"
