@@ -33,9 +33,7 @@ elseif (is_file(INCLUDE_DIR."eventz/$event.inc")) {
 		$status=$event();
 		$_SESSION['eventz'][$event]=true;
 
-	}
-
-	else {
+	} else {
 		$error=$error_messages['EVENT_NOT_PERMITTED'];
 	}
 
