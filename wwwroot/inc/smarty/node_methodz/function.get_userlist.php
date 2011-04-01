@@ -1,18 +1,19 @@
 <?php
 	function smarty_function_get_userlist($params,&$smarty) {
 		global $db,$node;
-		if (is_numeric($params['node_id'])) $node_id=$params['node_id'];
+		if ((isset($params['node_id'])) && (is_numeric($params['node_id']))) 
+		{ $node_id=$params['node_id']; 
 
-		else $node_id=$node['node_id'];
-		if ($params['vector']) {
+		} else $node_id=$node['node_id'];
+		if ((isset($params['vector'])) && ($params['vector'])) {
 			$vector=AddSlashes($params['vector']);
 		}
-		if ($_SESSION['cube_vector']) {
+		if ((isset($_SESSION['cube_vector'])) && ($_SESSION['cube_vector'])) {
 			$vector=$_SESSION['cube_vector'];
 		}
 
 		$q="select user_action,user_action_id,(UNIX_TIMESTAMP()-UNIX_TIMESTAMP(last_action)) as  idle,login,user_id from users where ";
-		if ($vector) $q.=" user_location_vector like '$vector%' and ";
+		if (isset($vector) && $vector) $q.=" user_location_vector like '$vector%' and ";
 		$q.=" invisible != 'yes' and user_action_id IS NOT NULL order by login";
 
 		$set=$db->query($q);
