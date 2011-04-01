@@ -37,7 +37,8 @@ function db_get_timestamp($tpl_name, &$tpl_timestamp, &$smarty_obj)
     // with unix epoch time value of last template modification.
     // This is used to determine if recompile is necessary.
 	$recompile = 100; //recompile every N seconds
-	$tpl_timestamp = floor(time()/$recompile)*$recompile; // this example will recompile even unchanged templates! XXX!!! FIXME!!! TODO!!!
+	$tpl_timestamp = floor(time()/$recompile)*$recompile; 
+	// this example will recompile even unchanged templates! XXX!!! FIXME!!! TODO!!!
     // return true on success, false to generate failure notification
     return true;
 }
