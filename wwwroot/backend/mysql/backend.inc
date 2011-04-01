@@ -363,6 +363,11 @@ function setSynapse($params){
 	$dst=$params['dst'];
 	$weight=$params['weight'];
 
+	// weight could be only positive
+	if ( $weight < 0) {
+		return false;
+	}
+
 	// if already exists
 	$q="select count(src) from neurons where dst ='$dst' and src = '$src'";
 	$set=$db->query($q);

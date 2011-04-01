@@ -1,12 +1,13 @@
 <?php
-if(preg_match('/36$/', $event) || preg_match('/36$/', $_POST['event'])) {
+if(preg_match('/36$/', $event) ||  (!empty($_POST['event']) && preg_match('/36$/', $_POST['event']))) {
   $event = preg_replace('/36$/', '', $event);
   $_POST['event'] = preg_replace('/36$/', '', $_POST['event']);
   $_POST['nodeshell_id'] = base_convert($_POST['nodeshell_id'], 36, 10); //put36
   $_POST['new_parent'] = base_convert($_POST['new_parent'], 36, 10); //set_parent36
 }
 
-if($event=='delete' || $_POST['event']=='delete') { //XXX TODO FIXME UglyFuckingHack - should go to delete.inc (but something is broken)
+if($event=='delete' || (!empty($_POST['event']) && $_POST['event']=='delete')) { 
+//XXX TODO FIXME UglyFuckingHack - should go to delete.inc (but something is broken)
   $event='set_parent';
   $_POST['event']=$event;
   $_POST['new_parent']=123456; //XXX TODO FIXME Hardcoded

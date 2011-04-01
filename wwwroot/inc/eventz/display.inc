@@ -1,6 +1,7 @@
 <?php
 function display() {
 	global $node,$db,$error,$referer_id,$smarty,$permissions,$template_id;
+	global $timer_start;
 	if (!$referer_id) $referer_id=1;
 
 	$node_id=$node['node_id'];
@@ -54,15 +55,15 @@ if ($node['template_id']!='2019721'){
 if (isset($_SESSION['user_id'])&&($user_id=$_SESSION['user_id'])) {
 	$smarty->assign('_POST',$_POST);
 	$smarty->assign('bookmarks',$_SESSION['bookmarks']);
-	$smarty->assign('ignore',$_SESSION['ignore']);
+	if (isset($_SESSION['ignore'])) { $smarty->assign('ignore',$_SESSION['ignore']); };
 	$smarty->assign('bookstyl',$_SESSION['bookstyl']);
-	$smarty->assign('fook',$_SESSION['fook']);
+	if (isset($_SESSION['fook'])) {$smarty->assign('fook',$_SESSION['fook']); };
 	$smarty->assign('user_id',$_SESSION['user_id']);
 	$smarty->assign('user_name',$_SESSION['user_name']);
 	if (!empty($_SESSION['cube_vector'])) 
 		$smarty->assign('cube_vector',$_SESSION['cube_vector']);
         $smarty->assign('friends',$_SESSION['friends']); //req by freezy, done by darkaural
-	$smarty->assign('user_quota',$_SESSION['user_quota']);
+	if (isset($_SESSION['user_quota'])) {$smarty->assign('user_quota',$_SESSION['user_quota']);};
 
 	// XXX into function
 	$newmail_q = sprintf('select u.user_mail_id
@@ -244,23 +245,25 @@ if (!empty($_POST['template_event'])) {
         //movement forward and backward
 //	if ($listing_order=='asc' && !$offset) $offset=$descendant_count-$listing_amount;
 
-        if ($_POST['get_children_move']=='<') {
-	        $offset=$offset-$listing_amount;
-       	      if ($offset<0) $offset=0;
-        }
-        elseif ($_POST['get_children_move']=='>') {
-		$offset=$offset+$listing_amount;
-        }
-	elseif ($_POST['get_children_move']=='>>') {
-        	$offset=$descendant_count-$listing_amount;
-       	}
+	if (isset($_POST['get_children_move'])) { 
+		if ($_POST['get_children_move']=='<') {
+			$offset=$offset-$listing_amount;
+	 		if ($offset<0) $offset=0;
+		}
+		elseif ($_POST['get_children_move']=='>') {
+			$offset=$offset+$listing_amount;
+		}
+		elseif ($_POST['get_children_move']=='>>') {
+			$offset=$descendant_count-$listing_amount;
+	 	}
 
-        elseif ($_POST['get_children_move']=='<<') {
-               $offset=0;
-        }
-        if ($offset<0) $offset=0;
-        $_POST['offset']=$offset;
-        $smarty->assign('offset',$offset);
+		elseif ($_POST['get_children_move']=='<<') {
+			$offset=0;
+		}
+	}
+	if ($offset<0) $offset=0;
+	$_POST['offset']=$offset; // XXX sqli?
+	$smarty->assign('offset',$offset);
 
 
 if ($node['external_link']=='header://svg' && !is_numeric($template_id)) {
@@ -292,6 +295,7 @@ else {
 	$content.=$smarty->fetch($node['template_id'].".tpl");
 }
 
+// XXX remove constant
 if ($template_id=='2019721'){
 	$content=$smarty->fetch($template_id.".tpl");
 	echo $content;
