@@ -9,15 +9,15 @@
 // Use relative address of config file
 // Change this, if you move you cron directory.
 $dir=substr(__FILE__, 0, strrpos(__FILE__, '/'));
-require($dir.'/../wwwroot/config/config.inc');
+require_once($dir.'/../wwwroot/config/config.inc');
 
 
 //connecting to database and creating universal $db object
-require(INCLUDE_DIR.'/log.inc');
-require(INCLUDE_DIR.'/database.inc');
-require(INCLUDE_DIR.'/nodes.inc');
-require(INCLUDE_DIR.'/permissions.inc');
-require(INCLUDE_DIR.'/ubik.inc');
+require_once(INCLUDE_DIR.'/log.inc');
+require_once(INCLUDE_DIR.'/database.inc');
+require_once(INCLUDE_DIR.'/nodes.inc');
+require_once(INCLUDE_DIR.'/permissions.inc');
+require_once(INCLUDE_DIR.'/ubik.inc');
 
 $_SESSION['user_id']=UBIK_ID;
 

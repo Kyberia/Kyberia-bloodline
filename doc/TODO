@@ -77,4 +77,4 @@
 - put "setParent" everywhere
 
 - set_synapse_weigth not working sometimes (synapse from 904 to 332 for example)
-  Also weight is always shown as "1"
+  Also weight is always shown as "1" (add {$synapse.weight}
