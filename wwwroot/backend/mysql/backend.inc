@@ -405,7 +405,7 @@ function getSynapseWeight($user_id,$node_id){
 		$user_id." and dst = ".$node_id." and link='synapse'");
 
 	$set->next();
-	$synapes_weight=$set->getString('synapse_weight');
+	$synapse_weight=$set->getString('synapse_weight');
 
 	if (! ($synapse_weight) ) { $synapse_weight = 1;}	
 
