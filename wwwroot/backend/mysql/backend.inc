@@ -387,6 +387,31 @@ function setSynapse($params){
 	return true;
 }
 
+// getSynapseWeight
 
+// If synapse does not exists, weight is 1
+// Secure.
+// Returns synapse weight (from user to node)
+
+function getSynapseWeight($user_id,$node_id){
+	global $db;
+
+	if (!is_numeric($user_id)) 
+		{ return -1; }
+	if (!is_numeric($node_id)) 
+		{ return -1; }
+
+	$set=$db->query("select synapse_weight from neurons where src =".
+		$user_id." and dst = ".$node_id." and link='synapse'");
+
+	$set->next();
+	$synapes_weight=$set->getString('synapse_weight');
+
+	if (! ($synapse_weight) ) { $synapse_weight = 1;}	
+
+	return $synapse_weight;
 
 }
+}
+
+?>

@@ -2,7 +2,7 @@
 
 function smarty_function_get_k_neurons($params,&$smarty) {
 
-	global $db,$node;
+	global $db;
 	if (isset($params['offset']) && (is_numeric($params['offset']))) {
 		$offset=$params['offset'];
 	} else {$offset=20;} 
