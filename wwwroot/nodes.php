@@ -97,8 +97,10 @@ if ($_SESSION['debugging']) {
 
 //initializing node
 if (!is_numeric($_GET['node_id'])) {
-	$_GET['node_id']=WELCOME_NODE;
+	$_GET['node_id']=WELCOME_NODE; //Tohle uz je v PHP rewritech!!!!
 }
+
+require_once(INCLUDE_DIR.'logout_idle.inc'); //Logout when idle
 
 $node = nodes::getNodeById($_GET['node_id'],(isset($_SESSION['user_id']))?$_SESSION['user_id']:'');
 
