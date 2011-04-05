@@ -2,6 +2,9 @@
 define('DAILY_K',30);
 define('REGISTRATION_VOTES',2); //too small so far
 
+// logout after one hour
+define('LOGOUT_IDLE_SEC', 3600);
+
 // An attempt to remove hard-code constants from code
 define('REGISTRATION_TEXT_NODE',791946);
 define('REGISTRATION_REQUEST_NODE',2091448);
