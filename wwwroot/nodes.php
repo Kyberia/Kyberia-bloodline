@@ -63,11 +63,15 @@ switch(true) {
 	case preg_match('/name\/(.*?)\/?$/',$_SERVER['PATH_INFO'],$match):
 		$_GET['node_id']  = nodes::getNodeIdByName($match[1]);
 		break;
+	case preg_match('/search\/(.*?)\/?$/',$_SERVER['PATH_INFO'],$match):
+		//$query  = nodes::getNodeIdByName($match[1]);
+		//XXX TODO: Predat searchi az bude fungovat
+		break;
 	case preg_match('/\/(.+)\/?$/',$_SERVER['PATH_INFO'],$match):
 		$_GET['node_id']  = nodes::getNodeIdByName($match[1]);
 		break;
 	default:
-		$_GET['node_id']=1;
+		$_GET['node_id']=1; //WELCOME_NODE
 		break;
 }
 
@@ -93,15 +97,9 @@ if ($_SESSION['debugging']) {
     print_r($_SESSION);
 }
 
-
-
-//initializing node
-if (!is_numeric($_GET['node_id'])) {
-	$_GET['node_id']=WELCOME_NODE; //Tohle uz je v PHP rewritech!!!!
-}
-
 require_once(INCLUDE_DIR.'logout_idle.inc'); //Logout when idle
 
+//initializing node
 $node = nodes::getNodeById($_GET['node_id'],(isset($_SESSION['user_id']))?$_SESSION['user_id']:'');
 
 //XXX Paths are wrong (!)
