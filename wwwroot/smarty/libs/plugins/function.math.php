@@ -14,6 +14,7 @@
  * Purpose:  handle math computations in template<br>
  * @link http://smarty.php.net/manual/en/language.function.math.php {math}
  *          (Smarty online manual)
+ * @author   Monte Ohrt <monte at ohrt dot com>
  * @param array
  * @param Smarty
  * @return string
@@ -26,7 +27,8 @@ function smarty_function_math($params, &$smarty)
         return;
     }
 
-    $equation = $params['equation'];
+    // strip out backticks, not necessary for math
+    $equation = str_replace('`','',$params['equation']);
 
     // make sure parenthesis are balanced
     if (substr_count($equation,"(") != substr_count($equation,")")) {
@@ -38,7 +40,7 @@ function smarty_function_math($params, &$smarty)
     preg_match_all("!(?:0x[a-fA-F0-9]+)|([a-zA-Z][a-zA-Z0-9_]+)!",$equation, $match);
     $allowed_funcs = array('int','abs','ceil','cos','exp','floor','log','log10',
                            'max','min','pi','pow','rand','round','sin','sqrt','srand','tan');
-
+    
     foreach($match[1] as $curr_var) {
         if ($curr_var && !in_array($curr_var, array_keys($params)) && !in_array($curr_var, $allowed_funcs)) {
             $smarty->trigger_error("math: function call $curr_var not allowed");
@@ -57,7 +59,7 @@ function smarty_function_math($params, &$smarty)
                 $smarty->trigger_error("math: parameter $key: is not numeric");
                 return;
             }
-            $equation = preg_replace("/\b$key\b/",$val, $equation);
+            $equation = preg_replace("/\b$key\b/", " \$params['$key'] ", $equation);
         }
     }
 

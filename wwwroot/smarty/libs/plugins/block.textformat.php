@@ -23,6 +23,7 @@
  *           indent_char: string (" ")
  *           wrap_boundary: boolean (true)
  * </pre>
+ * @author Monte Ohrt <monte at ohrt dot com>
  * @param string contents of the block
  * @param Smarty clever simulation of a method
  * @return string string $content re-formatted
@@ -41,7 +42,7 @@ function smarty_block_textformat($params, $content, &$smarty)
     $wrap_char = "\n";
     $wrap_cut = false;
     $assign = null;
-
+    
     foreach ($params as $_key => $_val) {
         switch ($_key) {
             case 'style':
