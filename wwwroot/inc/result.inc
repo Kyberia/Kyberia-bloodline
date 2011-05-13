@@ -30,6 +30,7 @@ function result($queryId, $sql) {
 	}
 }
 
+/* DEPRECATED!
 function absolute($row) {
 	if ($row > 0) {
 // positive row number
@@ -42,6 +43,7 @@ function absolute($row) {
 		$this->exception("Cannot absolute position to row 0");
 	}
 }
+*/
 
 function getRecord() {
 	return $this->_currentRecord;
@@ -63,6 +65,7 @@ function getInt($column) {
 	}
 }
 
+/* DEPRECATED!
 function getVariable($column) {
 	return (int)$this->_currentRecord["$column"];
 
@@ -83,16 +86,19 @@ function getRow() {
     	return $this->_currentRow + 1;
 	}
 }
+*/
 
 function getNumRows() {
 	return $this->_numRows;
 }
 
+/* DEPRECATED!
 function getNumFields() {
 	return $this->_numFields;
 }
+*/
 
-function exception($errorMsg) {
+function exception($errorMsg) { //Internal only!
 	die("<pre>SQLException: ".$msg."</pre>");
 }
 

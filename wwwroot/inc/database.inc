@@ -57,9 +57,11 @@ function connect($url,$user,$password,$database, $halt_on_error = true) {
 		return true;
 }
 
+/* DEPRECATED!
 function closeMysql() {
 	mysql_close($this->_linkId);
 }
+*/
 
 function query($sql) {
 
@@ -101,8 +103,8 @@ function query($sql) {
 	return new result($this->_queryId, $sql);
 }
 
-
-function executequery($sql) {
+/* DEPRECATED!
+function executequery($sql) { //same as query()!
 	return($this->query($sql));
 }
 
@@ -120,6 +122,7 @@ function executetransaction($queries) {
 function executeupdate($sql) {
 	return($this->update($sql));
 }
+*/
 
 function update($sql) {
 	if (!$this->Master) {
@@ -140,7 +143,7 @@ function getLastInsertId() {
 		return(@mysql_insert_id($this->_linkId));
 }
 
-function exception($errorMessage) {
+function exception($errorMessage) { //Internal only!
 
 	echo "<!-- ";
 	echo @mysql_error($this->_linkId)," (",@mysql_errno($this->_linkId),")";

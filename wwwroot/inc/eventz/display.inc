@@ -152,7 +152,7 @@ else {
 if (($node['template_id']!='2019721') && (isset($_SESSION['user_id']))){
 //setting user location
 $q="update users set last_action=NOW(),user_location_vector='".$node['node_vector']."',user_action='".addslashes($node['node_name'])."',user_action_id='".$node['node_id']."' where user_id='".$_SESSION['user_id']."'";
-$db->executequery($q);
+$db->query($q);
 }
 
 $whole_time=SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
