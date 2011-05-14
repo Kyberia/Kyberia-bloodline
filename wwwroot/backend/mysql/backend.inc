@@ -181,9 +181,9 @@ function getUserByLogin($login) {
 static function getNodeIdByName($name, $external_link=false) {
 	global $db;
 
-	$qh = sprintf('select node_id from nodes where node_name = "%s"', mysql_real_escape_string($name));
+	$qh = sprintf('select node_id from nodes where node_name = "%s"', db_escape_string($name));
     	if ($external_link)
-		$qh .= sprintf(' and external_link="%s"', mysql_real_escape_string($external_link));
+		$qh .= sprintf(' and external_link="%s"', db_escape_string($external_link));
 
 	$set = $db->query($qh);
 	$set->next();

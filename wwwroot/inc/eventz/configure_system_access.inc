@@ -3,7 +3,7 @@
 		global $db,$error,$node;
 		$node_id=$node['node_id'];
 		$user_id=$_SESSION['user_id'];
-		$node_system_access=mysql_real_escape_string($_POST['node_system_access']);
+		$node_system_access=db_escape_string($_POST['node_system_access']);
 
 		if (($node['node_permission']=='owner') || ($node['node_permission']=='master')) {
 

@@ -114,7 +114,7 @@ function add() {
     $params['node_parent']=$node_parent;
     $params['node_system_access']=$node_system_access;
     $params['node_creator']=$_SESSION['user_id'];
-    $params['node_content']=mysql_escape_string($node_content);
+    $params['node_content']=db_escape_string($node_content);
     $params['external_link']=$external_link;
     nodes::addNode($params);
     return true;

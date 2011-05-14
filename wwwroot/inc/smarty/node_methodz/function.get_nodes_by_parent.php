@@ -32,7 +32,7 @@ if ($params['time']) $sql_time=" nodes.node_created > '".addslashes($params['tim
                 if ($_POST['search_type']=='content')
        			         $sql_type.=" and node_content like '%".addslashes($_POST['node_content'])."%' ";
 		else {
-	                $q2="select user_id from users where login='".mysql_real_escape_string($_POST['node_content'])."'";
+	                $q2="select user_id from users where login='".db_escape_string($_POST['node_content'])."'";
 	                $userset=$db->query($q2);
 	                $userset->next();
 	                $id=$userset->getString('user_id');

@@ -1,160 +1,101 @@
 <?php
-require ("result.inc");
 
-class CLASS_DATABASE {
+require("result.inc");
 
-/*
-var $Database="";
-var $User="";
-var $Password="";
-var $Url="";
-*/
-
-var $Master = true;
-var $_linkId = false;
-var $_url = "";
-var $_user = "";
-var $_password = "";
-var $_database = "";
-var $_halt_on_error = true;
-
-/*
-function CLASS_DATABASE ($database=DB_DATABASE,$user=DB_USER,$password=DB_PASS,$url=DB_HOST) {
-	$this->Database=$database;
-	$this->Password=$password;
-	$this->User=$user;
-	$this->Url=$url;
-*/
-
-function CLASS_DATABASE() {
-	$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
+function db_escape_string($str) {
+	global $db;
+	//This function should be used in whole project instead of *_escape_string() functions!	
+	//return mysql_escape_string($str); //XXX TODO $db->quote($str), mysql_real_escape_string() or pg_escape_string() should be used here!
+	return preg_replace('(^.|.$)', '', $db->quote($str)); //XXX HACK
 }
 
-function connect($url,$user,$password,$database, $halt_on_error = true) {
+class CLASS_DATABASE extends PDO {
+	//All functions in this class are deprecated!
+	//Please use only native PDO functions!
+
+	var $Master = true;
+	var $_linkId = false;
+	var $_url = "";
+	var $_user = "";
+	var $_password = "";
+	var $_database = "";
+	var $_halt_on_error = true;
+
+	function __construct() {
+		$this->connect(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+	}
+
+	protected function connect($host, $user, $password, $database, $halt_on_error = true) {
 		global $error;
+		parent::__construct("mysql:host=$host;dbname=$database", $user,
+				    $password);
+		/*{
+		   $error='chcipla databaza';
+		   $this->exception($error); //deprecated
+		   }; */
+		$this->setAttribute(PDO::ATTR_STATEMENT_CLASS,
+				    array('result', array($this)));
+
 		$this->_halt_on_error = $halt_on_error;
-		if ($this->_linkId == false) {
-			$this->_linkId=mysql_connect($url, $user, $password);
-			if ($this->_linkId == false) {
-				$error='chcipla databaza';
-				$this->exception($error);
-				return false;
-				//die();
-			}// else {
-		 	 //	mysql_query('set character set utf8');
-			 //}
-			$this->_url=$url;
-			$this->_user=$user;
-			$this->_password=$password;
+		$this->_url = $host;
+		$this->_user = $user;
+		$this->_password = $password;
+		/* if ($this->_linkId == false) {
+		   $this->_linkId=mysql_connect($host, $user, $password);
+		   if ($this->_linkId == false) {
+		   $error='chcipla databaza';
+		   $this->exception($error);
+		   return false;
+		   //die();
+		   }// else {
+		   //   mysql_query('set character set utf8');
+		   //}
+		   $this->_url=$host;
+		   $this->_user=$user;
+		   $this->_password=$password;
 
-			if ($this->_linkId == false || mysql_select_db($database, $this->_linkId) == false) {
-				$this->exception("1Database failed.");
-				return false;
-				die();
-			}
-			$this->_database=$database;
-		}
+		   if ($this->_linkId == false || mysql_select_db($database, $this->_linkId) == false) {
+		   $this->exception("1Database failed.");
+		   return false;
+		   die();
+		   }
+		   $this->_database=$database;
+		   }
+		 */
 		return true;
-}
-
-/* DEPRECATED!
-function closeMysql() {
-	mysql_close($this->_linkId);
-}
-*/
-
-function query($sql) {
-
-	$this->_linkId = false;
-	$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
-	$this->Master = true;
-
-	// Simple IDS, against automats
-	// When possible attack is detected, 
-	// query & session information is stored into log
-	// Looking for following string in SQL query:
-	// - "user()" (get cur. user)
-	// - "@@version" (get mysql version)
-	// - "AND 1=1" (blind sqli) (too many false positives?)
-	// - "information_schema" (for listing of tables, columns...)
-
-	// - "/*" (comment) (too many false positives?)
-	// - "--" (comment) (too many false positives?)
-
-	if (preg_match('/user\(\)/',$sql) || preg_match('/@@version/',$sql)
-	|| preg_match('/information_schema/',$sql)|| preg_match('/AND 1=1/',$sql)
-	) {
-		logger::log('SQL ALARM',$sql);
-		
 	}
 
-	$this->_queryId = mysql_query($sql,$this->_linkId);
-
-	if ((isset($_SESSION['debugging']) && $_SESSION['debugging'])) {
-		echo $sql;
-		global $timer_start;
-		echo "<BR>".SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
-	}
-
-	if ($this->_queryId == false) {
-      		$this->exception("query failed ::$sql::");
-	}
-
-	return new result($this->_queryId, $sql);
-}
-
-/* DEPRECATED!
-function executequery($sql) { //same as query()!
-	return($this->query($sql));
-}
-
-function executetransaction($queries) {
-	$this->executequery("set autocommit=0");
-	if (is_array($queries)) {
-		foreach ($queries as $query) {
-			$this->executequery($query);
+	function update($sql) {	//DEPRECATED!!! Use $db->query($sql)->rowCount(); instead!!!
+		if (!$this->Master) {
+			$this->_linkId = false;
+			$this->connect(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+			$this->Master = true;
 		}
-	}
-	$this->executequery("commit");
-	$this->executequery("set autocommit=1");
-}
 
-function executeupdate($sql) {
-	return($this->update($sql));
-}
-*/
-
-function update($sql) {
-	if (!$this->Master) {
-		$this->_linkId = false;
-		$this->connect(DB_HOST,DB_USER,DB_PASS,DB_DATABASE);
-                $this->Master = true;
-	}
-
-	$this->_queryId = @mysql_db_query($this->_database,$sql,$this->_linkId);
+		$this->_queryId = $this->query($sql);
 		if ($this->_queryId == false) {
 			$this->exception("update failed.");
 		}
-		$rows=@mysql_affected_rows($this->_linkId);
-		return($rows);
-}
+		$rows = @$this->_queryId->rowCount();
+		return ($rows);
+	}
 
-function getLastInsertId() {
-		return(@mysql_insert_id($this->_linkId));
-}
+	function getLastInsertId() {	//DEPRECATED!!! Use $db->lastInsertId(); instead!!!
+		return (@$this->lastInsertId());
+	}
 
-function exception($errorMessage) { //Internal only!
+	protected function exception($errorMessage) {
 
-	echo "<!-- ";
-	echo @mysql_error($this->_linkId)," (",@mysql_errno($this->_linkId),")";
-	echo "-->";
+		echo "<!-- ";
+		//echo @mysql_error($this->_linkId)," (",@mysql_errno($this->_linkId),")";
+		echo "-->";
 
-	if ($this->_halt_on_error) {
-		die("<pre>".$errorMessage."</pre>");
+		if ($this->_halt_on_error) {
+			die("<pre>".$errorMessage."</pre>");
 		} else {
 			echo $errorMessage."<br>";
 			return false;
 		}
 	}
 }
-?>
+

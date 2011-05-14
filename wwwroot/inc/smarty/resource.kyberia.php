@@ -15,7 +15,7 @@ function db_get_template ($tpl_name, &$tpl_source, &$smarty_obj) {
         $params['node_creator'] = UBIK_ID;
         $params['node_parent'] = 2029360;
         $params['node_name'] = "addTemplate execute: node $add_template_id";
-        $params['node_content'] = mysql_real_escape_string("addTemplate execute: node <a href='$add_template_id'>$add_template_id</a> by user ".$_SESSION['user_name']);
+        $params['node_content'] = db_escape_string("addTemplate execute: node <a href='$add_template_id'>$add_template_id</a> by user ".$_SESSION['user_name']);
         nodes::addNode($params);
 				*/
 				/*

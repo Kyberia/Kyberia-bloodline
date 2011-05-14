@@ -8,9 +8,9 @@ $error="Ak sa toto stane a citas tuto spravu chod navstivit buglist....ak robis 
 return false;
 }
 
-                $user_id=mysql_real_escape_string($_SESSION['user_id']);
-                $user_name=mysql_real_escape_string($_SESSION['user_name']);
-                $mail_name=mysql_real_escape_string($_POST['mail_to']);
+                $user_id=db_escape_string($_SESSION['user_id']);
+                $user_name=db_escape_string($_SESSION['user_name']);
+                $mail_name=db_escape_string($_POST['mail_to']);
 
                if (!$mail_name) {
                                    global $error;
@@ -70,7 +70,7 @@ return false;
 
                 if ($mail_to_id) {
 
-                        $mail_text=mysql_real_escape_string(nodes::processContent($mail_text));
+                        $mail_text=db_escape_string(nodes::processContent($mail_text));
 global $htmlparse;
 if ($htmlparse) {
 $error=$htmlparse;
@@ -88,7 +88,7 @@ mail_to='$mail_to_id_send',mail_timestamp=NOW()";
 			$result=$db->query($q);
 			$db->query("update users set user_mail=user_mail+1,".
 			//"user_mail_name='$user_name',". //Not in DB yet!
-			"user_mail_id='".mysql_real_escape_string($_SESSION['user_id'])."' where user_id='$mail_to_id_send'");
+			"user_mail_id='".db_escape_string($_SESSION['user_id'])."' where user_id='$mail_to_id_send'");
                 }
             return true;
 

@@ -2,8 +2,8 @@
 function set_external_link() {
         global $error,$node,$db;
 
-        $new_exlink = mysql_real_escape_string($_POST['external_link']);
-        $node_id = mysql_real_escape_string($node['node_id']);
+        $new_exlink = db_escape_string($_POST['external_link']);
+        $node_id = db_escape_string($node['node_id']);
         $node_permission=$node['node_permission'];
         $find = '://';
         $validation = strpos($new_exlink, $find);

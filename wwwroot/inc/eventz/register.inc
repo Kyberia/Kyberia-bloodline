@@ -2,13 +2,13 @@
 function register() {
     global $db, $error;
 
-    $guild_id = mysql_real_escape_string(strip_tags(trim($_POST['guild_id'])));
-    $content = mysql_real_escape_string(strip_tags(trim($_POST['reg_content'])));
-    $email   = mysql_real_escape_string(strip_tags(trim($_POST['reg_email'])));
-    $login   = mysql_real_escape_string(strip_tags(trim($_POST['reg_login'])));
-    $xmpp    = mysql_real_escape_string(strtolower(strip_tags(trim($_POST['reg_login']))));
-    $pass    = mysql_real_escape_string($_POST['reg_pass']);
-    $pass2   = mysql_real_escape_string($_POST['reg_pass2']);
+    $guild_id = db_escape_string(strip_tags(trim($_POST['guild_id'])));
+    $content = db_escape_string(strip_tags(trim($_POST['reg_content'])));
+    $email   = db_escape_string(strip_tags(trim($_POST['reg_email'])));
+    $login   = db_escape_string(strip_tags(trim($_POST['reg_login'])));
+    $xmpp    = db_escape_string(strtolower(strip_tags(trim($_POST['reg_login']))));
+    $pass    = db_escape_string($_POST['reg_pass']);
+    $pass2   = db_escape_string($_POST['reg_pass2']);
     
     if (empty($login)) {
         $error = 'please enter your nick name';

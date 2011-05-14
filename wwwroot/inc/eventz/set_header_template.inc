@@ -2,7 +2,7 @@
 // modifikacia ktora dovoli natiahnut iba spravny header template
 function set_header_template() {
 global $db,$error;
-$header_id=mysql_real_escape_string($_POST['header_id']);
+$header_id=db_escape_string($_POST['header_id']);
 $user_id=$_SESSION['user_id'];
 
 if (!$user_id) {

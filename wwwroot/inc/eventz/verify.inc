@@ -2,8 +2,8 @@
 function verify(){
 
 global $db;
-$uvercode=mysql_real_escape_string($_POST['vc']);
-$login=mysql_real_escape_string($_POST['login']);
+$uvercode=db_escape_string($_POST['vc']);
+$login=db_escape_string($_POST['login']);
 
 $kset=$db->query("select user_id,guild_id from users where login='$login'");
 $kset->next();

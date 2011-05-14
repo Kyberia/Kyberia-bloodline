@@ -2,13 +2,13 @@
 function set_time_lock(){
 global $db,$error;
 $user_id = $_SESSION['user_id'];
-$nick=mysql_real_escape_string($_SESSION['user_name']);
+$nick=db_escape_string($_SESSION['user_name']);
 $nick=$nick . '[Locked_OUT]';
-$hodina=mysql_real_escape_string($_POST['hodina']);
-$minuta=mysql_real_escape_string($_POST['minuta']);
-$den=mysql_real_escape_string($_POST['den']);
-$mesiac=mysql_real_escape_string($_POST['mesiac']);
-$rok=mysql_real_escape_string($_POST['rok']);
+$hodina=db_escape_string($_POST['hodina']);
+$minuta=db_escape_string($_POST['minuta']);
+$den=db_escape_string($_POST['den']);
+$mesiac=db_escape_string($_POST['mesiac']);
+$rok=db_escape_string($_POST['rok']);
 
 $now=date("Y-m-d H:i:s");
 $til_lockout="$rok-$mesiac-$den $hodina:$minuta:00";

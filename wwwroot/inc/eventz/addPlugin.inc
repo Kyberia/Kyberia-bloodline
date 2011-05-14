@@ -34,7 +34,7 @@ function addPlugin() {
     $params['node_content'] .= "<br />node_parent: <a href='$node_parent'>".$node_parent."</a>";
     $params['node_content'] .= "<br />node_system_access: ".$node_system_access;
     $params['node_content'] .= "<br />node_creator: <a href='$node_creator'>".$node_creator."</a>";
-    $params['node_content'] = mysql_real_escape_string($params['node_content']);
+    $params['node_content'] = db_escape_string($params['node_content']);
     nodes::addNode($params);
 
     return true;

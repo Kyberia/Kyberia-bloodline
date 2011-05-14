@@ -4,7 +4,7 @@ function k_wallet() {
 
 global $db,$node,$error;
 $user_id=$_SESSION['user_id'];
-$k_request=mysql_real_escape_string($_POST['k_wallet']);
+$k_request=db_escape_string($_POST['k_wallet']);
 
 $kset=$db->query("select user_k from users where user_id='$user_id'");
 $kset->next();

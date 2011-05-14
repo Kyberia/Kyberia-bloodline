@@ -226,13 +226,13 @@ if (!empty($_POST['template_event'])) {
 	$descendant_count=$node['node_descendant_count'];
 
         if (isset($_POST['listing_amount']) && is_numeric($_POST['listing_amount'])) { 
-		$listing_amount=mysql_real_escape_string($_POST['listing_amount']);
+		$listing_amount=db_escape_string($_POST['listing_amount']);
 	}elseif (!empty($_SESSION['listing_amount'])) $listing_amount=$_SESSION['listing_amount'];
         else $listing_amount=DEFAULT_LISTING_AMOUNT;
 	$smarty->assign('listing_amount',$listing_amount);
 
 	if (isset($_POST['listing_order']) && $_POST['listing_order']) {
-		$listing_order=mysql_real_escape_string($_POST['listing_order']);
+		$listing_order=db_escape_string($_POST['listing_order']);
 	} elseif (!empty($_SESSION['listing_order'])) $listing_order=$_SESSION['listing_order'];
 	else $listing_order=DEFAULT_LISTING_ORDER;
 	$smarty->assign('listing_order',$listing_order);

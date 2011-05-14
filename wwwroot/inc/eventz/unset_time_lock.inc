@@ -9,7 +9,7 @@ $kset=$db->query("select login from users where user_id='$user_id'");
 $kset->next();
 $nick=$kset->getString('login');
 $exploded=explode("[Locked_OUT]", $nick);
-$nick=mysql_real_escape_string($exploded[0]);
+$nick=db_escape_string($exploded[0]);
 
 
   $q="update nodes set node_name='$nick' where node_id=$user_id";

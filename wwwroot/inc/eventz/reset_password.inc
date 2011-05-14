@@ -1,11 +1,11 @@
 <?php
 function reset_password() {
     global $db,$error;
-    $login = mysql_real_escape_string($_POST['login']);
-    $login_type = mysql_real_escape_string($_POST['login_type']);
-    $vercode = mysql_real_escape_string($_POST['vercode']);
-    $password1 = mysql_real_escape_string($_POST['new_password1']);
-    $password2 = mysql_real_escape_string($_POST['new_password2']);
+    $login = db_escape_string($_POST['login']);
+    $login_type = db_escape_string($_POST['login_type']);
+    $vercode = db_escape_string($_POST['vercode']);
+    $password1 = db_escape_string($_POST['new_password1']);
+    $password2 = db_escape_string($_POST['new_password2']);
 
     if ($login == '') {
         $error="Please enter name or id";

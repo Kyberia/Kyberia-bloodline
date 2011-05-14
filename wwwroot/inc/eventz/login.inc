@@ -13,7 +13,7 @@ function jabberctl($command, $args) { //XXXTODO Move to some .inc file...
 function login_check($login, $password, $login_type='id') {
 
     global $db,$error,$node_id;
-		$login = mysql_real_escape_string($login); //Not SQLi in $password but be carefull
+		$login = db_escape_string($login); //Not SQLi in $password but be carefull
     $password_hash_algos=array('sha256','sha1','md5'); //List of supported algos can be obtained using: php -r 'print_r(hash_algos());'
 
     $hash_query='(';

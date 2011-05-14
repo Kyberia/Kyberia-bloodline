@@ -5,7 +5,7 @@ function configure_node_name() {
     $user_id=$_SESSION['user_id'];
 
     if (($node['node_permission']=='owner') || ($node['node_permission']=='master')) {
-        $node_name = mysql_real_escape_string($_POST['node_name']);
+        $node_name = db_escape_string($_POST['node_name']);
         $test=$node_name.'[Locked_OUT]';
 
         if(!empty($node_id)) {

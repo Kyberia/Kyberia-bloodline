@@ -14,7 +14,7 @@ function configure_content() {
         $params['node_creator'] = UBIK_ID;
         $params['node_parent'] = WARNING_ZONE;
         $params['node_name'] = "node $node_id configured as code";
-        $params['node_content'] = mysql_real_escape_string("node <a href=/id/$node_id>$node_id</a> added as code  by user ".$_SESSION['user_name']);
+        $params['node_content'] = db_escape_string("node <a href=/id/$node_id>$node_id</a> added as code  by user ".$_SESSION['user_name']);
         unset($_POST['code']);
         nodes::addNode($params);
     }
@@ -34,9 +34,9 @@ function configure_content() {
             from nodes where node_id = '$node_id'";
     $db->query($qtiamat);
 
-    $qu = "update nodes set node_content = '".mysql_real_escape_string($node_content)."' where node_id = '$node_id'";
+    $qu = "update nodes set node_content = '".db_escape_string($node_content)."' where node_id = '$node_id'";
     $result = $db->update($qu);
-    $qu2 = "update node_content set node_content = '".mysql_real_escape_string($node_content)."' where node_id = '$node_id'";
+    $qu2 = "update node_content set node_content = '".db_escape_string($node_content)."' where node_id = '$node_id'";
     $result = $db->update($qu2);
 
     return true;
