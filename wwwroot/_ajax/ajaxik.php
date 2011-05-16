@@ -1,5 +1,5 @@
 <?php
-error_reporting(1);
+error_reporting(E_ALL | E_STRICT);
 session_start();
 require('../config/config.inc');
 require(INCLUDE_DIR.'database.inc');

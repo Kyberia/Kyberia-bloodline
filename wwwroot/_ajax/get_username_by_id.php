@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+error_reporting(E_ALL | E_STRICT);
 require('../config/config.inc');
 require(INCLUDE_DIR.'database.inc');
 $db=new CLASS_DATABASE();

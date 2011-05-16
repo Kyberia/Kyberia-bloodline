@@ -1,7 +1,6 @@
 <?php
 function smarty_function_get_moods($params,&$smarty) {
 	global $db;
-error_reporting(1);
 	$user_id = $params['user_id'];
 	$set = $db->query(sprintf('select moods from users where user_id = %d', $user_id));
 	$set->next();

@@ -81,20 +81,21 @@ if (!empty($_GET['template_id'])) {
 	$template_id=false;
 }
 
-error_reporting(1);
+error_reporting(E_ALL | E_STRICT);
 //$_SESSION['debugging']=0;
 //unset($_SESSION['debugging']); 
 //Well... we should make some event 
 //or JavaScript page to turning this on/off...
 //exit;
-if ($_SESSION['debugging']) {
-    error_reporting(E_ALL);
+if(isset($_SESSION['debugging']) && $_SESSION['debugging']) {
     echo 'GET VARIABLES::<br/>';
     print_r($_GET);
     echo 'POST VARIABLES::<br/>';
     print_r($_POST);
     echo '<b>SESSION VARIABLES::</b><br/>';
     print_r($_SESSION);
+} else {
+	set_error_handler('logger::error_handler');
 }
 
 require_once(INCLUDE_DIR.'logout_idle.inc'); //Logout when idle

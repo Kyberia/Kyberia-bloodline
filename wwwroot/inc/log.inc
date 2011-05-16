@@ -1,6 +1,10 @@
 <?php
 class logger {
 
+	public static function error_handler($errno=-1, $errstr='unknown', $errfile='/dev/null', $errline=-1, $errcontext=array('?')) {
+		return error_log("$errfile:$errline = error #$errno: $errstr");
+	}
+
 	public static function log($action,$node_id,$result,$parameter1='',$parameter2='') {
 
 		global $db,$node;
@@ -12,4 +16,3 @@ class logger {
 	}
 
 }
-?>
