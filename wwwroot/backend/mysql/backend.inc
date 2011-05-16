@@ -261,7 +261,7 @@ function getChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUN
 	$q="select users.*,nodes.* from nodes
 left join users on users.user_id=nodes.node_creator where
 node_parent='$node_handle' order by node_created $orderby LIMIT $offset,$limit";
-	echo $q;
+	#echo $q;
 	$result=$db->query($q);
 
 	while ($result->next()) {
@@ -272,6 +272,23 @@ node_parent='$node_handle' order by node_created $orderby LIMIT $offset,$limit";
 
 }
 
+
+function GetUserSubmissionsChildren($user_id,$limit=23,$offset=0,$orderby='') {
+  global $db;
+
+	  $q="select users.*,nodes.* from nodes
+left join users on users.user_id=nodes.node_creator where
+node_creator='$user_id' order by node_created $orderby LIMIT $offset,$limit";
+	//$q="select * from nodes LIMIT 10,10";
+  #echo $q;
+  $result=$db->query($q);
+
+  while ($result->next()) {
+    $array[]=addBase36id($result->getRecord());
+  }
+
+  return $array;
+}
 
 function getThreadedChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUNT) {
 	global $db, $error, $node;

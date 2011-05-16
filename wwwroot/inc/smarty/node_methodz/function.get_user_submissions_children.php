@@ -4,11 +4,11 @@
 
 function smarty_function_get_user_submissions_children($params, &$smarty) {
 
-	if (!isset($_SESSION['user_id')
+	if (isset($_SESSION['user_id']))
 		$user_id = $_SESSION['user_id'];
 	else
 		return -1;
-
+/*
 	if (!isset($params['listing_amount']))
 		$listing_amount = DEFAULT_LISTING_AMMOUNT;
 	else
@@ -23,10 +23,9 @@ function smarty_function_get_user_submissions_children($params, &$smarty) {
 		$order_by = $params['order_by'];
 	else
 		$order_by = 'node_id';
-
-	$replies=nodes::GetUserSubmissionsChildren($user_id,$listing_ammount,$offset,$order_by);
-
+*/
+	$replies=nodes::GetUserSubmissionsChildren($user_id /*,$listing_ammount,$offset,$order_by*/ );
 	$smarty->assign('get_user_submissions_children', $replies);
+
 }
 
-?>
