@@ -4,7 +4,7 @@ class permissions {
 
 //trillion lights to Hierarchy!
 //$node input parameter can be a numeric node_id of a node-to-be-checked or a hash containing node_id,node_vector
-function checkPerms($node) {
+public static function checkPerms($node) {
     // new permissions checking
     global $db;
 	

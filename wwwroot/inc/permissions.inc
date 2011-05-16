@@ -32,7 +32,7 @@ function isHierarch($node) {
 
 }
 
-function checkPermissions($node) {
+public static function checkPermissions($node) {
 global $db;
 if (IsSet($_SESSION['user_id'])) {
 	$user_id=$_SESSION['user_id'];

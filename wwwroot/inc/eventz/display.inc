@@ -3,6 +3,7 @@ function display() {
 	global $node,$db,$error,$referer_id,$smarty,$permissions,$template_id;
 	global $timer_start;
 	if (!$referer_id) $referer_id=1;
+	$content='';
 
 	$node_id=$node['node_id'];
 	$user_id=$_SESSION['user_id'];
@@ -264,7 +265,6 @@ if (!empty($_POST['template_event'])) {
 	if ($offset<0) $offset=0;
 	$_POST['offset']=$offset; // XXX sqli?
 	$smarty->assign('offset',$offset);
-
 
 if ($node['external_link']=='header://svg' && !is_numeric($template_id)) {
 	header("Content-Type: image/svg+xml");

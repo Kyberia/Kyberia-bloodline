@@ -4,6 +4,8 @@
 
 		$array1=$params['array1'];
 		$array2=$params['array2'];
+		if(!is_array($array1)) $array1=array();
+		if(!is_array($array2)) $array2=array();
 		$sort_by=$params['sort_by'];
 		$orderby=$params['orderby'];
 		if ($orderby=='asc') $order=SORT_ASC;

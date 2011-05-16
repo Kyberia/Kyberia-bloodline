@@ -95,6 +95,7 @@ if(isset($_SESSION['debugging']) && $_SESSION['debugging']) {
     echo '<b>SESSION VARIABLES::</b><br/>';
     print_r($_SESSION);
 } else {
+	$_SESSION['debugging']=false;
 	set_error_handler('logger::error_handler');
 }
 

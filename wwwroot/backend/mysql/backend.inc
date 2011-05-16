@@ -3,10 +3,10 @@ class nodes {
 // All mysql code should go here
 // Split into multiple files if needed
 
-function processContent($node_content) { return processContent_hack($node_content); } //XXX TODO FIXME HACK
+public static function processContent($node_content) { return processContent_hack($node_content); } //XXX TODO FIXME HACK
 
 // Called for every node view. Updates node views, neurons, 
-function update_nodes($user_id,$node_id,$referer_id) {
+public static function update_nodes($user_id,$node_id,$referer_id) {
 	global $node,$db,$error;
 	$db->update("update nodes set node_views=node_views+1 where".
 		     "node_id='".$node_id."'");
@@ -35,7 +35,7 @@ function update_nodes($user_id,$node_id,$referer_id) {
 }
 
 
-function putNode($what,$where,$checkpermissions=true) {
+public static function putNode($what,$where,$checkpermissions=true) {
 	global $db,$error,$error_messages;
 	$user_id = $_SESSION['user_id'];
 	if (!$user_id) {
@@ -64,7 +64,7 @@ function putNode($what,$where,$checkpermissions=true) {
 	$db->query("update nodes set lastdescendant_created=NOW(),node_children_count=node_children_count+1 where node_id='$where'");
 }
 
-function addNode($params) {
+public static function addNode($params) {
         global $db,$node,$error,$error_messages;
         $parent_id=$params['node_parent'];
 
@@ -165,7 +165,7 @@ node_vector='".$params['node_vector']."'";
 }
 
 
-function getUserByLogin($login) {
+public static function getUserByLogin($login) {
 	global $error, $error_messages;
 	$q2="select user_id from users where login='".$login."'";
 	$userset=$db->query($q2);
@@ -178,7 +178,7 @@ function getUserByLogin($login) {
 	}
 }
 
-static function getNodeIdByName($name, $external_link=false) {
+public static function getNodeIdByName($name, $external_link=false) {
 	global $db;
 
 	$qh = sprintf('select node_id from nodes where node_name = "%s"', db_escape_string($name));
@@ -190,7 +190,7 @@ static function getNodeIdByName($name, $external_link=false) {
 	return $set->getString('node_id');
 }
 
-function getNodeById($node_handle,$user_id, $table_name="nodes") {
+public static function getNodeById($node_handle,$user_id, $table_name="nodes") {
 	global $db, $error;
 	$q="select length(concat($table_name.node_vector)) as
 vector_depth,$table_name.*,$table_name.node_creator as
@@ -219,7 +219,7 @@ where $table_name.node_id='$node_handle'";
 }
 
 
-function redirByName($node_handle) {
+public static function redirByName($node_handle) {
 	global $db, $error;
 	$user_id=$_SESSION['user_id'];
 	$set=$db->query("select node_id from nodes where node_name='$node_handle' and node_creator='$user_id'");
@@ -239,7 +239,7 @@ function redirByName($node_handle) {
 
 }
 
-function getNodesByName($node_handle) {
+public static function getNodesByName($node_handle) {
 	global $db, $error;
 	$q="select nodes.* from nodes where node_name='$node_handle%'";
 
@@ -254,7 +254,7 @@ function getNodesByName($node_handle) {
 
 
 
-function getChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUNT) {
+public static function getChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUNT) {
 	global $db, $error, $node;
 	$node_handle=$node['node_id'];
 
@@ -273,7 +273,7 @@ node_parent='$node_handle' order by node_created $orderby LIMIT $offset,$limit";
 }
 
 
-function GetUserSubmissionsChildren($user_id,$limit=23,$offset=0,$orderby='') {
+public static function GetUserSubmissionsChildren($user_id,$limit=23,$offset=0,$orderby='') {
   global $db;
 
 	  $q="select users.*,nodes.* from nodes
@@ -290,7 +290,7 @@ node_creator='$user_id' order by node_created $orderby LIMIT $offset,$limit";
   return $array;
 }
 
-function getThreadedChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUNT) {
+public static function getThreadedChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTING_AMOUNT) {
 	global $db, $error, $node;
 	$node_handle=$node['node_id'];
 
@@ -308,7 +308,7 @@ function getThreadedChildrenNodes($orderby="desc",$offset=0,$limit=DEFAULT_LISTI
 
 
 
-function getNodeAccessData() {
+public static function getNodeAccessData() {
 	global $node,$db;
 	$q="select users.login,node_access.* from node_access left join users on users.user_id=node_access.user_id where node_id='".$node['node_id']."' and node_permission!=''";
 	$result=$db->query($q);
@@ -324,7 +324,7 @@ function getNodeAccessData() {
 
 // Simple internal function to set node parrent
 
-function setParent($node_id,$parent_id) {
+public static function setParent($node_id,$parent_id) {
 	global $db,$node,$error,$error_messages;
 
 	if (!is_numeric($parent_id)) {
@@ -345,7 +345,7 @@ function setParent($node_id,$parent_id) {
 
 // Get nodes sorted by weight_k specific to user
 
-function getKNeurons($user_id,$interval) {
+public static function getKNeurons($user_id,$interval) {
 	global $db,$node,$error,$error_messages;
 
 	$q="call k_neurons('$user_id','$interval')";
@@ -365,7 +365,7 @@ function getKNeurons($user_id,$interval) {
 // Secure.
 // Returns true on sucess, otherwise false.
 
-function setSynapse($params){
+public static function setSynapse($params){
 	global $db,$node,$error,$error_messages;
 
 	// security check
@@ -410,7 +410,7 @@ function setSynapse($params){
 // Secure.
 // Returns synapse weight (from user to node)
 
-function getSynapseWeight($user_id,$node_id){
+public static function getSynapseWeight($user_id,$node_id){
 	global $db;
 
 	if (!is_numeric($user_id)) 
