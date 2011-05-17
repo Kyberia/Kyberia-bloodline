@@ -126,7 +126,7 @@ public static function checkPerms($node) {
             break;
         }
 
-        if ($qr_np->getInt('node_creator') == $user_id) {
+        if ($qr_np->getString('node_creator') == $user_id) {
             $perms['node_permission'] = 'owner';
             $perms['r'] = 1;
             $perms['w'] = 1;
