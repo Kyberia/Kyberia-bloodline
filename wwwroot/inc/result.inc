@@ -44,7 +44,7 @@ class result extends PDOStatement {
 	}
 
 	function getInt($column) {	//DEPRECATED!!! Use $this->fetch(); instead!!!
-		$this->getString($column); //Dynamic typing OMG...
+		return $this->getString($column); //Dynamic typing OMG...
 	}
 
 	function getNumRows() {	//DEPRECATED!!! Use $this->rowCount(); instead!!!
