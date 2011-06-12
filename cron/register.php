@@ -44,7 +44,7 @@ while ($set->next()) {
       echo $login." registered\n";
       $db->update("update nodes set 
 			template_id=7,
-			external_link='db://users',
+			external_link='db://user',
 			node_name='$login' 
 			where node_id=".$set->getString('node_id'));
       $mail=$set->getString('email');
