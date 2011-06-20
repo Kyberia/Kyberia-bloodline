@@ -276,9 +276,27 @@ node_parent='$node_handle' order by node_created $orderby LIMIT $offset,$limit";
 public static function GetUserSubmissionsChildren($user_id,$limit=23,$offset=0,$orderby='') {
   global $db;
 
-	  $q="select users.*,nodes.* from nodes
-left join users on users.user_id=nodes.node_creator where
-node_creator='$user_id' order by node_created $orderby LIMIT $offset,$limit";
+	if (!is_numeric($user_id)) {
+		return -1;
+	}
+	if (!is_numeric($limit)) {
+		return -1;
+	}
+	if (!is_numeric($offset)) {
+		return -1;
+	}
+
+	// XXX orderby mysql escape
+
+	$q = "select n1.* from nodes as n1 join 
+		(select node_id,node_creator from nodes where node_creator='$user_id')
+		as j2 on n1.node_parent=j2.node_id 
+		join users as j3 on j3.user_id=n1.node_creator order by node_created 
+		$orderby LIMIT $offset,$limit";
+
+//	  $q="select users.*,nodes.* from nodes
+// left join users on users.user_id=nodes.node_creator where
+// node_creator='$user_id' order by node_created $orderby LIMIT $offset,$limit";
 	//$q="select * from nodes LIMIT 10,10";
   #echo $q;
   $result=$db->query($q);
