@@ -288,10 +288,10 @@ public static function GetUserSubmissionsChildren($user_id,$limit=23,$offset=0,$
 
 	// XXX orderby mysql escape
 
-	$q = "select n1.* from nodes as n1 join 
+	$q = "select child.*, from nodes as child join 
 		(select node_id,node_creator from nodes where node_creator='$user_id')
-		as j2 on n1.node_parent=j2.node_id 
-		join users as j3 on j3.user_id=n1.node_creator order by node_created 
+		as j2 on child.node_parent=j2.node_id and child.node_creator <> '$user_id'
+		join users as j3 on j3.user_id=child.node_creator order by node_created desc
 		$orderby LIMIT $offset,$limit";
 
 //	  $q="select users.*,nodes.* from nodes
