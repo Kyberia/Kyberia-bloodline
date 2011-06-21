@@ -1,5 +1,6 @@
 <?php
 
+# XXX remove constants and move to backend
 	function smarty_function_get_last($params,&$smarty) {
 
 		if ($params['listing_amount']=='all') $listing_amount='-1';
@@ -10,7 +11,7 @@
 		global $db,$node;
 
 		if ($node['node_id']==23)  {
-			$interval=" nodes.node_created>NOW()-INTERVAL 23 HOUR and";
+			$interval=" nodes.node_created>NOW()-INTERVAL 65 HOUR and";
 			$params['vector']="00";
 		}
 
