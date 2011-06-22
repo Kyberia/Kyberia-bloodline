@@ -288,16 +288,12 @@ public static function GetUserSubmissionsChildren($user_id,$limit=23,$offset=0,$
 
 	// XXX orderby mysql escape
 
-	$q = "select child.* from nodes as child join 
+	$q = "select child.*, users.login as login, parent.node_name as parent_name from nodes as child join 
 		(select node_id,node_creator from nodes where node_creator='$user_id')
-		as j2 on child.node_parent=j2.node_id and child.node_creator <> '$user_id'
-		join users as j3 on j3.user_id=child.node_creator order by node_created desc
+		as parent on child.node_parent=parent.node_id and child.node_creator <> '$user_id'
+		join users as users on users.user_id=child.node_creator order by node_created desc
 		$orderby LIMIT $offset,$limit";
 
-//	  $q="select users.*,nodes.* from nodes
-// left join users on users.user_id=nodes.node_creator where
-// node_creator='$user_id' order by node_created $orderby LIMIT $offset,$limit";
-	//$q="select * from nodes LIMIT 10,10";
   #echo $q;
   $result=$db->query($q);
 
@@ -360,6 +356,40 @@ public static function setParent($node_id,$parent_id) {
 
 	return 0;
 }
+
+// Get last submissions of all users on kyberia.
+// XXX ad permission checking
+// XXX remove constants
+
+public static function getLast($params) {
+	global $db,$node,$error,$error_messages;
+
+	if ($params['listing_amount']=='all') $listing_amount='-1';
+	else $listing_amount=addslashes($params['listing_amount']);
+	if (empty($params['offset'])) $offset=0;
+	else $offset=addslashes($params['offset']);
+
+	global $db,$node;
+	if ($node['node_id']==23)  {
+		$interval=" nodes.node_created>NOW()-INTERVAL 65 HOUR and";
+		$params['vector']="00";
+	}	else {
+
+		$vector=$node['node_vector'];
+		$interval=" nodes.node_created>NOW()-INTERVAL 42 DAY and";
+	}
+
+	$node_id=$node['node_id'];
+	$user_id=$_SESSION['user_id'];
+		$q="select parent.node_name as parent_name,users.*,nodes.* from nodes
+		left join nodes as parent on parent.node_id=nodes.node_parent
+		left  join users on users.user_id=nodes.node_creator where $interval
+		nodes.node_vector like '$vector%'  and
+		nodes.node_system_access!='private' order by nodes.node_id desc LIMIT $offset,$listing_amount ";
+
+	$set=$db->query($q);
+}
+
 
 // Get nodes sorted by weight_k specific to user
 
