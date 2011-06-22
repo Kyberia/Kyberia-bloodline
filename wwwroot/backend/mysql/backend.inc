@@ -289,7 +289,7 @@ public static function GetUserSubmissionsChildren($user_id,$limit=23,$offset=0,$
 	// XXX orderby mysql escape
 
 	$q = "select child.*, users.login as login, parent.node_name as parent_name from nodes as child join 
-		(select node_id,node_creator from nodes where node_creator='$user_id')
+		(select node_id,node_name,node_creator from nodes where node_creator='$user_id')
 		as parent on child.node_parent=parent.node_id and child.node_creator <> '$user_id'
 		join users as users on users.user_id=child.node_creator order by node_created desc
 		$orderby LIMIT $offset,$limit";
@@ -388,6 +388,13 @@ public static function getLast($params) {
 		nodes.node_system_access!='private' order by nodes.node_id desc LIMIT $offset,$listing_amount ";
 
 	$set=$db->query($q);
+
+	while ($set->next()) {
+		$last[]=$set->getRecord();
+	}
+
+	return $last;
+
 }
 
 
