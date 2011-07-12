@@ -7,7 +7,7 @@ $nodes=$_POST['node_chosen'];
 $hierarch_id=$node['node_id'];
 
 $new_parent=nodes::getNodeById($new_parent_id,$_SESSION['user_id']);
-$new_parent_permissions=permissions::checkPermissions($new_parent);
+$new_parent_permissions=permissions::checkPerms($new_parent);
 
 if (!$new_parent_permissions['w'] and !isHierarch($new_parent)) {
 global $error_messages;
