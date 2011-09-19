@@ -45,7 +45,7 @@ else $security = "";
 		// by br & maniac
 
 		if ($node['node_vector']=='') {
-		  $node['node_vector']='blabla';
+		  $node['node_vector']='blabla'; // XXX
 	//	  system("echo \"node: $node[node_id]\" >> /tmp/blabla.log") ;
 		}
 

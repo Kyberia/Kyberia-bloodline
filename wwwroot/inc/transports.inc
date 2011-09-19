@@ -1,7 +1,9 @@
 <?php
 
 function transport_load($transport) {
-	require_once(TRANSPORT_DIR.$transport.'.inc');
+
+	// XXX security hotfix, TODO harvie rewrite
+	require_once(TRANSPORT_DIR.'kyberia.sk.inc');
 }
 
 function transport_link($url) {
