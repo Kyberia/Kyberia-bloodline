@@ -12,22 +12,24 @@ function jabberctl($command, $args) { //XXXTODO Move to some .inc file...
 
 function login_check($login, $password, $login_type='id') {
 
-    global $db,$error,$node_id;
-		$login = db_escape_string($login); //Not SQLi in $password but be carefull
-    $password_hash_algos=array('sha256','sha1','md5'); //List of supported algos can be obtained using: php -r 'print_r(hash_algos());'
+	global $db,$error,$node_id;
+	$login = db_escape_string($login); 
+	//Not SQLi in $password but be carefull
+	$password_hash_algos=array('sha256','sha1','md5'); 
+	//List of supported algos can be obtained using: php -r 'print_r(hash_algos());'
 
-    $hash_query='(';
-    foreach($password_hash_algos as $algo) {
-      $hash_query.="password='".hash($algo, $password)."' OR ";
-    }
-    $hash_query.='false )';
+	$hash_query='(';
+	foreach($password_hash_algos as $algo) {
+		$hash_query.="password='".hash($algo, $password)."' OR ";
+	}
+	$hash_query.='false )';
 
-    $referer = $_SERVER['HTTP_REFERER'];
+	$referer = $_SERVER['HTTP_REFERER'];
 
-    if (!session_id()) {
-        $error='asi nemas zapnute cookies alebo co';
-        return false;
-    }
+	if (!session_id()) {
+		$error='asi nemas zapnute cookies alebo co';
+		return false;
+	}
 
 	switch ($login_type) {
 		case "name":
@@ -130,9 +132,12 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
 	$xmpp_pass=hash('md5', 'jabber:'.$_POST['password']);
 	setcookie('jabber_password', $xmpp_pass, time()+60*60*24*10, '/'); //10days on whole domain
 	$xmpp_domain='kyberia.cz'; //XXX TODO Hardcoded kyberia.cz jabber domain (NOT dev.kyberia.cz!!!!!)
-	jabberctl('register',		array($xmpp, $xmpp_domain, $xmpp_pass));
-	jabberctl('change_password',	array($xmpp, $xmpp_domain, $xmpp_pass));
-	jabberctl('push_alltoall',	array($xmpp_domain, $xmpp_domain));
+
+	# XXX dissabled, was causing 20+ sec. delay while logging in
+#	jabberctl('register',		array($xmpp, $xmpp_domain, $xmpp_pass));
+#	jabberctl('change_password',	array($xmpp, $xmpp_domain, $xmpp_pass));
+#	jabberctl('push_alltoall',	array($xmpp_domain, $xmpp_domain));
+
         if (!empty($cube_vector)) $_SESSION['cube_vector']=$cube_vector;
         if (empty($_SESSION['template_set'])) $_SESSION['template_set']=$set->getString('template_set');
         if (is_numeric($_POST['screen_width'])) $_SESSION['browser']['screen_width']=$_POST['screen_width'];

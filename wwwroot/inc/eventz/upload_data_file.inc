@@ -1,7 +1,5 @@
 <?php
 
-
-
 function upload_data_file() {
 	// XXX sec. bug over sec. bug
 
@@ -17,7 +15,7 @@ function upload_data_file() {
 
 	$node_id=$node['node_id'];
 	
-	if ( !filez::filename_secure($_FILES['data_file']['name'])) {
+	if ( !filez::upload_filename_secure($_FILES['data_file']['name'])) {
 		$error = 'bad, naughty file type. Cruise missile launched.';
 		return false;
 	}
@@ -50,8 +48,7 @@ function upload_data_file() {
 
 				$node_params['node_name']=$file;
 				$node_params['node_creator']=$_SESSION['user_id'];
-				if ($_POST['gallery']) $node_params['template_id']="1041658";
-				else $node_params['template_id']=12;
+				$node_params['template_id']=DEF_DATA_TEMPLATE;
 				$node_params['node_parent']=$node['node_id'];
 
 				$node_params['node_content']=$file;
@@ -61,27 +58,30 @@ function upload_data_file() {
 				     FILE_DIR.$_SESSION['user_id'].'/'.$datanode_id.".$file_suffix");
 				symlink(FILE_DIR.$_SESSION['user_id'].'/'.$datanode_id.".$file_suffix",
 					SYSTEM_ROOT.'/files/'.$datanode_id);
-				if ($_POST['gallery']) {
-					$image=TMP."/".$_FILES['data_file']['name']."/".$file;
-					$image_name=$file;
-					$width=NODE_IMAGE_WIDTH;
 
-					if (stristr($image_name,".jpg") || 
-					    stristr($image_name,".jpeg") ){
-						
-						/// XXX UTILZ_DIR is not set. remove?
-						$cmd=UTILZ_DIR."/jpegtopnm  $image |".UTILZ_DIR."/pnmscale -width=$width | ".UTILZ_DIR."ppmquant 256 |".UTILZ_DIR."ppmtogif >".SYSTEM_ROOT.SYSTEM_IMAGES.'/nodes/'.substr($datanode_id,0,1)."/".substr($datanode_id,1,1)."/".$datanode_id.".gif";
-					}
-					elseif (stristr($image_name,".gif")) {
-						$cmd=UTILZ_DIR."/gifsicle --resize ".$width."x_ $image > ".SYSTE_ROOT.SYSTEM_IMAGES.'/nodes/'.substr($datanode_id,0,1)."/".substr($datanode_id,1,1)."/".$datanode_id.".gif";
-					}
-					if ($cmd) {
-						shell_exec($cmd);
-					}
-					// XXX WTF
-					echo $cmd;
-				}
+# Removed for now, need complete rewrite
 
+#				if ($_POST['gallery']) {
+#					$node_params['template_id']=DEF_GALLERY_TEMPLATE;
+#					$image=TMP."/".$_FILES['data_file']['name']."/".$file;
+#					$image_name=$file;
+#					$width=NODE_IMAGE_WIDTH;
+#
+#					if (stristr($image_name,".jpg") || 
+#					    stristr($image_name,".jpeg") ){
+#						
+#						/// XXX UTILZ_DIR is not set. remove?
+#						$cmd=UTILZ_DIR."/jpegtopnm  $image |".UTILZ_DIR."/pnmscale -width=$width | ".UTILZ_DIR."ppmquant 256 |".UTILZ_DIR."ppmtogif >".SYSTEM_ROOT.SYSTEM_IMAGES.'/nodes/'.substr($datanode_id,0,1)."/".substr($datanode_id,1,1)."/".$datanode_id.".gif";
+#					}
+#					elseif (stristr($image_name,".gif")) {
+#						$cmd=UTILZ_DIR."/gifsicle --resize ".$width."x_ $image > ".SYSTE_ROOT.SYSTEM_IMAGES.'/nodes/'.substr($datanode_id,0,1)."/".substr($datanode_id,1,1)."/".$datanode_id.".gif";
+#					}
+#					if ($cmd) {
+#						shell_exec($cmd);
+#					}
+#					// XXX WTF
+#					echo $cmd;
+#				}
 			}
 		}
 		closedir($handle);
@@ -94,8 +94,5 @@ function upload_data_file() {
 		symlink(FILE_DIR.$_SESSION['user_id'].'/'.$node['node_id'].".$suffix",
 			SYSTEM_ROOT.'/files/'.$node['node_id']);
 	}
-
-
 }
-
 ?>
