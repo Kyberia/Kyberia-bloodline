@@ -30,7 +30,7 @@ if ((!empty($bookcat)) && $bookcat) $q.=" and (bookmark_category='$bookcat' or b
 
 else $q.="order by node_name";
 $result=$db->query($q);
-if (!$bookcat) {
+if (empty($bookcat) || !$bookcat) {
 	while ($result->next()) {
 		if (!$result->getString('bookmark_category')) {
 			$categories['unsorted']['children'][]=$result->getRecord();

@@ -3,6 +3,8 @@
 function smarty_function_get_nodes_by_parent($params,&$smarty) {
 	global $node;
 
+	$sql_time="";
+	$sql_type="";
 	$parent=$params['parent'];
 	$permissions=permissions::checkPerms($parent);
 	if (!$permissions['r']) {
@@ -26,6 +28,7 @@ function smarty_function_get_nodes_by_parent($params,&$smarty) {
 	if (isset($params['time'])) {
 		$sql_time=" nodes.node_created > '".db_escape_string($params['time'])."' and ";
 	}
+
 	$q="select parent.node_name as parent_name,users.*,nodes.*,node_access.node_user_subchild_count from nodes left join nodes as parent on parent.node_id=nodes.node_parent left join node_access on node_access.node_id=nodes.node_id and node_access.user_id='$user_id' left  join users on users.user_id=nodes.node_creator where ";
 	$q.=" $sql_time nodes.node_parent='$parent' and nodes.node_system_access!='private'";
 
