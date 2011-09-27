@@ -22,8 +22,8 @@ public static function checkPerms($node) {
 		$set->next();
 		$node_vector=$set->getString('node_vector');
 	}
-
-    $user_id = $_SESSION['user_id'];
+	
+	$user_id=(empty($_SESSION['user_id'])) ? "" : $_SESSION['user_id'];
 
     $perms['r'] = 0;
     $perms['w'] = 0;

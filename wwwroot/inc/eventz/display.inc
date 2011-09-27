@@ -6,7 +6,7 @@ function display() {
 	$content='';
 
 	$node_id=$node['node_id'];
-	$user_id=$_SESSION['user_id'];
+	$user_id=(empty($_SESSION['user_id'])) ? "" : $_SESSION['user_id'];
 
 if ($permissions['r']) {
 

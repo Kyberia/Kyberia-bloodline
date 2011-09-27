@@ -24,7 +24,7 @@ function db_get_template ($tpl_name, &$tpl_source, &$smarty_obj) {
 				*/
     // populating $tpl_source with actual template contents
 	//$tpl_source = stripslashes($set->getString('node_content'));
-	$tpl_source = nodes::getNodeById($add_template_id,$_SESSION['user_id']);
+	$tpl_source = nodes::getNodeById($add_template_id,empty($_SESSION['user_id']) ? "" : $_SESSION['user_id']);
 	$tpl_source = $tpl_source['node_content'];
     // return true on success, false to generate failure notification
     return true;

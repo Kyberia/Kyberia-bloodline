@@ -146,12 +146,12 @@ if (isset($_SESSION['cube_vector']) && ($_SESSION['cube_vector'])) {
 	}
 }
 
-@include_once(INCLUDE_DIR.'mail_rss.inc'); //haluz...
+#@include_once(INCLUDE_DIR.'mail_rss.inc'); //haluz...
 
 //checking permissions
 include_once(BACKEND_DIR.'/'.DB_TYPE.'/permissions.inc');
 $permissions=permissions::checkPerms($node);
-if ($_SESSION['debugging']) {
+if (!empty($_SESSION['debugging']) && $_SESSION['debugging']) {
 	print_r($permissions);
 }
 
