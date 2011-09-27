@@ -17,7 +17,7 @@ public static function checkPerms($node) {
 		$node_id=$node;
 	}
 
-	if (!$node_vector) {
+	if (empty($node_vector)) {
 		$set=$db->query("select node_vector from  nodes where node_id='$node_id'");
 		$set->next();
 		$node_vector=$set->getString('node_vector');
