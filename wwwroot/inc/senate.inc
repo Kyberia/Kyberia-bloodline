@@ -12,6 +12,7 @@ define('UNVERIFIED_REGISTRATIONS_NODE',1836516);
 
 define('DEF_DATA_TEMPLATE',12);
 define('DEF_GALLERY_TEMPLATE',1041658);
+define('DEF_LAST_NODE',23);
 
 // 1961061 citizens?
 // 1061495 citizens?

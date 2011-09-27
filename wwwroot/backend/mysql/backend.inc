@@ -370,9 +370,9 @@ public static function getLast($params) {
 	else $offset=addslashes($params['offset']);
 
 	global $db,$node;
-	if ($node['node_id']==23)  {
+	if ($node['node_id']==DEF_LAST_NODE)  {
 		$interval=" nodes.node_created>NOW()-INTERVAL 65 HOUR and";
-		$params['vector']="00";
+		$vector="00";
 	}	else {
 
 		$vector=$node['node_vector'];
