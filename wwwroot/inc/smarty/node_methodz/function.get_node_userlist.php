@@ -1,17 +1,18 @@
 <?php
 
-	function smarty_function_get_node_userlist($params,&$smarty) {
+// Get list of users currently viewing specified node.
 
-		global $db,$node;
-		if (is_numeric($params['node_id'])) $node_id=$params['node_id'];
-		else $node_id=$node['node_id'];
+function smarty_function_get_node_userlist($params,&$smarty) {
 
-		$set=$db->query("select login,user_id from users where user_action_id='$node_id'");
-		while ($set->next()) {
-			$userlist[]=$set->getRecord();
-		}
+	global $node;
 
-		$smarty->assign('userlist',$userlist);
-
+	if (isset($params['node_id']) && is_numeric($params['node_id'])) {
+		$node_id=$params['node_id'];
+	} else { 
+		$node_id=$node['node_id'];
 	}
+
+	$userlist=nodes::getNodeUserlist($node_id);
+	$smarty->assign('userlist',$userlist);
+}
 ?>

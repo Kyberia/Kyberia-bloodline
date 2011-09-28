@@ -482,8 +482,30 @@ public static function getSynapseWeight($user_id,$node_id){
 	if (! ($synapse_weight) ) { $synapse_weight = 1;}	
 
 	return $synapse_weight;
-
 }
+
+// getNodeUserlist
+
+// Get list of users currently viewing specified node.
+// Secure.
+// Returns list of (login, user_id)
+
+public static function getNodeUserlist($node_id) {
+
+	global $db;
+	if (!is_numeric($node_id))
+		 { return -1; }
+		
+
+	$set=$db->query("select login,user_id from users where user_action_id='$node_id'");
+	while ($set->next()) {
+		$userlist[]=$set->getRecord();
+	}
+
+	return $userlist;
+}
+
+
 }
 
 ?>

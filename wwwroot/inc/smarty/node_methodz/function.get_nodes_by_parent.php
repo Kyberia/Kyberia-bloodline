@@ -46,7 +46,7 @@ function smarty_function_get_nodes_by_parent($params,&$smarty) {
         	        $q.=$sql_type;
         }
 
-	if ($orderby) $q.=" order by $orderby ";
+	if (isset($orderby)) $q.=" order by $orderby ";
 	else $q.=" order by nodes.node_id desc ";
 	$q.= " LIMIT $offset,$listing_amount ";
 	$set=$db->query($q);

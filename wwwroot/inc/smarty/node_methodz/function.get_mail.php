@@ -43,7 +43,7 @@ userto.login as mail_to_name, userfrom.login as mail_from_name,
 mail.* from mail left join users as userfrom on
 mail_from=userfrom.user_id left join users as userto on mail_to=userto.user_id
 where mail_user='$user_id' ";
-	if ($sql_type) $query.=$sql_type;
+	if (isset($sql_type)) $query.=$sql_type;
 	$query.=" order by mail_id desc limit $offset,$listing_amount";
 
 	$set = $db->query($query);
