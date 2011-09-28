@@ -1,4 +1,8 @@
 <?php
+
+//XXX duplicate to get_node_commanders,
+//only one can survive;)
+
 function smarty_function_get_node_commanders2($brawco,&$smarty) {
     global $db,$node;
     $node_id=$node['node_id'];

@@ -505,7 +505,25 @@ public static function getNodeUserlist($node_id) {
 	return $userlist;
 }
 
+// getNodeCommanders
 
+// Get logins of all node commanders (used in configure)
+// Secure.
+// Returns list of (node_permission, login)
+
+
+public static function getNodeCommanders($node_id) {
+	global $db;
+	$set=$db->query("select node_permission,users.login from node_access 
+			left join users on node_access.user_id=users.user_id where 
+			node_id='$node_id' and node_permission!='' order by node_permission");
+
+	while ($set->next()) {
+ 		$commanders[$set->getString('node_permission')].=$set->getString('login').";";
+	}
+
+	return $commanders;
 }
-
+	
+}
 ?>
