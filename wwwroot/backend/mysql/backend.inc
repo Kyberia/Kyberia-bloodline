@@ -574,5 +574,38 @@ public static function getNodesByType($vector,$user_id,$type,$orderby,$offset,$l
 	return $result;
 }
 
+// getLinkedNodes
+
+// 
+// returns XXX
+
+function getLinkedNodes($node_id,$orderby,$offset,$listing_amount) {
+	global $db;
+
+	if ((!is_numeric($node_id))
+		or (!is_numeric($offset))
+		or (!is_numeric($listing_amount)))
+		{ return -1; } // XXX check return value by caller?
+	$orderby=db_escape_string($orderby);
+
+	$q="select neurons.synapse_created,node_content,author.login,linker.login as linker,nodes.* from neurons 
+		left join nodes on neurons.src=nodes.node_id 
+		left join users as linker on neurons.synapse_creator=linker.user_id 
+		left join users as author on nodes.node_creator=author.user_id  
+		where dst='$node_id' and link in ('hard','bookmark') 
+		order by $orderby desc limit $offset , $listing_amount";
+
+	$result=$db->query($q);
+	while ($result->next()) {
+		$array=$result->getRecord();
+		transport_process_node($array); // XXX
+		$array['node_status']="linked";
+		$array['node_created']=$array['synapse_created'];
+		$get_linked_nodes[]=$array;
+	}
+	return $get_linked_nodes;
+}
+
+
 }
 ?>
