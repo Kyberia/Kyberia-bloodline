@@ -8,8 +8,8 @@ function smarty_function_get_linked_nodes($params,&$smarty) {
         elseif (is_numeric($params['listing_amount'])) $listing_amount=$params['listing_amount'];
         else $listing_amount=DEFAULT_LISTING_AMOUNT;
 
-        if (is_numeric($params['offset'])) $offset=$params['offset'];
-	elseif (is_numeric($_POST['offset'])) $offset=$_POST['offset'];
+        if (isset($params['offset']) && is_numeric($params['offset'])) $offset=$params['offset'];
+	elseif (isset($_POST['offset']) && is_numeric($_POST['offset'])) $offset=$_POST['offset'];
 	else $offset=0;
 
 	if (isset($params['node_id'])) {

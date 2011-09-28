@@ -541,7 +541,7 @@ public static function logout() {
 
 // getNodesByType
 
-//
+// XXX
 // Secure
 // returns xxx
  
@@ -576,10 +576,11 @@ public static function getNodesByType($vector,$user_id,$type,$orderby,$offset,$l
 
 // getLinkedNodes
 
-// 
+// XXX
+// Secure
 // returns XXX
 
-function getLinkedNodes($node_id,$orderby,$offset,$listing_amount) {
+public static function getLinkedNodes($node_id,$orderby,$offset,$listing_amount) {
 	global $db;
 
 	if ((!is_numeric($node_id))
