@@ -119,7 +119,7 @@ $smarty->compile_dir = SYSTEM_DATA.'templates_c/';
 $smarty->config_dir = SMARTY_DIR.'configs/'; //XXX neexistuje
 $smarty->cache_dir = SMARTY_DIR.'cache/';
 $smarty->plugins_dir = SMARTY_PLUGIN_DIR ;
-if ($_SESSION['debugging']) $smarty->debugging=true;
+if (isset($_SESSION['debugging']) && $_SESSION['debugging']) $smarty->debugging=true;
 
 // initializing variables
 // preg_replace prevents LFI
@@ -127,7 +127,7 @@ if (empty($_POST['event'])) $event='display';
 else $event= preg_replace( "![^a-zA-Z0-9_]+!", "", $_POST['event']);
 
 
-if ($_SESSION['debugging']) {
+if (isset($_SESSION['debugging']) && $_SESSION['debugging']) {
 	echo "<pre><b>NODE::";
 	print_r($node);
 	echo "</pre>";

@@ -79,7 +79,7 @@ public static function checkPerms($node) {
             }
 
             if ($perms['node_system_access'] != 'private'
-                && !$_SESSION['user_id']
+                && (empty($_SESSION['user_id']))
                 && $perms['node_external_access'] == 'yes') {
                     $perms['r'] = 1;
                     $perms['w'] = 0;
