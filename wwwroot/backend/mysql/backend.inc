@@ -511,9 +511,12 @@ public static function getNodeUserlist($node_id) {
 // Secure.
 // Returns list of (node_permission, login)
 
-
 public static function getNodeCommanders($node_id) {
 	global $db;
+
+	if (!is_numeric($node_id))
+		 { return -1; }
+
 	$set=$db->query("select node_permission,users.login from node_access 
 			left join users on node_access.user_id=users.user_id where 
 			node_id='$node_id' and node_permission!='' order by node_permission");
@@ -524,6 +527,52 @@ public static function getNodeCommanders($node_id) {
 
 	return $commanders;
 }
-	
+
+// logout
+
+// Log out user.
+// Secure
+
+public static function logout() {
+        global $db;
+        $q="update users set user_action_id=null where user_id='".$_SESSION['user_id']."'";
+        $db->query($q);
+}
+
+// getNodesByType
+
+//
+// Secure
+// returns xxx
+ 
+public static function getNodesByType($vector,$user_id,$type,$orderby,$offset,$listing_amount) {
+	global $db;
+
+	if ((!is_numeric($user_id))
+		or (!is_numeric($offset))
+		or (!is_numeric($listing_amount))
+		or ($vector && !is_numeric($vector))
+		or (!is_numeric($type)))
+		{ return -1; }
+
+	$orderby=db_escape_string($orderby);
+
+
+	$q="select parent.node_name as parent_name,users.*,nodes.*,node_access.node_user_subchild_count from nodes 
+		left join nodes as parent on parent.node_id=nodes.node_parent 
+		left join node_access on node_access.node_id=nodes.node_id and node_access.user_id='$user_id'
+		left  join users on users.user_id=nodes.node_creator where ";
+	if ($vector) $q.="nodes.node_vector like '$vector%' and";
+	$q.=" nodes.template_id='$type' and nodes.node_system_access!='private'";
+	if ($orderby) $q.=" order by $orderby ";
+	else $q.=" order by nodes.node_id desc ";
+	$q.= " LIMIT $offset,$listing_amount ";
+	$set=$db->query($q);
+
+	while ($set->next()) $result[]=$set->getRecord();
+
+	return $result;
+}
+
 }
 ?>

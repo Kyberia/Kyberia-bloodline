@@ -128,7 +128,8 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
 
         $_SESSION['user_id']=$user_id;
         $_SESSION['user_name']=addslashes($user_name);
-	setcookie('jabber_login', $xmpp, time()+60*60*24*10, '/'); //10days on whole domain - should have persistent username in future...
+	setcookie('jabber_login', $xmpp, time()+60*60*24*10, '/'); 
+	//10days on whole domain - should have persistent username in future...
 	$xmpp_pass=hash('md5', 'jabber:'.$_POST['password']);
 	setcookie('jabber_password', $xmpp_pass, time()+60*60*24*10, '/'); //10days on whole domain
 	$xmpp_domain='kyberia.cz'; //XXX TODO Hardcoded kyberia.cz jabber domain (NOT dev.kyberia.cz!!!!!)
@@ -140,8 +141,10 @@ where node_access.user_id='$user_id' and node_bookmark='yes' order by node_name"
 
         if (!empty($cube_vector)) $_SESSION['cube_vector']=$cube_vector;
         if (empty($_SESSION['template_set'])) $_SESSION['template_set']=$set->getString('template_set');
-        if (is_numeric($_POST['screen_width'])) $_SESSION['browser']['screen_width']=$_POST['screen_width'];
-        if (is_numeric($_POST['screen_height'])) $_SESSION['browser']['screen_height']=$_POST['screen_height'];
+        if (!empty($_POST['screen_width']) && is_numeric($_POST['screen_width'])) 
+		{ $_SESSION['browser']['screen_width']=$_POST['screen_width']; }
+        if (!empty($_POST['screen_height']) && is_numeric($_POST['screen_height'])) 
+		{ $_SESSION['browser']['screen_height']=$_POST['screen_height']; }
         $_SESSION['listing_amount']=$set->getString('listing_amount');
         $_SESSION['listing_order']=$set->getString('listing_order');
         $_SESSION['header_id']=$set->getString('header_id');

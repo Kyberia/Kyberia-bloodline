@@ -14,7 +14,7 @@ define('DEF_DATA_TEMPLATE',12);
 define('DEF_GALLERY_TEMPLATE',1041658);
 define('DEF_LAST_NODE',23);
 
-define('DEF_MAX_LISTING_AMMOUNT',100);
+define('DEF_MAX_LISTING_AMMOUNT',333);
 
 // 1961061 citizens?
 // 1061495 citizens?

@@ -21,7 +21,7 @@ if (!empty($_SESSION['eventz'][$event]) && ($_SESSION['eventz'][$event])) {
 
 elseif (is_file(INCLUDE_DIR."eventz/$event.inc")) {
 	$event_id=nodes::getNodeIdByName($event,"event://$event");
-	$event_node=nodes::getNodeById($event_id,$_SESSION['user_id']);
+	$event_node=nodes::getNodeById($event_id,isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "");
 	if (
 		($event_node['node_system_access']=='public')
 		|| (!empty($_SESSION['user_id']) && ($event_node['node_creator']==$_SESSION['user_id']))
