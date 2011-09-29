@@ -609,33 +609,14 @@ public static function getLinkedNodes($node_id,$orderby,$offset,$listing_amount)
 
 // getThreadedChildren
 
-// XXX
-// XXX FUCKING MESS, argh
-// returns XXX
 
-//	if ($limit > DEF_MAX_GET_THREADED_CHILDREN)
-//		$limit = DEF_MAX_GET_THREADED_CHILDREN;
-//
-//		// XXX this should go to separate function
-//
-//                if (!empty($params['search'])) {
-//		if ($params['search_type']=='content') $sql_type.=" and node_content like '%".addslashes($params['search'])."%' ";
-//		else {
-//			$q2="select user_id from users where login='".$params['search']."'";
-//			$userset=$db->query($q2);
-//			$userset->next();
-//			$id=$userset->getString('user_id');
-//			$sql_type=" and nodes.node_creator='$id'";
-//		}
-//
-//	}
-
-
-public static function getThreadedChildren($offset,$limit,$orderby,$time,$synapse_time,$security,$link,$search,$search_param) {
+public static function getThreadedChildren($node_id,$node_vector,$offset,$limit,$orderby,$time,$synapse_time,$security,$link,$search,$search_param) {
 	global $db;
 
 	$sql_synapse="";
 	$sql_type="";
+	$sql_time="";
+
 	if ($synapse_time) { $sql_synapse.=" and node_created >'".db_escape_string($synapse_time)."'"; }
 
 	if ($orderby=='' OR $orderby=='desc') {
@@ -662,7 +643,7 @@ public static function getThreadedChildren($offset,$limit,$orderby,$time,$synaps
 	}
 
 
-
+	$q="";
 	if ($link=='yes') $q.="(";
 	$q.="select nodes.node_id,node_name,node_external_access,external_link,node_parent,
 		node_system_access,node_children_count,node_creator,node_created,lastchild_created,
@@ -670,8 +651,8 @@ public static function getThreadedChildren($offset,$limit,$orderby,$time,$synaps
 		length(node_vector) as depth,users.login,node_vector, node_content,'' as synapse_creator 
 		from nodes
 		left join users on users.user_id=nodes.node_creator 
-		where $sql_time node_vector like '".$node['node_vector']."%' $sql_type  
-			and node_id != '".$node['node_id']."' $security 
+		where $sql_time node_vector like '".$node_vector."%' $sql_type  
+			and node_id != '".$node_id."' $security 
 		order by $orderby LIMIT $offset,$limit";
 
 	if ($link=='yes') {
@@ -683,8 +664,8 @@ public static function getThreadedChildren($offset,$limit,$orderby,$time,$synaps
 			from neurons 
 			left join nodes on neurons.src=nodes.node_id 
 			left join users on users.user_id=nodes.node_creator 
-			where  $sql_time dst_vector like '".$node['node_vector']."%' $sql_synapse $sql_type  
-				and node_id != '".$node['node_id']."' order by $orderby LIMIT $offset,$limit)";
+			where  $sql_time dst_vector like '".$node_vector."%' $sql_synapse $sql_type  
+				and node_id != '".$node_id."' order by $orderby LIMIT $offset,$limit)";
 	}
 
 	if ($link=='yes') $q.=" order by $orderby LIMIT $limit";

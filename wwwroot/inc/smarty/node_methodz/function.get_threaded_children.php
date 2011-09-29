@@ -10,6 +10,9 @@ function smarty_function_get_threaded_children($params,&$smarty) {
 	$orderby=isset($params['orderby']) ? $params['orderby'] : "desc";
 	$time=isset($params['time']) ? $params['time'] : "";
 	$link=(isset($params['link']) && $params['link']=='yes') ? "yes" : "";
+	$node_id=$node['node_id'];
+	$node_vector=$node['node_vector'];
+	
 
 	// XXX WTF
 	if ($node['node_system_access']=='public') { $security="yes"; }
