@@ -586,7 +586,7 @@ public static function getLinkedNodes($node_id,$orderby,$offset,$listing_amount)
 	if ((!is_numeric($node_id))
 		or (!is_numeric($offset))
 		or (!is_numeric($listing_amount)))
-		{ return -1; } // XXX check return value by caller?
+		{ return false; } // XXX check return value by caller?
 	$orderby=db_escape_string($orderby);
 
 	$q="select neurons.synapse_created,node_content,author.login,linker.login as linker,nodes.* from neurons 
@@ -604,7 +604,7 @@ public static function getLinkedNodes($node_id,$orderby,$offset,$listing_amount)
 		$array['node_created']=$array['synapse_created'];
 		$get_linked_nodes[]=$array;
 	}
-	return $get_linked_nodes;
+	return (isset($get_linked_nodes) ? $get_linked_nodes : false);
 }
 
 // getThreadedChildren

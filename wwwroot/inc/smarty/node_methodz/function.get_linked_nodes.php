@@ -4,9 +4,12 @@
 function smarty_function_get_linked_nodes($params,&$smarty) {
 	global $error, $node;
 
-        if ($params['listing_amount']=='all') $listing_amount=DEF_MAX_LISTING_AMMOUNT;
-        elseif (is_numeric($params['listing_amount'])) $listing_amount=$params['listing_amount'];
-        else $listing_amount=DEFAULT_LISTING_AMOUNT;
+	if (empty($params['listing_amount'])) {
+		$listing_amount=DEFAULT_LISTING_AMOUNT;
+	} else {
+	        if ($params['listing_amount']=='all') $listing_amount=DEF_MAX_LISTING_AMMOUNT;
+	        elseif (is_numeric($params['listing_amount'])) $listing_amount=$params['listing_amount'];
+	}
 
         if (isset($params['offset']) && is_numeric($params['offset'])) $offset=$params['offset'];
 	elseif (isset($_POST['offset']) && is_numeric($_POST['offset'])) $offset=$_POST['offset'];
