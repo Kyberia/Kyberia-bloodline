@@ -32,7 +32,7 @@ function smarty_function_get_threaded_children($params,&$smarty) {
 		$search_param="";
 	}
 
-	$get_children_array)=nodes::getThreadedChildren($node_id,$node_vector,$offset,$limit,$orderby,$time,$synapse_time,$security,$link,$search,$search_param);
+	$get_children_array=nodes::getThreadedChildren($node_id,$node_vector,$offset,$limit,$orderby,$time,$synapse_time,$security,$link,$search,$search_param);
 
 	$smarty->assign('get_threaded_children',$get_children_array);
 }
