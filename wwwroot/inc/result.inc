@@ -39,7 +39,7 @@ class result extends PDOStatement {
 		if (is_int($column) == true) {
 			return (string) $this->_currentRecord[$column - 1];
 		} else {
-			return (string) $this->_currentRecord["$column"];
+			return (string) isset($this->_currentRecord["$column"]) ? $this->_currentRecord["$column"]: "";
 		}
 	}
 

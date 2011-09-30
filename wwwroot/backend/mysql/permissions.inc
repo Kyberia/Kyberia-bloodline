@@ -16,6 +16,7 @@ public static function checkPerms($node) {
 	elseif (is_numeric($node)) {
 		$node_id=$node;
 	}
+	
 
 	if (empty($node_vector)) {
 		$set=$db->query("select node_vector from  nodes where node_id='$node_id'");
