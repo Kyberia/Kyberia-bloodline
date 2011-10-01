@@ -17,7 +17,7 @@ function smarty_function_get_poll($params,&$smarty) {
 		$voted='yes';
 	} else {
 		$array=nodes::getPoll($user_id,$poll_id);
-		if ($array['node_permission']=='ban') $voted='yes';
+		if (isset($array['node_permission']) && $array['node_permission']=='ban') $voted='yes';
 		else $voted='no';
 	}
 
