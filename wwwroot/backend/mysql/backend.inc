@@ -683,6 +683,22 @@ public static function getThreadedChildren($node_id,$node_vector,$offset,$limit,
 	return $get_children_array;
 }
 
+// XXX
+
+public static function getPoll($user_id,$poll_id) {
+	global $db;
+		
+	$set=$db->query("select nodes.*,node_access.node_permission from nodes 
+		left join node_access on (nodes.node_id=node_access.node_id and node_access.user_id='$user_id') 
+		where node_parent='$poll_id' and template_id='1549834' order by node_id desc limit 1");
+
+	$set->next();
+	$array=$set->getRecord();
+	
+	return $array;
+}
+
+
 }
 
 ?>
