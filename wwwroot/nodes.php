@@ -35,7 +35,6 @@ $db = new CLASS_DATABASE();
 
 switch(true) {
 	case preg_match('/id\/([0-9]+)(?:\/([a-zA-Z0-9]+)\/?)?/',$_SERVER['PATH_INFO'],$match):
-		//	print_r($match);
 		$_GET['node_id']=$match[1];
 		if (!empty($match[2])) {
 			$_GET['template_id']=$match[2];
@@ -52,7 +51,6 @@ switch(true) {
 		break;
 
 	case preg_match('/k\/([a-z0-9]{1,7})(?:\/([a-z0-9]+))?/',$_SERVER['PATH_INFO'],$match):
-		echo "picic";
 		$_GET['node_id']=base_convert($match[1], 36, 10);
 		if (!empty($match[2])) {
 			$_GET['template_id']=$match[2];

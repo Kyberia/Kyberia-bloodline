@@ -150,28 +150,28 @@ else {
 
 
 // XXX into function
-if (($node['template_id']!='2019721') && (isset($_SESSION['user_id']))){
+if (isset($_SESSION['user_id'])){
 //setting user location
-$q="update users set last_action=NOW(),user_location_vector='".$node['node_vector']."',user_action='".addslashes($node['node_name'])."',user_action_id='".$node['node_id']."' where user_id='".$_SESSION['user_id']."'";
-$db->query($q);
+	$q="update users set last_action=NOW(),user_location_vector='".$node['node_vector']."',user_action='".addslashes($node['node_name'])."',user_action_id='".$node['node_id']."' where user_id='".$_SESSION['user_id']."'";
+	$db->query($q);
 }
 
 $whole_time=SubStr((Time()+SubStr(MicroTime(),0,8)-$timer_start),0,7);
 $smarty->assign('whole_time',$whole_time);
 
 
-if ($template_id=='download' OR $template_id=='download.jpg') {
+if ($template_id=='data') {
 	if ($permissions['r']) {
-	$linkname = SYSTEM_ROOT."/files/".$node['node_id'];
-	$filename= readlink($linkname);
-	$suffix=preg_replace("/(.*?)\.(.*?)/i","$2",$filename);
+		$linkname = FILE_DIR."/".$node['node_id'];
+		$filename= readlink($linkname);
+		$suffix=preg_replace("/(.*?)\.(.*?)/i","$2",$filename);
 
-	$ext = substr( $filename,-3 );
-	if( $filename == "" ) {
-	   echo "ERROR: Empty file to download. ";
-	   exit;
-	} elseif ( ! file_exists( $filename ) ) {
-	 	exit;
+		$ext = substr( $filename,-3 );
+		if( $filename == "" ) {
+		   echo "ERROR: Empty file to download. ";
+		   exit;
+		} elseif ( ! file_exists( $filename ) ) {
+		 	exit;
 	};
 	switch( strtolower($ext) ){
 	   case "pdf": $ctype="application/pdf";              break;
@@ -203,16 +203,12 @@ if ($template_id=='download' OR $template_id=='download.jpg') {
 	readfile("$filename");
 	exit();
 	}
-	else { echo "you don't have permissions for downloading this data"; die(); }
+	else { 
+		echo "you don't have permissions for downloading this data"; 
+		die(); 
+	}
 }
 
-if ($node['template_id']=='2019721'){
-Header("Cache-control: max-age=3600");
-}else{
-Header("Cache-control: no-cache");
-Header("Expires:".gmdate("D, d M Y H:i:s")." GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-}
 
 
 //for cases like search & preview
