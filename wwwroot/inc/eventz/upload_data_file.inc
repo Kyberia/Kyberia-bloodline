@@ -14,18 +14,8 @@ function upload_data_file() {
 	}
 
 	$node_id=$node['node_id'];
-	
-	if ( !filez::upload_filename_secure($_FILES['data_file']['name'])) {
-		$error = 'bad, naughty file type. Cruise missile launched.';
-		return false;
-	}
-
-	if (!is_dir(FILE_DIR.$_SESSION['user_id'])) {
-		 mkdir(FILE_DIR.$_SESSION['user_id']);
-	}
-
-	$suffix = array_pop(explode('.', basename($_FILES['data_file']['name'])));
-
+	filez::upload_data_file($node_id);	
+/*
 	if ($suffix=='zip' && $_POST['unzip']) {
 		mkdir(TMP."/".$_FILES['data_file']['name']);
 
@@ -92,7 +82,8 @@ function upload_data_file() {
 		copy($_FILES['data_file']['tmp_name'],
 			FILE_DIR.$_SESSION['user_id'].'/'.$node['node_id'].".$suffix");
 		symlink(FILE_DIR.$_SESSION['user_id'].'/'.$node['node_id'].".$suffix",
-			SYSTEM_ROOT.'/files/'.$node['node_id']);
+			FILE_DIR.'/'.$node['node_id']);
 	}
+*/
 }
 ?>

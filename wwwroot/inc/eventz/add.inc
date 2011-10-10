@@ -106,8 +106,8 @@ function add() {
 	}
     
     if ($_FILES['data_file']['tmp_name']) {
-	copy($_FILES['data_file']['tmp_name'], FILE_DIR.$_SESSION['user_id'].'/'.$node_id.".$suffix");
-	symlink(FILE_DIR.$_SESSION['user_id'].'/'.$node_id.".$suffix",FILE_DIR.'/'.$node_id);
+	require(INCLUDE_DIR.'filez.inc');
+	filez::upload_data_file($node_id);
     }
 
     //substitute @@@ token by a node_id of a newly created node
