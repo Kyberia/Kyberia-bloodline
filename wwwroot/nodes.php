@@ -8,6 +8,10 @@ require_once('config/config.inc');
 //starting timer for benchmarking purposes
 $timer_start=Time()+SubStr(MicroTime(),0,8);
 //setting PHPSESSID cookie and starting user session
+
+//error reporting has to be before session_start
+error_reporting(-1);
+ini_set('display_errors','On');
 session_start();
 
 @ini_set('magic_quotes_gpc' , 'off');
@@ -17,16 +21,6 @@ if(get_magic_quotes_gpc()) {
 
 //Smarty from DB
 $smarty_resource = 'kyberia';
-//$smarty_resource = ''; //same as 'file' (fallback)
-/* I have moved old templates to DB using following lame script:
- * for i in *.tpl; do j=$(echo "$i" | cut -d . -f 1); 
-   echo UPDATE nodes SET node_content = "'$(php -r 
-   "echo mysql_escape_string(file_get_contents('$i'));")'" WHERE 
-   node_id = "'$j'" COLLATE utf8_bin LIMIT '1;';
-   done | mysql --user=kyberia --password=PASSSSSSS kyberia
- * In future we should have some mechanism for distributing templates 
- * because they are very important part of kyberia source...
- */
 
 //connecting to database and creating universal $db object
 //require_once(INCLUDE_DIR.'senate.inc'); // in config already
@@ -40,24 +34,28 @@ require_once(INCLUDE_DIR.'transports.inc');
 $db = new CLASS_DATABASE();
 
 switch(true) {
-	case preg_match('/id\/([0-9]+)(?:\/([0-9]+)\/?)?/',$_SERVER['PATH_INFO'],$match):
+	case preg_match('/id\/([0-9]+)(?:\/([a-zA-Z0-9]+)\/?)?/',$_SERVER['PATH_INFO'],$match):
 		//	print_r($match);
 		$_GET['node_id']=$match[1];
 		if (!empty($match[2])) {
 			$_GET['template_id']=$match[2];
 		}
-		//Base36 fascism redirect
+		//Base36
+/*
 		if(!count($_POST) && !(isset($_GET['template_id']) && $_GET['template_id'] == 'download')) { //Fix ugly download hack...
 			header('Location: /k/'.base_convert($_GET['node_id'], 10, 36).
 				(isset($_GET['template_id'])?'/'.base_convert($_GET['template_id'], 10, 36):'')
 			);
-			die("Die!!! All Fascists Are Bastards...\n");
+			die("Die!!! All Fascists Are Bastards...\n")
 		}
+*/
 		break;
-	case preg_match('/k\/([a-z0-9]{1,7})(?:\/([a-z0-9]{1,7}))?/',$_SERVER['PATH_INFO'],$match):
+
+	case preg_match('/k\/([a-z0-9]{1,7})(?:\/([a-z0-9]+))?/',$_SERVER['PATH_INFO'],$match):
+		echo "picic";
 		$_GET['node_id']=base_convert($match[1], 36, 10);
 		if (!empty($match[2])) {
-			$_GET['template_id']=base_convert($match[2],36,10);
+			$_GET['template_id']=$match[2];
 		}
 		break;
 	case preg_match('/name\/(.*?)\/?$/',$_SERVER['PATH_INFO'],$match):
@@ -81,17 +79,16 @@ if (!empty($_GET['template_id'])) {
 	$template_id=false;
 }
 
-error_reporting(E_ALL | E_STRICT);
-//$_SESSION['debugging']=0;
-//unset($_SESSION['debugging']); 
-//Well... we should make some event 
-//or JavaScript page to turning this on/off...
-//exit;
+error_reporting(E_ALL);
+//use wwwroot/debugswitch.php (from Your browser) to switch debugging on/off 
 if(isset($_SESSION['debugging']) && $_SESSION['debugging']) {
+    ini_set('display_errors','On');
     echo 'GET VARIABLES::<br/>';
     print_r($_GET);
     echo 'POST VARIABLES::<br/>';
     print_r($_POST);
+    echo 'FILES VARIABLES::<br/>';
+    print_r($_FILES);    
     echo '<b>SESSION VARIABLES::</b><br/>';
     print_r($_SESSION);
 } else {
