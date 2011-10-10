@@ -92,23 +92,6 @@ function add() {
 
     $node_content=nodes::processContent($node_content);
 
-    if ($node_system_access=='crypto') {
-
-    require(INCLUDE_DIR.'crypto.inc');
-
-    if ($_SESSION['crypto'][$node_parent]) {
-    $key=$_SESSION['crypto'][$node_parent];
-    }
-    else {
-    $key = substr(md5(uniqid(rand(), true)),0,8);
-    }
-
-    $node_content=crypto::crypto($node_content,$key);
-
-
-
-    }
-
     $params['node_name']=$node_name;
     $params['template_id']=$template_id;
     $params['node_parent']=$node_parent;
@@ -116,7 +99,23 @@ function add() {
     $params['node_creator']=$_SESSION['user_id'];
     $params['node_content']=db_escape_string($node_content);
     $params['external_link']=$external_link;
-    nodes::addNode($params);
+    $node_id=nodes::addNode($params);
+
+	if (!$node_id) {
+		return false;
+	}
+    
+    if ($_FILES['data_file']['tmp_name']) {
+	copy($_FILES['data_file']['tmp_name'], FILE_DIR.$_SESSION['user_id'].'/'.$node_id.".$suffix");
+	symlink(FILE_DIR.$_SESSION['user_id'].'/'.$node_id.".$suffix",FILE_DIR.'/'.$node_id);
+    }
+
+    //substitute @@@ token by a node_id of a newly created node
+    $nc=preg_replace('/@@@/',$node_id,$params['node_content']);
+    if ($nc!=$params['node_content']) {
+	$db->update("update nodes set node_content='$nc' where node_id=$node_id");
+    }
+
     return true;
 }
 

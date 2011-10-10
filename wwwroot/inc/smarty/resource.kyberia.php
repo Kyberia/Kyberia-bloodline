@@ -3,31 +3,24 @@
 function db_get_template ($tpl_name, &$tpl_source, &$smarty_obj) {
 
         global $db,$error,$node, $error_messages;
-				$add_template_id = preg_replace('/\.tpl$/', '', $tpl_name);
+        $template_id = preg_replace('/\.tpl$/', '', $tpl_name);
 
-        if (!is_numeric($add_template_id)) {
-            $error = $error_messages['NOT_NUMERIC'];
-            return false;
+        //from now on module names need not to be numeric!
+        if (!is_numeric($template_id)) {
+            $template_id=nodes::getNodeIdByName($tpl_name);
+            if (!is_numeric($template_id)) { 
+             $error = $error_messages['NOT_NUMERIC'];
+             return false;
+            }
         }
 
-				/*
-        //logging of every template for security reasons FIXME!!! TODO!!!
-        $params['node_creator'] = UBIK_ID;
-        $params['node_parent'] = 2029360;
-        $params['node_name'] = "addTemplate execute: node $add_template_id";
-        $params['node_content'] = db_escape_string("addTemplate execute: node <a href='$add_template_id'>$add_template_id</a> by user ".$_SESSION['user_name']);
-        nodes::addNode($params);
-				*/
-				/*
-        if(!($set=$db->query("select node_content from nodes where node_id='$add_template_id'"))) return false;
-        $set->next();
-				*/
-    // populating $tpl_source with actual template contents
-	//$tpl_source = stripslashes($set->getString('node_content'));
-	$tpl_source = nodes::getNodeById($add_template_id,empty($_SESSION['user_id']) ? "" : $_SESSION['user_id']);
-	$tpl_source = $tpl_source['node_content'];
+      if (is_numeric($template_id)) {
+	$tpl_source = nodes::getNodeById($template_id,empty($_SESSION['user_id']) ? "" : $_SESSION['user_id']);
+      }
+     $tpl_source = $tpl_source['node_content'];      
+
     // return true on success, false to generate failure notification
-    return true;
+     return (bool)$tpl_source;
 }
 
 

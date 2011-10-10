@@ -28,7 +28,7 @@ function smarty_function_get_linked_nodes($params,&$smarty) {
 	}
 
 	$get_linked_nodes=nodes::getLinkedNodes($node_id,$orderby,$offset,$listing_amount);
-	$smarty->assign('get_linked_nodes',$get_linked_nodes);
+	if ($get_linked_nodes) $smarty->assign('get_linked_nodes',$get_linked_nodes);
 }
 
 ?>
