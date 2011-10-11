@@ -71,6 +71,8 @@ switch(true) {
 		break;
 }
 
+
+
 if (!empty($_GET['template_id'])) {
 	$template_id=$_GET['template_id'];
 } else {
@@ -154,6 +156,14 @@ if (!empty($_SESSION['debugging']) && $_SESSION['debugging']) {
 
 // DO NOT MESS WITH THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //creating neural network
+if  (preg_match('/id\/(\d+)/',$_SERVER['HTTP_REFERER'],$match)) {
+	$referer_id=$match[1];
+} elseif (preg_match('/k\/([a-z0-9]{1,7})/',$_SERVER['HTTP_REFERER'],$match)) {
+	$referer_id=base_convert($match[1], 36, 10);
+} elseif (preg_match('/name\/(.*?)\/?$/',$_SERVER['HTTP_REFERER'],$match)) {
+	$referer_id  = nodes::getNodeIdByName($match[1]);
+}
+
 $db->update("update nodes set node_views=node_views+1 where node_id='".$node['node_id']."'");
 if (isset($referer_id) && is_numeric($referer_id)) {
 	$q="update neurons set synapse=synapse+1 where dst='".$node['node_id']."' and src='$referer_id'";
