@@ -1,0 +1,43 @@
+# relevant part of lighttpd configuration file
+# merge with you lighttpd config
+#
+# use it as a base for lighttpd 1.0.0 and above
+#
+# $Id: lighttpd.conf,v 1.7 2004/11/03 22:26:05 weigon Exp $
+
+############ Options you really have to take care of ####################
+
+server.modules              = (
+                               "mod_rewrite",
+                               "mod_access",
+                               "mod_auth",
+                               "mod_setenv",
+                               "mod_proxy",
+                               "mod_evhost",
+                               "mod_userdir",
+                               "mod_cgi",
+                               "mod_compress",
+                               "mod_accesslog" )
+
+
+$HTTP["host"] =~ "^dev\.kyberia\.cz$" {
+	url.rewrite-once	= (
+		"^/robots.txt"	=>	"/robots.txt",
+		"^/([_~-].*|.*\.ico|http-bind)(/?.*)"	=> "/$1$2",
+		"^/(.*)"            => "/nodes.php/$1"
+	)
+}
+
+#Jabber
+$HTTP["url"] =~ "^/http-bind/" {
+	proxy.server               = ( "" =>
+  	                             ( "localhost" =>
+    	                             (
+      	                             "host" => "127.0.0.1",
+        	                           "port" => 5280
+          	                       )
+            	                   )
+              	               )
+}
+
+evhost.path-pattern        = "/srv/http/%0/%3/"
