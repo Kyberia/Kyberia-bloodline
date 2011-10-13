@@ -156,11 +156,11 @@ if (!empty($_SESSION['debugging']) && $_SESSION['debugging']) {
 
 // DO NOT MESS WITH THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //creating neural network
-if  (preg_match('/id\/(\d+)/',$_SERVER['HTTP_REFERER'],$match)) {
+if  (preg_match('/id\/(\d+)/',isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER'] : "",$match)) {
 	$referer_id=$match[1];
-} elseif (preg_match('/k\/([a-z0-9]{1,7})/',$_SERVER['HTTP_REFERER'],$match)) {
+} elseif (preg_match('/k\/([a-z0-9]{1,7})/',isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER'] : "",$match)) {
 	$referer_id=base_convert($match[1], 36, 10);
-} elseif (preg_match('/name\/(.*?)\/?$/',$_SERVER['HTTP_REFERER'],$match)) {
+} elseif (preg_match('/name\/(.*?)\/?$/',isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER'] : "",$match)) {
 	$referer_id  = nodes::getNodeIdByName($match[1]);
 }
 
