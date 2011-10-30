@@ -6,6 +6,8 @@
  * Called once a day at 0:42
  * 
  * TODO: ? call only function from eventz ? 
+ *        remove sql code
+ *        update texts & send mail
  */
 
 
@@ -17,7 +19,7 @@ require($dir.'/../wwwroot/config/config.inc');
 require(INCLUDE_DIR.'/log.inc');
 require(INCLUDE_DIR.'/database.inc');
 require(INCLUDE_DIR.'/nodes.inc');
-require(INCLUDE_DIR.'/permissions.inc');
+include_once(BACKEND_DIR.'/'.DB_TYPE.'/permissions.inc');
 require(INCLUDE_DIR.'/ubik.inc');
 //require(INCLUDE_DIR.'/senate.inc');
 
