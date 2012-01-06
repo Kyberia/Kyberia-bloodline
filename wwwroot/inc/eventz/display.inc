@@ -95,28 +95,16 @@ if (isset($_SESSION['user_id'])&&($user_id=$_SESSION['user_id'])) {
 	$smarty->assign('k_wallet',$k_wallet);
 	$user_id=$_SESSION['user_id'];
 
-	//mail node
-	if ($node['node_name']=='mail') {
+	//mail node //OMG remove constant
+	if ($node['node_id']==MAIL_NODE) {
 
 		//clear new mail message
-		
-		if ($new_mail) $db->query("update users set user_mail=0 where user_id='$user_id'");
-
-		//set messages as delivered to recipient
-		$set=$db->query("select mail_id,mail_duplicate_id from mail where mail_user='$user_id' and mail_to='$user_id' and mail_read='no'");
-		while($set->next()) {
-			$db->query("update mail set mail_read='yes' where mail_id='".$set->getString('mail_duplicate_id')."'");
-			$db->query("update mail set mail_read='yes' where mail_id='".$set->getString('mail_id')."'");
-
-			$new_messages[$set->getString('mail_id')]=true;
+		if ($new_mail) {
+			//set messages as delivered 
+			$db->query("update users set user_mail=0 where user_id='$user_id'");
+			$db->query("update mail set mail_read='yes' where mail_to='$user_id' and mail_read='no'");
 		}
-/*
-		if (count($new_messages)) {
-			$db->query("update mail set mail_read='yes' where mail_user='$user_id' and mail_user=mail_to and mail_read='no'");
-			$smarty->assign('new_messages',$new_messages);
 
-        	}
-*/
 	}
 }
 

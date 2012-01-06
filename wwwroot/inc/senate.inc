@@ -6,6 +6,7 @@ define('REGISTRATION_VOTES',2); //too small so far
 define('LOGOUT_IDLE_SEC', 3600);
 
 // An attempt to remove hard-code constants from code
+define('MAIL_NODE',24);
 define('REGISTRATION_TEXT_NODE',791946);
 define('REGISTRATION_REQUEST_NODE',2091448);
 define('UNVERIFIED_REGISTRATIONS_NODE',1836516);
