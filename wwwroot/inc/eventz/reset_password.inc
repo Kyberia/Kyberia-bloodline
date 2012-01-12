@@ -22,7 +22,7 @@ function reset_password() {
 		return false;
 	}
 
-	if ($login_type = 'id') {
+	if ($login_type == 'id') {
 		$login_id=$login;
 		$login='';
 	} else {
