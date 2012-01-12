@@ -9,16 +9,19 @@ function reset_password() {
 
 	if ($login == '') {
 		$error="Please enter name or id";
+		print "$error";
 		return false;
 	}
 
 	if ($password1 == '' || $password2 == '') {
 		$error="Please enter password";
+		print "$error";
 		return false;
 	}
 
 	if ($password1 != $password2) {
 		$error = "The two passwords that you entered do not match.";
+		print "$error";
 		return false;
 	}
 

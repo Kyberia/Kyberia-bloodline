@@ -715,10 +715,10 @@ public static function resetPassword($login_id,$login,$vercode,$password) {
 		return $error;
 	}
 
-	if ($login_id = 0) {
+	if ($login_id == 0) {
 		$set=$db->query("select * from users where login='$login'");
 	} else {
-		$set=$db->query("select * from users where user_id='$login'");
+		$set=$db->query("select * from users where user_id='$login_id'");
 	}
 
 	$set->next();
