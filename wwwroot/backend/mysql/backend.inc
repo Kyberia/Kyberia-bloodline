@@ -698,7 +698,42 @@ public static function getPoll($user_id,$poll_id) {
 	return $array;
 }
 
+// XXX
 
+public static function resetPassword($login_id,$login,$vercode,$password) {
+	global $db;
+
+	// Security checks
+	$login = db_escape_string($login);
+	if (!is_numeric($login_id)) { return false; } 
+
+	if ($login == '') {
+		$error="Please enter name or id";
+		return false;
+	}
+
+	if ($login_id = 0) {
+		$set=$db->query("select * from users where login='$login'");
+	} else {
+		$set=$db->query("select * from users where user_id='$login'");
+	}
+
+	$set->next();
+	$user_name=$set->getString('login');
+	$user_id=$set->getString('user_id');
+	$hash=$set->getString('hash');	
+
+	if ($hash != $vercode) {
+		$error="Bad verification code!";
+		return false;
+	}
+
+	$password = sha1($password);
+	$q="update users set password='$password',hash='' where user_id='$user_id'";
+	$db->query($q);
+
+	return 0;
 }
 
+}
 ?>
