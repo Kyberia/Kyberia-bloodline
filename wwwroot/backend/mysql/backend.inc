@@ -705,11 +705,14 @@ public static function resetPassword($login_id,$login,$vercode,$password) {
 
 	// Security checks
 	$login = db_escape_string($login);
-	if (!is_numeric($login_id)) { return false; } 
+	if (!is_numeric($login_id)) {
+		$error="Not numeric id is not numeric. Here, take this stone.";
+		return $error; 
+	} 
 
 	if ($login == '') {
 		$error="Please enter name or id";
-		return false;
+		return $error;
 	}
 
 	if ($login_id = 0) {
@@ -725,14 +728,15 @@ public static function resetPassword($login_id,$login,$vercode,$password) {
 
 	if ($hash != $vercode) {
 		$error="Bad verification code!";
-		return false;
+		return $error;
 	}
 
 	$password = sha1($password);
 	$q="update users set password='$password',hash='' where user_id='$user_id'";
 	$db->query($q);
-
-	return 0;
+	
+	$error="OK, password was RE-set";
+	return $error;
 }
 
 }

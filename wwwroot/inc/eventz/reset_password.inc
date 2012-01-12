@@ -29,8 +29,8 @@ function reset_password() {
 		$login_id=0;
 	}
 	$error=nodes::resetPassword($login_id,$login,$vercode,$password1);
+	print "$error\n";
 	
-	$error="Password changed. Now you can login with your new password.";
 	return 0;
 }
 ?>
