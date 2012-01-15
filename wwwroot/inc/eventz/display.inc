@@ -138,9 +138,11 @@ else {
 
 
 // XXX into function
-if (isset($_SESSION['user_id'])){
-//setting user location
-	$q="update users set last_action=NOW(),user_location_vector='".$node['node_vector']."',user_action='".addslashes($node['node_name'])."',user_action_id='".$node['node_id']."' where user_id='".$_SESSION['user_id']."'";
+if (isset($_SESSION['user_id']) && ($_SESSION['user_id']!='')){
+	//setting user location
+	$q="update users set last_action=NOW(),user_location_vector='".
+	$node['node_vector']."',user_action='".addslashes($node['node_name']).
+	"',user_action_id='".$node['node_id']."' where user_id='".$_SESSION['user_id']."'";
 	$db->query($q);
 }
 
