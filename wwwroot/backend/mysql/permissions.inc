@@ -58,6 +58,20 @@ public static function checkPerms($node) {
             $perms['node_system_access']   = $qr_np->getString('node_system_access');
             $perms['node_external_access'] = $qr_np->getString('node_external_access');
 
+        // external access must go first
+            if ($user_id == "") {
+                if ($perms['node_system_access'] != 'private'
+                && $perms['node_external_access'] == 'yes') {
+                        $perms['r'] = 1;
+                        $perms['w'] = 0;
+                    break;
+                } else {
+                        $perms['r'] = 0;
+                        $perms['w'] = 0;
+                    break;
+                }
+            }
+
             // r/w prava podla system accessu
             if ($perms['node_system_access'] == 'public') {
                 $perms['r'] = 1;
@@ -77,14 +91,6 @@ public static function checkPerms($node) {
                 $perms['r'] = 1;
                 $perms['w'] = 1;
                 break;
-            }
-
-            if ($perms['node_system_access'] != 'private'
-                && (empty($_SESSION['user_id']))
-                && $perms['node_external_access'] == 'yes') {
-                    $perms['r'] = 1;
-                    $perms['w'] = 0;
-                    break;
             }
 
         } // if ($perms['node_permission'] == '' && $perms['node_system_access'] == '')
