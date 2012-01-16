@@ -76,7 +76,7 @@ public static function addNode($params) {
 
         $parent_permissions=permissions::checkPerms($parent_id);
 
-        if (!$parent_permissions['w']) {
+        if ((!$parent_permissions['w']) || ($params['flag']=='registration' )) {
                 $error=$error_messages['WRITE_PERMISSION_ERROR'];
                 logger::log('add','error','WRITE_PERMISSION_ERROR');
                 return false;
