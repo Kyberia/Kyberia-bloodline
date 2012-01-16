@@ -13,7 +13,7 @@ if ($permissions['r']) {
 // data gained will be used for scientific purposes
 
 if ((isset($_SESSION['user_id'])) && ($_SESSION['user_id'])) {
-	levenshteinLog($_SESSION['user_id'],$node['node_id']);
+	nodes::levenshteinLog($_SESSION['user_id'],$node['node_id']);
 }
 
 // WTF
