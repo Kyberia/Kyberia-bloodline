@@ -739,5 +739,19 @@ public static function resetPassword($login_id,$login,$vercode,$password) {
 	return $error;
 }
 
+// levenshteinLog
+
+// Log user action for later analysis
+// Secure.
+
+public static function levenshteinLog($userid,$nodeid) {
+	global $db;
+
+	$q="insert delayed into levenshtein set user_id='".$userid."',node_id='".$node_id."'";
+	$db->update($q);
+	
+}
+
+
 }
 ?>

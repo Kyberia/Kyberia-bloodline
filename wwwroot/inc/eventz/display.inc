@@ -10,19 +10,13 @@ function display() {
 
 if ($permissions['r']) {
 
-// these 4 lines are not the source of kyberia lagging problems.
-// leave them. started on the 10.4. 
 // data gained will be used for scientific purposes
 
-// if (isset($_SESSION['user_id']) {
-//	log_levenshtein($_SESSION['user_id'],$node['node_id']);
-// }
-
 if ((isset($_SESSION['user_id'])) && ($_SESSION['user_id'])) {
-	$q="insert delayed into levenshtein set user_id='".$_SESSION['user_id']."',node_id='".$node['node_id']."'";
-	$db->update($q);
+	levenshteinLog($_SESSION['user_id'],$node['node_id']);
 }
 
+// WTF
 //if node is css
 //XXX into function
 if ($node['template_id']!='2019721'){
@@ -30,7 +24,6 @@ if ($node['template_id']!='2019721'){
 	logger::log('enter',$node['node_id'],'ok',$node['node_user_subchild_count']);
 	if (!empty($_SESSION['user_id']) && is_numeric($node['node_id'])) {
 		$q="update node_access set visits=visits+1,node_user_subchild_count='0',last_visit=NOW() where node_id='".$node['node_id']."' and user_id='".$_SESSION['user_id']."'";
-//		echo $q;
 		$result=$db->update($q);
 
 		if (!$result) {
@@ -41,16 +34,6 @@ if ($node['template_id']!='2019721'){
 }
 
 }
-
-//XXX into function
-// if (isset($_SESSION['user_id']) {
-//	if (isset($referer_id)) {
-//		update_nodes($_SESSION['user_id'],$node['node_id'],$referer_id);
-//	} else {
-//		update_nodes($_SESSION['user_id'],$node['node_id'],0);	
-//	}
-// }
-
 
 //assigning user data to smarty if user logged in
 if (isset($_SESSION['user_id'])&&($user_id=$_SESSION['user_id'])) {

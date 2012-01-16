@@ -72,8 +72,6 @@
   (Delete unused tables)
   (Replace duplicit tables with VIEWs)
 
-- Image uploading not working (?)
-
 - put "setParent" everywhere
 
 - set_synapse_weigth not working sometimes (synapse from 904 to 332 for example)
