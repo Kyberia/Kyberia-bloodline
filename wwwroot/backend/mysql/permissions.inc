@@ -2,6 +2,36 @@
 
 class permissions {
 
+// XXX not checked 
+
+function isHierarch($node) {
+
+	global $db;
+	if (IsSet($_SESSION['user_id'])) {
+	        $user_id=$_SESSION['user_id'];
+	} else {
+	        $user_id=0;
+	}
+	if (!$user_id) return false;
+
+	$node_vector=chunk_split($node['node_vector'],VECTOR_CHARS,';');
+	$hierarchy=explode(';',$node_vector);
+	foreach ($hierarchy as $hierarch) {
+		$hierarch=ltrim($hierarch,0);
+		$q="select nodes.node_creator,node_access.node_permission from nodes left join node_access on nodes.node_id=node_access.node_id and node_access.user_id='".$user_id."' where nodes.node_id='$hierarch'";
+		$result=$db->query($q);
+		$result->next();
+		if ($result->getString('node_creator')==$user_id)
+			return true;
+		if ($result->getString('node_permission')=='master')
+			return true;
+		if ($result->getString('node_creator')=='operator')
+			return true;
+	}
+	return false;
+
+}
+
 //trillion lights to Hierarchy!
 //$node input parameter can be a numeric node_id of a node-to-be-checked or a hash containing node_id,node_vector
 public static function checkPerms($node) {

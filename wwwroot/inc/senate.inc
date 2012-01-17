@@ -3,7 +3,7 @@ define('DAILY_K',30);
 define('REGISTRATION_VOTES',2); //too small so far
 
 // logout after one hour
-define('LOGOUT_IDLE_SEC', 3600);
+define('LOGOUT_IDLE_SEC', 7200);
 
 // An attempt to remove hard-code constants from code
 define('MAIL_NODE',24);
