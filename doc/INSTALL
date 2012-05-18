@@ -17,5 +17,5 @@
 13. Find out why it is still not working. (check permisions, symlinks, directory names...)
 14. If you want full functionality, add scripts from cron directory to your www users crontab
 
-   Warning, this effectively bypass www chroot.
+    Warning, this effectively bypass www chroot.
 15. Enjoy;)
