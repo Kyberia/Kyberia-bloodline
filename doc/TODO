@@ -63,7 +63,9 @@
 
 - Fix /(id|k)/*/download
   (ERROR: Empty file to download.)
-  (I think this should be implemented as template (and smarty method for download). template can be ID down in base36 = 638807 in base10)
+  (I think this should be implemented as template 
+   (and smarty method for download). 
+   template can be ID down in base36 = 638807 in base10)
 
 - Cleanup DB
   (Make script for deleting nodes in recycle bin)
