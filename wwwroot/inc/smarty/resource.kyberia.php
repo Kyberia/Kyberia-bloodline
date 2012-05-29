@@ -17,7 +17,9 @@ function db_get_template ($tpl_name, &$tpl_source, &$smarty_obj) {
       if (is_numeric($template_id)) {
 	$tpl_source = nodes::getNodeById($template_id,empty($_SESSION['user_id']) ? "" : $_SESSION['user_id']);
       }
-     $tpl_source = $tpl_source['node_content'];      
+	$tpl_source = "\n<!-- BEGIN TEMPLATE $template_id  -->\n".
+		$tpl_source['node_content'].
+		"\n<!-- END TEMPLATE $template_id  -->\n";      
 
     // return true on success, false to generate failure notification
      return (bool)$tpl_source;
@@ -29,7 +31,7 @@ function db_get_timestamp($tpl_name, &$tpl_timestamp, &$smarty_obj)
     // do database call here to populate $tpl_timestamp
     // with unix epoch time value of last template modification.
     // This is used to determine if recompile is necessary.
-	$recompile = 100; //recompile every N seconds
+	$recompile = 10; //recompile every N seconds
 	$tpl_timestamp = floor(time()/$recompile)*$recompile; 
 	// this example will recompile even unchanged templates! XXX!!! FIXME!!! TODO!!!
     // return true on success, false to generate failure notification
