@@ -18,9 +18,10 @@ function db_get_template ($tpl_name, &$tpl_source, &$smarty_obj) {
 	$tpl_source = nodes::getNodeById($template_id,empty($_SESSION['user_id']) ? "" : $_SESSION['user_id']);
       }
 	$template_name = $tpl_source['node_name'];
-	$tpl_source = "\n\n<!-- BEGIN TEMPLATE $template_id [$template_name]  -->\n\n".
+	$template_signature = 'TEMPLATE /k/'.base_convert($template_id,10,36).' /id/'.$template_id.' ['.$template_name.']';
+	$tpl_source = "\n\n<!--  BEGIN $template_signature  -->\n\n".
 		$tpl_source['node_content'].
-		"\n\n<!-- END TEMPLATE $template_id [$template_name]  -->\n\n";
+		"\n\n<!--  END $template_signature  -->\n\n";
 
     // return true on success, false to generate failure notification
      return (bool)$tpl_source;
