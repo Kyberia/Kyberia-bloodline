@@ -17,9 +17,10 @@ function db_get_template ($tpl_name, &$tpl_source, &$smarty_obj) {
       if (is_numeric($template_id)) {
 	$tpl_source = nodes::getNodeById($template_id,empty($_SESSION['user_id']) ? "" : $_SESSION['user_id']);
       }
-	$tpl_source = "\n\n<!-- BEGIN TEMPLATE $template_id  -->\n\n".
+	$template_name = $tpl_source['node_name'];
+	$tpl_source = "\n\n<!-- BEGIN TEMPLATE $template_id [$template_name]  -->\n\n".
 		$tpl_source['node_content'].
-		"\n\n<!-- END TEMPLATE $template_id  -->\n\n";
+		"\n\n<!-- END TEMPLATE $template_id [$template_name]  -->\n\n";
 
     // return true on success, false to generate failure notification
      return (bool)$tpl_source;
